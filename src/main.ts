@@ -7,7 +7,6 @@ import {
 } from "./input.js";
 import { Settings, getSettings, setSettings } from "./settings.js";
 import { timer } from "./timer.js";
-import { isWebPageVisible } from "./utils.js";
 
 type RunConfig = {
   /**
@@ -65,27 +64,27 @@ let fps = 0;
 /**
  * Run your game.
  */
-export async function run(c: RunConfig) {
-  setSettings(c.settings);
+export async function run(config: RunConfig) {
+  setSettings(config.settings);
   setupCanvas();
   setupInput();
 
-  await c.setup();
+  await config.setup();
 
   const settings = getSettings();
 
   const tick = (elapsed: number) => {
     last = now;
-    now = elapsed;
+    // Cap the delta time at 100 milliseconds (10 fps). It could be that the tab
+    // was frozen or minimized, which would cause a ridiculous amount of delta time.
+    now = Math.min(elapsed, last + 100);
 
-    if (!isWebPageVisible()) return;
-
-    const dt = now / last;
-    const t = now - last;
+    const delta = now / last;
+    const time = now - last;
 
     frames++;
 
-    if (framesTimer.tick(1000, t)) {
+    if (framesTimer.tick(1000, time)) {
       fps = frames;
       frames = 0;
       framesTimer.reset();
@@ -93,13 +92,13 @@ export async function run(c: RunConfig) {
 
     updateMousePosition();
 
-    c.update(dt, t);
+    config.update(delta, time);
 
     ctx.resetTransform();
     ctx.fillStyle = settings.background;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    c.render();
+    config.render();
 
     if (settings.debug) {
       drawDebugInfo();
@@ -121,16 +120,19 @@ export async function run(c: RunConfig) {
 function drawDebugInfo() {
   const msp = getMousePosition(false);
   const mwp = getMousePosition(true);
-  const fpsTxt = `FPS: ${fps}`;
-  const mspTxt = `Mouse (screen): ${msp.x.toFixed()}, ${msp.y.toFixed()}`;
-  const mwpTxt = `Mouse (world): ${mwp.x.toFixed()}, ${mwp.y.toFixed()}`;
 
   ctx.resetTransform();
   ctx.font = "16px monospace";
   ctx.textAlign = "left";
   ctx.textBaseline = "top";
   ctx.fillStyle = "lime";
-  ctx.fillText(fpsTxt, 5, 5);
-  ctx.fillText(mspTxt, 5, 5 + 18);
-  ctx.fillText(mwpTxt, 5, 5 + 18 * 2);
+
+  ctx.translate(5, 5);
+  ctx.fillText(`FPS: ${fps}`, 0, 0);
+
+  ctx.translate(0, 18);
+  ctx.fillText(`Mouse (screen): ${msp.x.toFixed()}, ${msp.y.toFixed()}`, 0, 0);
+
+  ctx.translate(0, 18);
+  ctx.fillText(`Mouse (world): ${mwp.x.toFixed()}, ${mwp.y.toFixed()}`, 0, 0);
 }

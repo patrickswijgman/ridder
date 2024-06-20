@@ -59,6 +59,11 @@ run({
 
   setup: async () => {
     await loadTexture("player", "/textures/player.png");
+
+    const settings = getSettings();
+
+    player.position.x = settings.width / 2;
+    player.position.y = settings.height / 2;
   },
 
   update: (delta) => {

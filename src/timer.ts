@@ -9,11 +9,7 @@ export class Timer {
    * Returns true if it has reached its duration within this frame.
    */
   tick(duration: number, time: number) {
-    if (duration <= 0) {
-      return false;
-    }
-
-    if (this.elapsed >= duration) {
+    if (duration <= 0 || this.elapsed >= duration) {
       return false;
     }
 

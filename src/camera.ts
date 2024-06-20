@@ -8,8 +8,11 @@ const velocity = vec();
 const target = vec();
 
 /**
- * Make the camera go to the give position. Optionally constraining the
- * camera within a rectangular boundary.
+ * Make the camera focus (center) on the given position.
+ * Optionally constraining the camera within a rectangular boundary.
+ *
+ * Set the `cameraSmoothing` setting to increase or decrease the speed at which
+ * the camera goes to the given position.
  */
 export function updateCamera(
   x: number,
@@ -35,13 +38,22 @@ export function updateCamera(
   position.add(velocity);
 
   if (boundary) {
-    position.x = clamp(position.x, boundary.left, boundary.right);
-    position.y = clamp(position.y, boundary.top, boundary.bottom);
+    position.x = clamp(
+      position.x,
+      boundary.left,
+      boundary.right - settings.width,
+    );
+
+    position.y = clamp(
+      position.y,
+      boundary.top,
+      boundary.bottom - settings.height,
+    );
   }
 }
 
 /**
- * Set the camera's current position.
+ * Snap the focus (center) of the camera to the given position.
  */
 export function setCamera(x: number, y: number) {
   const settings = getSettings();
@@ -50,6 +62,7 @@ export function setCamera(x: number, y: number) {
 
 /**
  * Get the camera's current position.
+ * Note that this is the top-left coordinate and not the center at which the camera is focused on.
  */
 export function getCamera(): Readonly<Vec> {
   return position;

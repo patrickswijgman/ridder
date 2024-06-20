@@ -41,7 +41,7 @@ export function setSettings(overwrite: Partial<Settings>) {
 }
 
 /**
- * Get the current settings (readonly).
+ * Get the current settings.
  */
 export function getSettings(): Readonly<Settings> {
   return settings;
