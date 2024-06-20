@@ -1,6 +1,6 @@
 {
   "name": "ridder",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A straightforward game making library",
   "main": "lib/index.js",
   "files": [
