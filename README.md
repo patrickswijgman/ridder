@@ -1,6 +1,6 @@
 # Ridder
 
-A no-dependency, straightforward game making library made in TypeScript using HTML canvas.
+A no-dependency, straightforward game making library made in TypeScript using HTML5 canvas.
 
 ## Features
 
@@ -17,15 +17,6 @@ A no-dependency, straightforward game making library made in TypeScript using HT
 - Sounds
 - A 2D camera
   - Parallax scrolling
-
-## Does not include
-
-- Base game object (entity)
-  - Create your own using the building blocks (e.g. `body`, `vec`, `rect`) the library provides
-- Scene management
-- Behavior/AI such as steering behavior or path finding
-- More advanced render techniques such as scene graphs, spritesheets and 9-slicing
-- A GUI system
 
 ## Installation
 
@@ -87,3 +78,4 @@ run({
 Open the links below to see a running example in StackBlitz.
 
 - [Sprites](https://stackblitz.com/edit/ridder-example-sprites?file=src%2Fmain.ts)
+- [Platformer](https://stackblitz.com/edit/ridder-example-platformer?file=src%2Fmain.ts)

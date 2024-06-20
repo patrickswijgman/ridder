@@ -9,48 +9,13 @@ import { Settings, getSettings, setSettings } from "./settings.js";
 import { timer } from "./timer.js";
 
 type RunConfig = {
-  /**
-   * The global game settings.
-   * @example
-   * settings: {
-   *   width: 320,
-   *   height: 180,
-   * }
-   */
+  /** The global game settings. */
   settings: Partial<Settings>;
-  /**
-   * Setup before the game starts. Load your textures, fonts and sounds here.
-   * @example
-   * setup: async () => {
-   *   await loadTexture("player", "/assets/textures/player.png");
-   * }
-   */
+  /**Setup before the game starts. Load your textures, fonts and sounds here. */
   setup: () => Promise<void>;
-  /**
-   * Game logic update in the current frame.
-   * @param delta - The scalar value since the last frame.
-   * @param time - The time in milliseconds since the last frame.
-   * @example
-   * update: (delta, time) => {
-   *   // The game runs at 60 frames-per-second but the last frame took twice as long:
-   *   // delta === 2.0
-   *   // time === 33.34 (1/60 === 16.67)
-   *
-   *   // Use `delta` when moving things:
-   *   player.position.add(velocity, delta);
-   *
-   *   // Use `time` when updating timers and tweens:
-   *   timer.tick(1000, time);
-   * }
-   */
+  /** Game logic update for the current frame. */
   update: (delta: number, time: number) => void;
-  /**
-   * Render the textures, sprites and texts in the current frame.
-   * @example
-   * render: () => {
-   *   drawSprite("player", player.position.x, player.position.y);
-   * }
-   */
+  /** Render the textures, sprites and texts in the current frame. */
   render: () => void;
 };
 
@@ -94,6 +59,8 @@ export async function run(config: RunConfig) {
 
     config.update(delta, time);
 
+    // Clear the canvas before rendering the next frame. This prevents draw
+    // artifacts from the previous frame.
     ctx.resetTransform();
     ctx.fillStyle = settings.background;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
