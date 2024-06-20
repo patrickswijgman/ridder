@@ -5,13 +5,22 @@ import { Vec, vec } from "./vector.js";
 
 const position = vec();
 const velocity = vec();
+const target = vec();
 
 /**
- * Make the camera follow the target position. Optionally constraining the
+ * Make the camera go to the give position. Optionally constraining the
  * camera within a rectangular boundary.
  */
-export function updateCamera(target: Vec, delta: number, boundary?: Rect) {
+export function updateCamera(
+  x: number,
+  y: number,
+  delta: number,
+  boundary?: Rect,
+) {
   const settings = getSettings();
+
+  target.set(x - settings.width / 2, y - settings.height / 2);
+
   const distance = position.distance(target);
 
   velocity
@@ -26,10 +35,8 @@ export function updateCamera(target: Vec, delta: number, boundary?: Rect) {
   position.add(velocity);
 
   if (boundary) {
-    const x = settings.width / 2;
-    const y = settings.height / 2;
-    position.x = clamp(position.x, boundary.x + x, boundary.width - x);
-    position.y = clamp(position.y, boundary.y + y, boundary.height - y);
+    position.x = clamp(position.x, boundary.left, boundary.right);
+    position.y = clamp(position.y, boundary.top, boundary.bottom);
   }
 }
 
@@ -37,7 +44,8 @@ export function updateCamera(target: Vec, delta: number, boundary?: Rect) {
  * Set the camera's current position.
  */
 export function setCamera(x: number, y: number) {
-  position.set(x, y);
+  const settings = getSettings();
+  position.set(x - settings.width / 2, y - settings.height / 2);
 }
 
 /**

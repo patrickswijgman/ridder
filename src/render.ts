@@ -2,7 +2,6 @@ import { getCamera } from "./camera.js";
 import { ctx, scale } from "./canvas.js";
 import { getFont } from "./fonts.js";
 import { Rect } from "./rect.js";
-import { getSettings } from "./settings.js";
 import { getSprite } from "./sprites.js";
 import { getTexture } from "./textures.js";
 import { toRadians } from "./utils.js";
@@ -114,11 +113,7 @@ export function drawRect(
  * Reset the transform.
  */
 function resetTransform(scrollX: number, scrollY: number) {
-  const settings = getSettings();
   const camera = getCamera();
-  const cameraX = -camera.x + settings.width / 2;
-  const cameraY = -camera.y + settings.height / 2;
-
   ctx.setTransform(scale.x, 0, 0, scale.y, 0, 0);
-  ctx.translate(cameraX * scrollX, cameraY * scrollY);
+  ctx.translate(-camera.x * scrollX, -camera.y * scrollY);
 }

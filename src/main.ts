@@ -1,5 +1,4 @@
 import { canvas, ctx, setupCanvas } from "./canvas.js";
-import { isWebPageVisible } from "./document.js";
 import {
   getMousePosition,
   resetInputs,
@@ -8,6 +7,7 @@ import {
 } from "./input.js";
 import { Settings, getSettings, setSettings } from "./settings.js";
 import { timer } from "./timer.js";
+import { isWebPageVisible } from "./utils.js";
 
 type RunConfig = {
   /**

@@ -42,7 +42,6 @@ import {
   isInputDown,
   loadTexture,
   run,
-  updateCamera,
   vec,
 } from "ridder";
 
@@ -60,11 +59,6 @@ run({
 
   setup: async () => {
     await loadTexture("player", "/textures/player.png");
-
-    const settings = getSettings();
-
-    player.x = settings.width / 2;
-    player.y = settings.height / 2;
   },
 
   update: (delta) => {
@@ -73,10 +67,8 @@ run({
     }
 
     if (isInputDown("ArrowRight")) {
-      player.position.x -= 2 * delta;
+      player.position.x += 2 * delta;
     }
-
-    updateCamera(player.position, delta);
   },
 
   render: () => {
@@ -84,3 +76,9 @@ run({
   },
 });
 ```
+
+## Examples
+
+Open the links below to see a running example in StackBlitz.
+
+- [Sprites](https://stackblitz.com/edit/ridder-example-sprites?file=src%2Fmain.ts)

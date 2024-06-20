@@ -49,3 +49,10 @@ export function randomInt(min: number, max: number) {
 export function chance(x: number) {
   return randomInt(1, 100) / 100 <= x;
 }
+
+/**
+ * Whether or not the web page (document) is visible or not.
+ */
+export function isWebPageVisible() {
+  return document.visibilityState === "visible";
+}

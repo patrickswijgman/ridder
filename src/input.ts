@@ -1,6 +1,5 @@
 import { getCamera } from "./camera.js";
 import { canvas, scale } from "./canvas.js";
-import { getSettings } from "./settings.js";
 import { Vec, vec } from "./vector.js";
 
 const inputsDown: Record<string, boolean> = {};
@@ -84,14 +83,11 @@ function mouseButtonToString(button: number) {
  * Update the mouse position in world space.
  */
 export function updateMousePosition() {
-  const settings = getSettings();
   const camera = getCamera();
-  const cameraX = camera.x - settings.width / 2;
-  const cameraY = camera.y - settings.height / 2;
 
   mouseWorldPosition.set(
-    mouseScreenPosition.x + cameraX,
-    mouseScreenPosition.y + cameraY,
+    mouseScreenPosition.x + camera.x,
+    mouseScreenPosition.y + camera.y,
   );
 }
 

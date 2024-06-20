@@ -3,7 +3,7 @@ import { getSettings } from "./settings.js";
 const sounds: Record<string, HTMLAudioElement> = {};
 
 /**
- * Load a new sound.
+ * Load a sound.
  */
 export async function loadSound(id: string, src: string) {
   return new Promise<void>((resolve, reject) => {
