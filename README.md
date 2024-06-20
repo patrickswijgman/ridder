@@ -1,33 +1,31 @@
 # Ridder
 
-A no-dependency straightforward game library using HTML canvas.
+A no-dependency, straightforward game making library made in TypeScript using HTML canvas.
 
 ## Features
 
-- Load assets
-  - Textures `loadTexture`
-  - Sprites (sub regions of a texture) `loadSprite`
-  - Fonts `loadFont`
-  - Sounds `loadSound`
+- Load assets asynchronously
+  - Textures
+  - Fonts
+  - Sounds
 - Simple and fast physics
   - Everything is a rectangle
 - Simple render API
-  - `drawTexture`, `drawSprite`, `drawText`
+  - Render sub regions (sprites) from textures
 - Simple input API
-  - `isInputPressed`, `isInputDown`, `isInputReleased`, `getMousePosition`
   - Supports mouse and keyboard
 - Sounds
-  - `playSound`
 - A 2D camera
-  - Let it follow your player object! `updateCamera`
   - Parallax scrolling
 
 ## Does not include
 
 - Base game object (entity)
-  - Create your own using the building blocks (e.g. `body`, `vec`, `rect`) the engine provides
+  - Create your own using the building blocks (e.g. `body`, `vec`, `rect`) the library provides
+- Scene management
 - Behavior/AI such as steering behavior or path finding
-- More advanced sprite techniques such as spritesheets and 9-slicing
+- More advanced render techniques such as scene graphs, spritesheets and 9-slicing
+- A GUI system
 
 ## Installation
 
@@ -35,7 +33,7 @@ A no-dependency straightforward game library using HTML canvas.
 npm i ridder
 ```
 
-## Quick example
+## Getting started
 
 ```typescript
 import {
