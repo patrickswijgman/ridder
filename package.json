@@ -1,0 +1,44 @@
+{
+  "name": "ridder",
+  "version": "1.0.0",
+  "description": "A straightforward game making library",
+  "main": "lib/index.js",
+  "files": ["lib/**/*"],
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patrickswijgman/ridder.git"
+  },
+  "keywords": [
+    "2d",
+    "html5",
+    "canvas",
+    "game",
+    "gamedev",
+    "library",
+    "typescript",
+    "input",
+    "physics",
+    "sprites",
+    "camera",
+    "tweens",
+    "vectors"
+  ],
+  "author": "Patrick Swijgman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patrickswijgman/ridder/issues"
+  },
+  "homepage": "https://github.com/patrickswijgman/ridder#readme",
+  "devDependencies": {
+    "prettier": "^3.3.2",
+    "prettier-plugin-organize-imports": "^3.2.4",
+    "typescript": "^5.4.5"
+  }
+}
