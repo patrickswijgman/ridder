@@ -1,9 +1,11 @@
 {
   "name": "ridder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A straightforward game making library",
   "main": "lib/index.js",
-  "files": ["lib/**/*"],
+  "files": [
+    "lib/**/*"
+  ],
   "type": "module",
   "engines": {
     "node": ">=18"
