@@ -88,6 +88,10 @@ export class Rect {
    * Returns true if this rectangle intersects with the given rectangle.
    */
   intersects(other: Rect) {
+    if (other === this) {
+      return false;
+    }
+
     return (
       this.left < other.right &&
       this.right > other.left &&
