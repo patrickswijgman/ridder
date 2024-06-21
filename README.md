@@ -28,7 +28,7 @@ npm i ridder
 ## Getting started
 
 See below for a quick example to get familiar with the beginnings of a game.
-More complete examples, like a platformer example, see [Examples](#examples) below.
+More complete examples, like a simple platformer, see [Examples](#examples) below.
 
 ```typescript
 import {

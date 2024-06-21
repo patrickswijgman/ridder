@@ -17,6 +17,8 @@ export class Body extends Rect {
    * Apply the forces such as gravity and velocity to the body.
    */
   update() {
+    this.isOnGround = false;
+
     if (this.isStatic) return;
 
     const settings = getSettings();
@@ -24,8 +26,6 @@ export class Body extends Rect {
     this.gravity.add(settings.gravity, delta).limit(settings.gravityMax);
     this.velocity.add(this.gravity, delta);
     this.position.add(this.velocity, delta);
-
-    this.isOnGround = false;
   }
 
   /**
