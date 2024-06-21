@@ -18,6 +18,7 @@ export function drawTexture(
   pivotX = 0,
   pivotY = 0,
   angle = 0,
+  alpha = 1,
   scrollX = 1,
   scrollY = 1,
 ) {
@@ -25,6 +26,7 @@ export function drawTexture(
   ctx.translate(x, y);
   ctx.scale(scaleX, scaleY);
   ctx.rotate(toRadians(angle));
+  ctx.globalAlpha = alpha;
   ctx.drawImage(getTexture(id), -pivotX, -pivotY);
 }
 
@@ -38,6 +40,7 @@ export function drawSprite(
   scaleX = 1,
   scaleY = 1,
   angle = 0,
+  alpha = 1,
   scrollX = 1,
   scrollY = 1,
 ) {
@@ -45,6 +48,7 @@ export function drawSprite(
   ctx.translate(x, y);
   ctx.scale(scaleX, scaleY);
   ctx.rotate(toRadians(angle));
+  ctx.globalAlpha = alpha;
 
   const spr = getSprite(id);
   const tex = getTexture(spr.textureId);
@@ -71,6 +75,7 @@ export function drawText(
   y: number,
   scale = 1,
   color = "white",
+  alpha = 1,
   align: CanvasTextAlign = "left",
   baseline: CanvasTextBaseline = "top",
   fontId = "default",
@@ -81,6 +86,7 @@ export function drawText(
   resetTransform(scrollX, scrollY);
   ctx.translate(x, y);
   ctx.scale(scale, scale);
+  ctx.globalAlpha = alpha;
   ctx.font = getFont(fontId);
   ctx.textAlign = align;
   ctx.textBaseline = baseline;
@@ -95,10 +101,12 @@ export function drawRect(
   rect: Rect,
   color: string,
   fill: boolean,
+  alpha = 1,
   scrollX = 1,
   scrollY = 1,
 ) {
   resetTransform(scrollX, scrollY);
+  ctx.globalAlpha = alpha;
 
   if (fill) {
     ctx.fillStyle = color;

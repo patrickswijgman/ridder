@@ -6,7 +6,7 @@ import {
   updateMousePosition,
 } from "./input.js";
 import { Settings, getSettings, setSettings } from "./settings.js";
-import { fps, initState, updateState } from "./state.js";
+import { fps, setupState, updateState } from "./state.js";
 
 type RunConfig = {
   /** The global game settings. */
@@ -27,11 +27,12 @@ export async function run(config: RunConfig) {
   setupCanvas();
   setupInput();
   await config.setup();
+  setupState();
 
   const settings = getSettings();
 
-  const tick = (elapsed: number) => {
-    updateState(elapsed);
+  const tick = () => {
+    updateState();
     updateMousePosition();
     config.update();
 
@@ -43,7 +44,6 @@ export async function run(config: RunConfig) {
     requestAnimationFrame(tick);
   };
 
-  initState();
   requestAnimationFrame(tick);
 }
 

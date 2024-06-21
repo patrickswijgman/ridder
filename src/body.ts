@@ -30,6 +30,7 @@ export class Body extends Rect {
 
   /**
    * Resolve a collision (intersection) between this body and the given body.
+   * Returns true of the body has resolved a collision.
    */
   resolveCollision(other: Body) {
     if (
@@ -38,7 +39,7 @@ export class Body extends Rect {
       !this.velocity.length() ||
       !this.intersects(other)
     ) {
-      return;
+      return false;
     }
 
     const l = this.right - other.left;
@@ -53,7 +54,7 @@ export class Body extends Rect {
         } else {
           this.resolveOverlap(-l, 0);
         }
-        break;
+        return true;
 
       case this.velocity.x < 0 && this.velocity.y > 0:
         if (r > u) {
@@ -61,7 +62,7 @@ export class Body extends Rect {
         } else {
           this.resolveOverlap(r, 0);
         }
-        break;
+        return true;
 
       case this.velocity.x > 0 && this.velocity.y < 0:
         if (l > d) {
@@ -69,7 +70,7 @@ export class Body extends Rect {
         } else {
           this.resolveOverlap(-l, 0);
         }
-        break;
+        return true;
 
       case this.velocity.x < 0 && this.velocity.y < 0:
         if (r > d) {
@@ -77,23 +78,26 @@ export class Body extends Rect {
         } else {
           this.resolveOverlap(r, 0);
         }
-        break;
+        return true;
 
       case this.velocity.x > 0:
         this.resolveOverlap(-l, 0);
-        break;
+        return true;
 
       case this.velocity.x < 0:
         this.resolveOverlap(r, 0);
-        break;
+        return true;
 
       case this.velocity.y > 0:
         this.resolveOverlap(0, -u);
-        break;
+        return true;
 
       case this.velocity.y < 0:
         this.resolveOverlap(0, d);
-        break;
+        return true;
+
+      default:
+        return false;
     }
   }
 

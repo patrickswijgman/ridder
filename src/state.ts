@@ -17,7 +17,7 @@ export let fps = 0;
 /**
  * Initialize state.
  */
-export function initState() {
+export function setupState() {
   last = performance.now();
   now = performance.now();
 }
@@ -25,12 +25,12 @@ export function initState() {
 /**
  * Update state for the current frame.
  */
-export function updateState(elapsed: number) {
+export function updateState() {
   last = now;
 
   // Cap the delta time at 100 milliseconds (10 fps). It could be that the tab
   // was frozen or minimized, which would cause a ridiculous amount of delta time.
-  now = Math.min(elapsed, last + 100);
+  now = Math.min(performance.now(), last + 100);
 
   delta = now / last;
   time = now - last;
