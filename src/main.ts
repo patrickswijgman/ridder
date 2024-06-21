@@ -24,6 +24,7 @@ type RunConfig = {
  */
 export async function run(config: RunConfig) {
   setSettings(config.settings);
+
   setupCanvas();
   setupInput();
   await config.setup();
@@ -32,15 +33,19 @@ export async function run(config: RunConfig) {
   const settings = getSettings();
 
   const tick = () => {
-    updateState();
-    updateMousePosition();
-    config.update();
+    const valid = updateState();
 
-    renderBackground(settings.background);
-    config.render();
-    renderDebugInfo(settings.debug);
+    if (valid) {
+      updateMousePosition();
+      config.update();
 
-    resetInputs();
+      renderBackground(settings.background);
+      config.render();
+      renderDebugInfo(settings.debug);
+
+      resetInputs();
+    }
+
     requestAnimationFrame(tick);
   };
 

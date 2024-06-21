@@ -24,16 +24,19 @@ export function setupState() {
 
 /**
  * Update state for the current frame.
+ * Returns true if the delta is within an acceptable range.
  */
 export function updateState() {
   last = now;
-
-  // Cap the delta time at 100 milliseconds (10 fps). It could be that the tab
-  // was frozen or minimized, which would cause a ridiculous amount of delta time.
-  now = Math.min(performance.now(), last + 100);
+  now = performance.now();
 
   delta = now / last;
   time = now - last;
+
+  // If the delta time is too high, ignore the frame.
+  if (time >= 100) {
+    return false;
+  }
 
   frames++;
 
@@ -42,4 +45,6 @@ export function updateState() {
     frames = 0;
     framesTimer.reset();
   }
+
+  return true;
 }
