@@ -1,3 +1,5 @@
+import { time } from "./state.js";
+
 /**
  * A Timer.
  */
@@ -5,10 +7,9 @@ export class Timer {
   elapsed = 0;
 
   /**
-   * Advance the timer by the given amount of time.
-   * Returns true if it has reached its duration within this frame.
+   * Advance the timer, returns true if it has reached its duration within this frame.
    */
-  tick(duration: number, time: number) {
+  tick(duration: number) {
     if (duration <= 0 || this.elapsed >= duration) {
       return false;
     }

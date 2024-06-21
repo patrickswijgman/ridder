@@ -6,7 +6,7 @@ import {
   updateMousePosition,
 } from "./input.js";
 import { Settings, getSettings, setSettings } from "./settings.js";
-import { timer } from "./timer.js";
+import { fps, initState, updateState } from "./state.js";
 
 type RunConfig = {
   /** The global game settings. */
@@ -14,17 +14,10 @@ type RunConfig = {
   /**Setup before the game starts. Load your textures, fonts and sounds here. */
   setup: () => Promise<void>;
   /** Game logic update for the current frame. */
-  update: (delta: number, time: number) => void;
+  update: () => void;
   /** Render the textures, sprites and texts in the current frame. */
   render: () => void;
 };
-
-let last = 0;
-let now = 0;
-
-let frames = 0;
-let framesTimer = timer();
-let fps = 0;
 
 /**
  * Run your game.
@@ -33,58 +26,43 @@ export async function run(config: RunConfig) {
   setSettings(config.settings);
   setupCanvas();
   setupInput();
-
   await config.setup();
 
   const settings = getSettings();
 
   const tick = (elapsed: number) => {
-    last = now;
-    // Cap the delta time at 100 milliseconds (10 fps). It could be that the tab
-    // was frozen or minimized, which would cause a ridiculous amount of delta time.
-    now = Math.min(elapsed, last + 100);
-
-    const delta = now / last;
-    const time = now - last;
-
-    frames++;
-
-    if (framesTimer.tick(1000, time)) {
-      fps = frames;
-      frames = 0;
-      framesTimer.reset();
-    }
-
+    updateState(elapsed);
     updateMousePosition();
+    config.update();
 
-    config.update(delta, time);
-
-    // Clear the canvas before rendering the next frame. This prevents draw
-    // artifacts from the previous frame.
-    ctx.resetTransform();
-    ctx.fillStyle = settings.background;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+    renderBackground(settings.background);
     config.render();
-
-    if (settings.debug) {
-      drawDebugInfo();
-    }
+    renderDebugInfo(settings.debug);
 
     resetInputs();
     requestAnimationFrame(tick);
   };
 
-  last = performance.now();
-  now = performance.now();
-
+  initState();
   requestAnimationFrame(tick);
+}
+
+/**
+ * Clear the canvas before rendering the next frame. This prevents draw
+ * artifacts from the previous frame.
+ */
+function renderBackground(color: string) {
+  ctx.resetTransform();
+  ctx.fillStyle = color;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 /**
  * Draw debug info like frames-per-second.
  */
-function drawDebugInfo() {
+function renderDebugInfo(enabled: boolean) {
+  if (!enabled) return;
+
   const msp = getMousePosition(false);
   const mwp = getMousePosition(true);
 
@@ -96,10 +74,8 @@ function drawDebugInfo() {
 
   ctx.translate(5, 5);
   ctx.fillText(`FPS: ${fps}`, 0, 0);
-
   ctx.translate(0, 18);
   ctx.fillText(`Mouse (screen): ${msp.x.toFixed()}, ${msp.y.toFixed()}`, 0, 0);
-
   ctx.translate(0, 18);
   ctx.fillText(`Mouse (world): ${mwp.x.toFixed()}, ${mwp.y.toFixed()}`, 0, 0);
 }

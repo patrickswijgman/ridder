@@ -18,4 +18,5 @@ export {
 } from "./input.js";
 export { run } from "./main.js";
 export { rect, type Rect } from "./rect.js";
+export { delta, fps, time } from "./state.js";
 export { vec, type Vec } from "./vector.js";

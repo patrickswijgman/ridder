@@ -1,5 +1,6 @@
 import { Rect } from "./rect.js";
 import { getSettings } from "./settings.js";
+import { delta } from "./state.js";
 import { vec } from "./vector.js";
 
 export class Body extends Rect {
@@ -15,7 +16,7 @@ export class Body extends Rect {
   /**
    * Apply the forces such as gravity and velocity to the body.
    */
-  update(delta: number) {
+  update() {
     if (this.isStatic) return;
 
     const settings = getSettings();
@@ -31,7 +32,14 @@ export class Body extends Rect {
    * Resolve a collision (intersection) between this body and the given body.
    */
   resolveCollision(other: Body) {
-    if (other === this || this.isStatic || !this.intersects(other)) return;
+    if (
+      other === this ||
+      this.isStatic ||
+      !this.velocity.length() ||
+      !this.intersects(other)
+    ) {
+      return;
+    }
 
     const l = this.right - other.left;
     const r = other.right - this.left;

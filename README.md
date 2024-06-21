@@ -4,18 +4,19 @@ A no-dependency, straightforward game making library made in TypeScript using HT
 
 ## Features
 
-- Load assets asynchronously
-  - Textures
-  - Fonts
-  - Sounds
-- Simple and fast physics
-  - Everything is a rectangle
-- Simple render API
-  - Render sub regions (sprites) from textures
-- Simple input API
+- Assets
+  - Textures, fonts and sounds
+  - Load asynchronously
+- Physics
+  - Simple and fast, everything is a rectangle
+- Render
+  - Draw sub regions (sprites) from textures
+  - Draw text (with custom font)
+- Input
   - Supports mouse and keyboard
 - Sounds
-- A 2D camera
+- Camera
+  - Follow an object with smoothing
   - Parallax scrolling
 
 ## Installation
@@ -26,8 +27,12 @@ npm i ridder
 
 ## Getting started
 
+See below for a quick example to get familiar with the beginnings of a game.
+More complete examples, like a platformer example, see [Examples](#examples) below.
+
 ```typescript
 import {
+  delta,
   drawTexture,
   getSettings,
   isInputDown,
@@ -57,7 +62,7 @@ run({
     player.position.y = settings.height / 2;
   },
 
-  update: (delta) => {
+  update: () => {
     if (isInputDown("ArrowLeft")) {
       player.position.x -= 2 * delta;
     }

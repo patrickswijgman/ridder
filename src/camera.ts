@@ -1,5 +1,6 @@
 import { Rect } from "./rect.js";
 import { getSettings } from "./settings.js";
+import { delta } from "./state.js";
 import { clamp } from "./utils.js";
 import { Vec, vec } from "./vector.js";
 
@@ -14,12 +15,7 @@ const target = vec();
  * Set the `cameraSmoothing` setting to increase or decrease the speed at which
  * the camera goes to the given position.
  */
-export function updateCamera(
-  x: number,
-  y: number,
-  delta: number,
-  boundary?: Rect,
-) {
+export function updateCamera(x: number, y: number, boundary?: Rect) {
   const settings = getSettings();
 
   target.set(x - settings.width / 2, y - settings.height / 2);
