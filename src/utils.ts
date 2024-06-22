@@ -25,7 +25,16 @@ export function clamp(value: number, min: number, max: number) {
 export function getDistance(x1: number, y1: number, x2: number, y2: number) {
   const x = x1 - x2;
   const y = y1 - y2;
-  return Math.sqrt(x * x + y + y);
+  return Math.sqrt(x * x + y * y);
+}
+
+/**
+ * Get the angle in degrees between two points.
+ */
+export function getAngle(x1: number, y1: number, x2: number, y2: number) {
+  const x = x2 - x1;
+  const y = y2 - y1;
+  return toDegrees(Math.atan2(y, x));
 }
 
 /**

@@ -1,3 +1,5 @@
+import { getAngle, getDistance } from "./utils.js";
+
 /**
  * 2D Vector!
  */
@@ -94,9 +96,14 @@ export class Vec {
    * Get the distance from this vector to the given vector.
    */
   distance(v: Vec) {
-    const x = this.x - v.x;
-    const y = this.y - v.y;
-    return Math.sqrt(x * x + y * y);
+    return getDistance(this.x, this.y, v.x, v.y);
+  }
+
+  /**
+   * Get the angle in degrees from this vector to the given vector.
+   */
+  angle(v: Vec) {
+    return getAngle(this.x, this.y, v.x, v.y);
   }
 
   /**
