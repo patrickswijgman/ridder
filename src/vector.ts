@@ -19,7 +19,7 @@ export class Vec {
   /**
    * Subtract the given vector from this vector, optionally scaling the given vector.
    */
-  sub(v: Vec, d = 1) {
+  subtract(v: Vec, d = 1) {
     this.x -= v.x * d;
     this.y -= v.y * d;
     return this;

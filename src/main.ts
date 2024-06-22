@@ -24,7 +24,6 @@ type RunConfig = {
  */
 export async function run(config: RunConfig) {
   setSettings(config.settings);
-
   setupCanvas();
   setupInput();
   await config.setup();
@@ -38,11 +37,9 @@ export async function run(config: RunConfig) {
     if (valid) {
       updateMousePosition();
       config.update();
-
       renderBackground(settings.background);
       config.render();
       renderDebugInfo(settings.debug);
-
       resetInputs();
     }
 

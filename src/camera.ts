@@ -24,7 +24,7 @@ export function updateCamera(x: number, y: number, boundary?: Rect) {
 
   velocity
     .copy(target)
-    .sub(position)
+    .subtract(position)
     .normalize()
     .scale(distance)
     .scale(settings.cameraSmoothing)
