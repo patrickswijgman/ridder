@@ -15,7 +15,7 @@ export class Rect {
   ) {}
 
   /**
-   * Move this rectangle by the given amount.
+   * Move the position of this rectangle by the given amount.
    */
   move(x: number, y: number) {
     this.position.x += x;
@@ -88,7 +88,7 @@ export class Rect {
    * Returns true if this rectangle intersects with the given rectangle.
    */
   intersects(other: Rect) {
-    if (other === this) {
+    if (other === this || !other.isValid()) {
       return false;
     }
 
@@ -139,6 +139,13 @@ export class Rect {
   }
   get bottom() {
     return this.y + this.height;
+  }
+
+  /**
+   * A rectangle is valid when it has a width or height larger than zero.
+   */
+  isValid() {
+    return !!this.size.length();
   }
 
   /**

@@ -20,6 +20,15 @@ export function clamp(value: number, min: number, max: number) {
 }
 
 /**
+ * Get the distance between two points.
+ */
+export function getDistance(x1: number, y1: number, x2: number, y2: number) {
+  const x = x1 - x2;
+  const y = y1 - y2;
+  return Math.sqrt(x * x + y + y);
+}
+
+/**
  * Get a new random UUID.
  */
 export function randomId() {

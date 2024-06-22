@@ -10,6 +10,7 @@ export * from "./textures.js";
 export * from "./utils.js";
 
 export { body, type Body } from "./body.js";
+export { circle, type Circle } from "./circle.js";
 export {
   getMousePosition,
   isInputDown,

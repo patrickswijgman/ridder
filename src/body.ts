@@ -33,12 +33,7 @@ export class Body extends Rect {
    * Returns true of the body has resolved a collision.
    */
   resolveCollision(other: Body) {
-    if (
-      other === this ||
-      this.isStatic ||
-      !this.velocity.length() ||
-      !this.intersects(other)
-    ) {
+    if (this.isStatic || !this.velocity.length() || !this.intersects(other)) {
       return false;
     }
 

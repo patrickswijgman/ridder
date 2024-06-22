@@ -1,5 +1,6 @@
 import { getCamera } from "./camera.js";
 import { ctx, scale } from "./canvas.js";
+import { Circle } from "./circle.js";
 import { getFont } from "./fonts.js";
 import { Rect } from "./rect.js";
 import { getSprite } from "./sprites.js";
@@ -114,6 +115,33 @@ export function drawRect(
   } else {
     ctx.strokeStyle = color;
     ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
+  }
+}
+
+/**
+ * Draw a Circle instance.
+ */
+export function drawCircle(
+  circle: Circle,
+  color: string,
+  fill: boolean,
+  alpha = 1,
+  scrollX = 1,
+  scrollY = 1,
+) {
+  resetTransform(scrollX, scrollY);
+  ctx.globalAlpha = alpha;
+
+  ctx.beginPath();
+  ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI);
+  ctx.closePath();
+
+  if (fill) {
+    ctx.fillStyle = color;
+    ctx.fill();
+  } else {
+    ctx.strokeStyle = color;
+    ctx.stroke();
   }
 }
 
