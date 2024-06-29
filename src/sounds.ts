@@ -6,7 +6,7 @@ const sounds: Record<string, HTMLAudioElement> = {};
  * Load a sound.
  */
 export async function loadSound(id: string, src: string) {
-  return new Promise<void>((resolve, reject) => {
+  return await new Promise<void>((resolve, reject) => {
     const sound = new Audio(src);
 
     sound.addEventListener("canplaythrough", () => resolve(), { once: true });

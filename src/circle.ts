@@ -69,7 +69,6 @@ export class Circle {
   /**
    * A circle is valid if its radius is larger than zero.
    */
-
   isValid() {
     return this.radius > 0;
   }

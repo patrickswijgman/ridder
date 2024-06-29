@@ -18,7 +18,8 @@ const target = vec();
 export function updateCamera(x: number, y: number, boundary?: Rect) {
   const settings = getSettings();
 
-  target.set(x - settings.width / 2, y - settings.height / 2);
+  target.x = x - settings.width / 2;
+  target.y = y - settings.height / 2;
 
   const distance = position.distance(target);
 
@@ -53,7 +54,8 @@ export function updateCamera(x: number, y: number, boundary?: Rect) {
  */
 export function setCamera(x: number, y: number) {
   const settings = getSettings();
-  position.set(x - settings.width / 2, y - settings.height / 2);
+  position.x = x - settings.width / 2;
+  position.y = y - settings.height / 2;
 }
 
 /**

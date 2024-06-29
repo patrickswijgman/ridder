@@ -84,11 +84,8 @@ function mouseButtonToString(button: number) {
  */
 export function updateMousePosition() {
   const camera = getCamera();
-
-  mouseWorldPosition.set(
-    mouseScreenPosition.x + camera.x,
-    mouseScreenPosition.y + camera.y,
-  );
+  mouseWorldPosition.x = mouseScreenPosition.x + camera.x;
+  mouseWorldPosition.y = mouseScreenPosition.y + camera.y;
 }
 
 /**

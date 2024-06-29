@@ -4,10 +4,6 @@ const textures: Record<string, HTMLImageElement | HTMLCanvasElement> = {};
  * Load a texture from an image.
  */
 export async function loadTexture(id: string, src: string) {
-  if (id in textures) {
-    throw new Error(`Texture with id ${id} already exists.`);
-  }
-
   const img = new Image();
   img.src = src;
 
@@ -25,10 +21,6 @@ export function loadRenderTexture(
   height: number,
   draw: (ctx: CanvasRenderingContext2D) => void,
 ) {
-  if (id in textures) {
-    throw new Error(`Texture with id ${id} already exists.`);
-  }
-
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
