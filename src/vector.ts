@@ -1,8 +1,5 @@
 import { getAngle, getDistance } from "./utils.js";
 
-/**
- * 2D Vector!
- */
 export class Vec {
   constructor(
     public x: number,
@@ -10,29 +7,29 @@ export class Vec {
   ) {}
 
   /**
-   * Add the given vector to this vector, optionally scaling the given vector.
+   * Add the given vector to this vector, optionally scaling the given vector's components before adding them.
    */
-  add(v: Vec, d = 1) {
-    this.x += v.x * d;
-    this.y += v.y * d;
+  add(other: Vec, scale = 1) {
+    this.x += other.x * scale;
+    this.y += other.y * scale;
     return this;
   }
 
   /**
-   * Subtract the given vector from this vector, optionally scaling the given vector.
+   * Subtract the given vector from this vector, optionally scaling the given vector's components before subtracting them.
    */
-  subtract(v: Vec, d = 1) {
-    this.x -= v.x * d;
-    this.y -= v.y * d;
+  subtract(other: Vec, scale = 1) {
+    this.x -= other.x * scale;
+    this.y -= other.y * scale;
     return this;
   }
 
   /**
    * Scale the components of this vector by the given scalar.
    */
-  scale(s: number) {
-    this.x *= s;
-    this.y *= s;
+  scale(value: number) {
+    this.x *= value;
+    this.y *= value;
     return this;
   }
 
@@ -57,17 +54,17 @@ export class Vec {
   /**
    * Copy the components of the given vector.
    */
-  copy(v: Vec) {
-    this.x = v.x;
-    this.y = v.y;
+  copy(other: Vec) {
+    this.x = other.x;
+    this.y = other.y;
     return this;
   }
 
   /**
    * Limit the length of this vector by the given value.
    */
-  limit(l: number) {
-    return this.length() > l ? this.normalize().scale(l) : this;
+  limit(value: number) {
+    return this.length() > value ? this.normalize().scale(value) : this;
   }
 
   /**
@@ -95,15 +92,22 @@ export class Vec {
   /**
    * Get the distance from this vector to the given vector.
    */
-  distance(v: Vec) {
-    return getDistance(this.x, this.y, v.x, v.y);
+  distance(other: Vec) {
+    return getDistance(this.x, this.y, other.x, other.y);
   }
 
   /**
    * Get the angle in degrees from this vector to the given vector.
    */
-  angle(v: Vec) {
-    return getAngle(this.x, this.y, v.x, v.y);
+  angle(other: Vec) {
+    return getAngle(this.x, this.y, other.x, other.y);
+  }
+
+  /**
+   * Returns true if this vector has the same values as the given vector.
+   */
+  equals(other: Vec) {
+    return this.x == other.x && this.y == other.y;
   }
 
   /**

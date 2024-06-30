@@ -1,9 +1,6 @@
 import { getMousePosition } from "./input.js";
 import { Vec, vec } from "./vector.js";
 
-/**
- * Data class for a rectangle.
- */
 export class Rect {
   constructor(
     /** The position (top-left corner) of the rectangle. */
@@ -88,7 +85,7 @@ export class Rect {
    * Returns true if this rectangle intersects with the given rectangle.
    */
   intersects(other: Rect) {
-    if (other === this || !other.isValid()) {
+    if (other === this || !this.isValid() || !other.isValid()) {
       return false;
     }
 
@@ -145,7 +142,7 @@ export class Rect {
    * A rectangle is valid when it has a width or height larger than zero.
    */
   isValid() {
-    return !!this.size.length();
+    return this.width > 0 || this.height > 0;
   }
 
   /**

@@ -1,8 +1,5 @@
 import { time } from "./state.js";
 
-/**
- * A timer.
- */
 export class Timer {
   elapsed = 0;
 

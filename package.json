@@ -3,16 +3,14 @@
   "version": "1.2.1",
   "description": "A straightforward game making library",
   "main": "lib/index.js",
-  "files": [
-    "lib/**/*"
-  ],
+  "files": ["lib/**/*"],
   "type": "module",
   "engines": {
     "node": ">=18"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "start": "tsc --watch --preserveWatchOutput",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

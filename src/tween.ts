@@ -1,9 +1,6 @@
 import { EasingFunction } from "./easings.js";
 import { time } from "./state.js";
 
-/**
- * A tween.
- */
 export class Tween {
   elapsed = 0;
   value = 0;
