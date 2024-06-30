@@ -2,15 +2,14 @@ import { getMousePosition } from "./input.js";
 import { getDistance } from "./utils.js";
 import { Vec, vec } from "./vector.js";
 
-/**
- * Data class for a circle.
- */
 export class Circle {
   constructor(
-    /** The position (center) of this circle. */
+    /** The position of this circle. */
     public position: Vec,
     /** The radius (size) of this circle. */
     public radius: number,
+    /** The pivot point of this circle. */
+    public pivot: Vec,
   ) {}
 
   /**
@@ -31,10 +30,37 @@ export class Circle {
   }
 
   /**
+   * Set the pivot point of this circle using an anchor string.
+   */
+  anchor(anchor: "top" | "right" | "bottom" | "left" | "center") {
+    const r = this.radius;
+
+    switch (anchor) {
+      case "top":
+        this.pivot.set(0, -r);
+        break;
+      case "right":
+        this.pivot.set(r, 0);
+        break;
+      case "bottom":
+        this.pivot.set(0, r);
+        break;
+      case "left":
+        this.pivot.set(-r, 0);
+        break;
+      case "center":
+        this.pivot.set(0, 0);
+        break;
+    }
+
+    return this;
+  }
+
+  /**
    * Returns true if this circle intersects with the given circle.
    */
   intersects(other: Circle) {
-    if (other === this || !other.isValid()) {
+    if (other === this || !this.isValid() || !other.isValid()) {
       return false;
     }
 
@@ -60,10 +86,10 @@ export class Circle {
   }
 
   get x() {
-    return this.position.x;
+    return this.position.x - this.pivot.x;
   }
   get y() {
-    return this.position.y;
+    return this.position.y - this.pivot.y;
   }
 
   /**
@@ -77,13 +103,18 @@ export class Circle {
    * Clone this circle.
    */
   clone() {
-    return new Circle(this.position.clone(), this.radius);
+    return new Circle(this.position.clone(), this.radius, this.pivot.clone());
   }
 }
 
 /**
  * Create a new circle.
+ *
+ * A circle consists of three components:
+ * - the (x,y) position
+ * - the radius
+ * - the (pivotX, pivotY) pivot point (relative to position)
  */
-export function circle(x = 0, y = 0, radius = 0) {
-  return new Circle(vec(x, y), radius);
+export function circle(x = 0, y = 0, radius = 0, pivotX = 0, pivotY = 0) {
+  return new Circle(vec(x, y), radius, vec(pivotX, pivotY));
 }
