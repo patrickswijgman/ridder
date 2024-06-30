@@ -1,6 +1,9 @@
 import { getMousePosition } from "./input.js";
 import { Rect } from "./rect.js";
+import { toRadians } from "./utils.js";
 import { Vec, vec } from "./vector.js";
+
+type PointTuple = [x: number, y: number];
 
 export class Polygon {
   constructor(
@@ -11,6 +14,57 @@ export class Polygon {
     /** The pivot point of this polygon. */
     public pivot: Vec,
   ) {}
+
+  /**
+   * Move the position of this polygon by the given amount.
+   */
+  move(x: number, y: number) {
+    this.position.x += x;
+    this.position.y += y;
+    return this;
+  }
+
+  /**
+   * Change this polygon's shape to the given points.
+   */
+  reshape(points: Array<PointTuple>) {
+    this.points = points.map(([x, y]) => vec(x, y));
+    return this;
+  }
+
+  /**
+   * Change the angle (rotation) of this polygon.
+   */
+  rotate(angle: number) {
+    const radians = toRadians(angle);
+
+    for (const point of this.points) {
+      const x = point.x - this.pivot.x;
+      const y = point.y - this.pivot.y;
+      const rotatedX = x * Math.cos(radians) - y * Math.sin(radians);
+      const rotatedY = x * Math.sin(radians) + y * Math.cos(radians);
+
+      point.x = rotatedX + this.pivot.x;
+      point.y = rotatedY + this.pivot.y;
+    }
+
+    return this;
+  }
+
+  /**
+   * Change this polygon's shape to the given rectangle.
+   */
+  rect(rect: Rect) {
+    this.pivot.copy(rect.pivot);
+    this.reshape([
+      [0, 0],
+      [rect.width, 0],
+      [rect.width, rect.height],
+      [0, rect.height],
+    ]);
+
+    return this;
+  }
 
   /**
    * Returns true if one of the lines of this polygon intersect with one of the lines of the given polygon.
@@ -143,26 +197,12 @@ export class Polygon {
       this.pivot.clone(),
     );
   }
-
-  /**
-   * Change this polygon's shape to the given rectangle.
-   */
-  fromRect(rect: Rect) {
-    this.pivot.copy(rect.pivot);
-    this.points.length = 0;
-    this.points.push(
-      vec(0, 0),
-      vec(rect.width, 0),
-      vec(rect.width, rect.height),
-      vec(0, rect.height),
-    );
-  }
 }
 
 /**
  * Create a new polygon.
  *
- * A polygon consists of two components:
+ * A polygon consists of three components:
  * - the (x,y) position
  * - the array of clock-wise points ([x,y] tuples) that make up the shape.
  * - the (pivotX, pivotY) pivot point (relative to position)
@@ -170,7 +210,7 @@ export class Polygon {
 export function polygon(
   x = 0,
   y = 0,
-  points: Array<[x: number, y: number]> = [],
+  points: Array<PointTuple> = [],
   pivotX = 0,
   pivotY = 0,
 ) {
