@@ -1,3 +1,4 @@
+import { linesIntersect } from "./geom.js";
 import { getMousePosition } from "./input.js";
 import { Rect } from "./rect.js";
 import { toRadians } from "./utils.js";
@@ -74,6 +75,10 @@ export class Polygon {
       return false;
     }
 
+    if (other.contains(this.x, this.y)) {
+      return true;
+    }
+
     for (let i = 0; i < this.points.length; i++) {
       const p1 = this.points[i];
       const p2 = this.points[(i + 1) % this.points.length];
@@ -92,50 +97,13 @@ export class Polygon {
         const x4 = p4.x + other.x;
         const y4 = p4.y + other.y;
 
-        if (this.intersectsLine(x1, y1, x2, y2, x3, y3, x4, y4)) {
+        if (linesIntersect(x1, y1, x2, y2, x3, y3, x4, y4)) {
           return true;
         }
       }
     }
 
     return false;
-  }
-
-  /**
-   * Returns true if the two lines are intersecting.
-   * source: https://paulbourke.net/geometry/pointlineplane/javascript.txt
-   */
-  private intersectsLine(
-    x1: number,
-    y1: number,
-    x2: number,
-    y2: number,
-    x3: number,
-    y3: number,
-    x4: number,
-    y4: number,
-  ) {
-    // Check if none of the lines are of length 0.
-    if ((x1 === x2 && y1 === y2) || (x3 === x4 && y3 === y4)) {
-      return false;
-    }
-
-    const denominator = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
-
-    // Lines are parallel.
-    if (denominator === 0) {
-      return false;
-    }
-
-    let ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator;
-    let ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator;
-
-    // Is the intersection along the segments?
-    if (ua < 0 || ua > 1 || ub < 0 || ub > 1) {
-      return false;
-    }
-
-    return true;
   }
 
   /**
@@ -154,9 +122,7 @@ export class Polygon {
       const y2 = b.y + this.y;
 
       // Use ray-casting (a horizontal line from the given point to, well almost, infinity) to count how many times it intersects.
-      if (
-        this.intersectsLine(x, y, Number.MAX_SAFE_INTEGER, y, x1, y1, x2, y2)
-      ) {
+      if (linesIntersect(x, y, Number.MAX_SAFE_INTEGER, y, x1, y1, x2, y2)) {
         crossings++;
       }
     }
