@@ -15,6 +15,8 @@ A no-dependency, straightforward game making library made in TypeScript using HT
 - Input
   - Supports mouse and keyboard
 - Sounds
+- Shapes
+  - Rectangle, Circle and Polygon (this one is a bit more advanced)
 - Camera
   - Follow an object with smoothing
   - Parallax scrolling
