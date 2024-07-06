@@ -7,6 +7,8 @@ import { Vec, vec } from "./vector.js";
 type PointTuple = [x: number, y: number];
 
 export class Polygon {
+  private angle = 0;
+
   constructor(
     /** The position of this polygon. */
     public position: Vec,
@@ -37,6 +39,15 @@ export class Polygon {
    * Change the angle (rotation) of this polygon.
    */
   rotate(angle: number) {
+    return this.rotateBy(angle - this.angle);
+  }
+
+  /**
+   * Rotate the angle of this polygon by the given value.
+   */
+  rotateBy(angle: number) {
+    if (angle === 0) return this;
+
     const radians = toRadians(angle);
 
     for (const point of this.points) {
@@ -48,6 +59,8 @@ export class Polygon {
       point.x = rotatedX + this.pivot.x;
       point.y = rotatedY + this.pivot.y;
     }
+
+    this.angle += angle;
 
     return this;
   }
@@ -68,7 +81,8 @@ export class Polygon {
   }
 
   /**
-   * Returns true if one of the lines of this polygon intersect with one of the lines of the given polygon.
+   * Returns true if one of the lines of this polygon intersect with one of the lines of the given polygon or
+   * one of the polygon's position is within the other polygon's shape.
    */
   intersects(other: Polygon) {
     if (other === this || !this.isValid() || !other.isValid()) {
@@ -76,6 +90,10 @@ export class Polygon {
     }
 
     if (other.contains(this.x, this.y)) {
+      return true;
+    }
+
+    if (this.contains(other.x, other.y)) {
       return true;
     }
 
@@ -147,14 +165,14 @@ export class Polygon {
   }
 
   /**
-   * A Polygon is valid when it has three or more points.
+   * A convex polygon is valid when it has three or more points.
    */
   isValid() {
     return this.points.length >= 3;
   }
 
   /**
-   * Clone this Polygon.
+   * Clone this polygon.
    */
   clone() {
     return new Polygon(
@@ -166,12 +184,14 @@ export class Polygon {
 }
 
 /**
- * Create a new polygon.
+ * Create a new convex polygon.
  *
  * A polygon consists of three components:
  * - the (x,y) position
  * - the array of clock-wise points ([x,y] tuples) that make up the shape.
  * - the (pivotX, pivotY) pivot point (relative to position)
+ *
+ * The polygon is auto-closing, meaning that its last point is connected to its first point.
  */
 export function polygon(
   x = 0,

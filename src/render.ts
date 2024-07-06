@@ -1,95 +1,37 @@
 import { getCamera } from "./camera.js";
 import { ctx, scale } from "./canvas.js";
 import { Circle } from "./circle.js";
-import { getFont } from "./fonts.js";
 import { Polygon } from "./polygon.js";
 import { Rect } from "./rect.js";
-import { getSprite } from "./sprites.js";
-import { getTexture } from "./textures.js";
 import { toRadians } from "./utils.js";
 
-/**
- * Draw a texture.
- */
-export function drawTexture(
-  id: string,
-  x: number,
-  y: number,
-  scaleX = 1,
-  scaleY = 1,
-  pivotX = 0,
-  pivotY = 0,
-  angle = 0,
-  alpha = 1,
-  scrollX = 1,
-  scrollY = 1,
-) {
-  reset(scrollX, scrollY, alpha);
-  ctx.translate(x, y);
-  ctx.scale(scaleX, scaleY);
-  ctx.rotate(toRadians(angle));
-  ctx.drawImage(getTexture(id), -pivotX, -pivotY);
-}
+export abstract class RenderObject {
+  x = 0;
+  y = 0;
+  offsetX = 0;
+  offsetY = 0;
+  scaleX = 1;
+  scaleY = 1;
+  angle = 0;
+  alpha = 1;
+  scrollX = 1;
+  scrollY = 1;
 
-/**
- * Draw a sprite.
- */
-export function drawSprite(
-  id: string,
-  x: number,
-  y: number,
-  scaleX = 1,
-  scaleY = 1,
-  angle = 0,
-  alpha = 1,
-  scrollX = 1,
-  scrollY = 1,
-) {
-  const spr = getSprite(id);
-  const tex = getTexture(spr.textureId);
+  draw() {
+    const cam = getCamera();
+    const camX = -cam.x * this.scrollX;
+    const camY = -cam.y * this.scrollY;
 
-  reset(scrollX, scrollY, alpha);
-  ctx.translate(x, y);
-  ctx.scale(scaleX, scaleY);
-  ctx.rotate(toRadians(angle));
-  ctx.drawImage(
-    tex,
-    spr.region.position.x,
-    spr.region.position.y,
-    spr.region.width,
-    spr.region.height,
-    -spr.region.pivot.x,
-    -spr.region.pivot.y,
-    spr.region.width,
-    spr.region.height,
-  );
-}
+    const x = this.x + this.offsetX;
+    const y = this.y + this.offsetY;
 
-/**
- * Draw some text.
- */
-export function drawText(
-  text: string,
-  x: number,
-  y: number,
-  scale = 1,
-  color = "white",
-  alpha = 1,
-  align: CanvasTextAlign = "left",
-  baseline: CanvasTextBaseline = "top",
-  fontId = "default",
-  scrollX = 1,
-  scrollY = 1,
-  maxWidth = Number.MAX_SAFE_INTEGER,
-) {
-  reset(scrollX, scrollY, alpha);
-  ctx.translate(x, y);
-  ctx.scale(scale, scale);
-  ctx.font = getFont(fontId);
-  ctx.textAlign = align;
-  ctx.textBaseline = baseline;
-  ctx.fillStyle = color;
-  ctx.fillText(text, 0, 0, maxWidth);
+    ctx.setTransform(scale.x, 0, 0, scale.y, 0, 0);
+    ctx.translate(camX, camY);
+    ctx.translate(x, y);
+    ctx.scale(this.scaleX, this.scaleY);
+    ctx.rotate(toRadians(this.angle));
+    ctx.globalAlpha = this.alpha;
+  }
 }
 
 /**

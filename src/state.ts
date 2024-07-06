@@ -3,6 +3,7 @@ import { timer } from "./timer.js";
 let last = 0;
 let now = 0;
 let frames = 0;
+
 const framesTimer = timer();
 
 /** The delta time as a scalar value since last frame. */
@@ -34,7 +35,7 @@ export function updateState() {
   time = now - last;
 
   // If the delta time is too high, ignore the frame.
-  if (time >= 100) {
+  if (time > 100) {
     return false;
   }
 

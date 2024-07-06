@@ -1,25 +1,27 @@
+export * from "./body.js";
 export * from "./camera.js";
+export * from "./circle.js";
 export * from "./consts.js";
 export * from "./easings.js";
 export * from "./fonts.js";
-export * from "./render.js";
-export * from "./settings.js";
-export * from "./sounds.js";
-export * from "./sprites.js";
-export * from "./textures.js";
-export * from "./utils.js";
-
-export { body, type Body } from "./body.js";
-export { circle, type Circle } from "./circle.js";
 export {
   getMousePosition,
   isInputDown,
   isInputPressed,
   isInputReleased,
 } from "./input.js";
-export { run } from "./main.js";
-export { rect, type Rect } from "./rect.js";
+export * from "./main.js";
+export * from "./rect.js";
+export * from "./render.js";
+export * from "./settings.js";
+export * from "./sounds.js";
+export * from "./sprite.js";
+export * from "./sprites.js";
 export { delta, fps, time } from "./state.js";
-export { timer, type Timer } from "./timer.js";
-export { tween, type Tween } from "./tween.js";
-export { vec, type Vec } from "./vector.js";
+export * from "./text.js";
+export * from "./texture.js";
+export * from "./textures.js";
+export * from "./timer.js";
+export * from "./tween.js";
+export * from "./utils.js";
+export * from "./vector.js";

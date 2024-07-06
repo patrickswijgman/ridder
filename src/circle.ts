@@ -22,7 +22,7 @@ export class Circle {
   }
 
   /**
-   * Set the size of this rectangle.
+   * Set the size of this circle.
    */
   resize(radius: number) {
     this.radius = radius;

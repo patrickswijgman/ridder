@@ -10,7 +10,12 @@ export class Tween {
   }
 
   /**
-   * Advance the tween, updating its value based on the given duration times the amount of iterations.
+   * Advance the tween, updating its value between the start and end values over the given duration.
+   *
+   * Iterations is the amount of times this tween goes back and forth, to run this tween only once set iterations to one.
+   *
+   * If iterations is higher than one, consider the use of an "inOut" easing function e.g. "easeInOutSine" to gracefully
+   * let this tween go back and forth.
    */
   tween(
     start: number,

@@ -1,17 +1,29 @@
-import { Rect } from "./rect.js";
-
-type Sprite = {
+type SpriteData = {
   textureId: string;
-  region: Rect;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  pivotX: number;
+  pivotY: number;
 };
 
-const sprites: Record<string, Sprite> = {};
+const sprites: Record<string, SpriteData> = {};
 
 /**
  * Load a sprite from a loaded texture. A sprite is a subregion of a texture.
  */
-export function loadSprite(id: string, textureId: string, region: Rect) {
-  sprites[id] = { textureId, region };
+export function loadSprite(
+  id: string,
+  textureId: string,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  pivotX = 0,
+  pivotY = 0,
+) {
+  sprites[id] = { textureId, x, y, w, h, pivotX, pivotY };
 }
 
 /**

@@ -5,6 +5,7 @@ const textures: Record<string, HTMLImageElement | HTMLCanvasElement> = {};
  */
 export async function loadTexture(id: string, src: string) {
   const img = new Image();
+
   img.src = src;
 
   await img.decode();
