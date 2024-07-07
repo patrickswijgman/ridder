@@ -123,3 +123,4 @@ Open the links below to see a running example in StackBlitz.
 - [Sprites](https://stackblitz.com/edit/ridder-example-sprites?file=src%2Fmain.ts)
 - [Platformer](https://stackblitz.com/edit/ridder-example-platformer?file=src%2Fmain.ts)
 - [Render texture](https://stackblitz.com/edit/ridder-example-render-texture?file=src%2Fmain.ts)
+- [Polygon](https://stackblitz.com/edit/ridder-example-polygon?file=src%2Fmain.ts)
