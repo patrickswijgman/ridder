@@ -29,7 +29,7 @@ Load assets asynchronously with `loadTexture`, `loadSprite`, `loadFont` and `loa
 - Rectangle `rect`
 - Circle `circle`
 - Polygon `polygon`
-  - Create any shape using an array of 2D points (this one is a bit more advanced, but works very well for hitboxes for example!)
+  - Create any shape using an array of 2D points
 - Timer `timer`
 - Tween `tween`
   - Tween a value using [easing](https://easings.net/) functions
