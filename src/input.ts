@@ -10,10 +10,16 @@ const mouseWorldPosition = point();
 const mouseScreenPosition = point();
 
 /**
+ * The most recent pressed input's code.
+ */
+export let mostRecentInput = "";
+
+/**
  * Add the input event listeners.
  */
 export function setupInput() {
   window.addEventListener("keydown", ({ code, repeat }) => {
+    mostRecentInput = code;
     onDown(code, repeat);
   });
 
@@ -26,11 +32,14 @@ export function setupInput() {
   });
 
   canvas.addEventListener("mousedown", ({ button }) => {
-    onDown(mouseButtonToString(button), false);
+    const code = mouseButtonToCode(button);
+    mostRecentInput = code;
+    onDown(code, false);
   });
 
   canvas.addEventListener("mouseup", ({ button }) => {
-    onUp(mouseButtonToString(button));
+    const code = mouseButtonToCode(button);
+    onUp(code);
   });
 
   canvas.addEventListener("mousemove", ({ clientX, clientY }) => {
@@ -47,26 +56,26 @@ export function setupInput() {
 /**
  * Input down event listener.
  */
-function onDown(id: string, repeat: boolean) {
+function onDown(code: string, repeat: boolean) {
   if (repeat) return;
-  inputsDown[id] = true;
-  inputsPressed[id] = true;
-  inputsReleased[id] = false;
+  inputsDown[code] = true;
+  inputsPressed[code] = true;
+  inputsReleased[code] = false;
 }
 
 /**
  * Input up event listener.
  */
-function onUp(id: string) {
-  inputsDown[id] = false;
-  inputsPressed[id] = false;
-  inputsReleased[id] = true;
+function onUp(code: string) {
+  inputsDown[code] = false;
+  inputsPressed[code] = false;
+  inputsReleased[code] = true;
 }
 
 /**
- * Translate a mouse button to a string.
+ * Translate a mouse button to a string that's similar to a key code.
  */
-function mouseButtonToString(button: number) {
+function mouseButtonToCode(button: number) {
   switch (button) {
     case 0:
       return "MouseLeft";
@@ -121,26 +130,27 @@ export function resetAllInputs() {
 /**
  * Returns true if the input has been pressed this frame.
  */
-export function isInputPressed(id: string) {
-  return !!inputsPressed[id];
+export function isInputPressed(code: string) {
+  return !!inputsPressed[code];
 }
 
 /**
  * Returns true if the input is continuously pressed down.
  */
-export function isInputDown(id: string) {
-  return !!inputsDown[id];
+export function isInputDown(code: string) {
+  return !!inputsDown[code];
 }
 
 /**
  * Returns true if the input has been released this frame.
  */
-export function isInputReleased(id: string) {
-  return !!inputsReleased[id];
+export function isInputReleased(code: string) {
+  return !!inputsReleased[code];
 }
 
 /**
- * The mouse position on the canvas.
+ * The mouse position on the canvas. Pass true to get the world space
+ * coordinates otherwise get the screen space coordinates.
  */
 export function getMousePosition(inWorld: boolean): Readonly<Point> {
   return inWorld ? mouseWorldPosition : mouseScreenPosition;

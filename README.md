@@ -42,7 +42,7 @@ You can even create your own textures with code using `loadRenderTexture`! See a
 
 #### Input
 
-Supports mouse and keyboard (no support for controllers, yet).
+Supports mouse and keyboard (no support for controllers, yet) with `isInputPressed`, `isInputDown` and `isInputReleased`.
 
 The mouse supports both screen space and world space:
 

@@ -1,6 +1,7 @@
 import { canvas, ctx, setupCanvas } from "./canvas.js";
 import {
   getMousePosition,
+  mostRecentInput,
   resetInputs,
   setupInput,
   updateMousePosition,
@@ -77,4 +78,6 @@ function drawDebugInfo(enabled: boolean) {
   ctx.fillText(`Mouse (screen): ${msp.x.toFixed()}, ${msp.y.toFixed()}`, 0, 0);
   ctx.translate(0, 18);
   ctx.fillText(`Mouse (world): ${mwp.x.toFixed()}, ${mwp.y.toFixed()}`, 0, 0);
+  ctx.translate(0, 18);
+  ctx.fillText(`Most recent input: ${mostRecentInput}`, 0, 0);
 }

@@ -9,6 +9,7 @@ export {
   isInputDown,
   isInputPressed,
   isInputReleased,
+  mostRecentInput,
 } from "./input.js";
 export * from "./main.js";
 export * from "./point.js";
