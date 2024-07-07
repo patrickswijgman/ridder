@@ -16,6 +16,8 @@ export class Tween {
    *
    * If iterations is higher than one, consider the use of an "inOut" easing function e.g. "easeInOutSine" to gracefully
    * let this tween go back and forth.
+   *
+   * Returns true if the tween has completed this frame.
    */
   tween(
     start: number,
@@ -26,10 +28,16 @@ export class Tween {
   ) {
     const totalDuration = duration * iterations;
 
+    if (totalDuration <= 0 || this.elapsed >= totalDuration) {
+      return false;
+    }
+
     this.elapsed += time;
     this.elapsed = Math.min(this.elapsed, totalDuration);
 
     this.value = start + (end - start) * easing(this.elapsed / duration);
+
+    return this.elapsed === totalDuration;
   }
 
   /**
