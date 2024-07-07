@@ -63,16 +63,16 @@ export class Rect extends BaseObject {
    * Draw this rectangle to the canvas.
    */
   draw() {
-    if (!this.isValid) return;
+    if (!this.isValid()) return;
 
     super.draw();
 
     if (this.fill) {
       ctx.fillStyle = this.color;
-      ctx.fillRect(this.x, this.y, this.w, this.h);
+      ctx.fillRect(0, 0, this.w, this.h);
     } else {
       ctx.strokeStyle = this.color;
-      ctx.strokeRect(this.x, this.y, this.w, this.h);
+      ctx.strokeRect(0, 0, this.w, this.h);
     }
   }
 }
