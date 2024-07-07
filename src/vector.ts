@@ -5,7 +5,7 @@ export class Vec extends Point {
   /**
    * Add the given vector to this vector, optionally scaling the given vector's components before adding them.
    */
-  add(other: Vec, scale = 1) {
+  add(other: Point, scale = 1) {
     this.x += other.x * scale;
     this.y += other.y * scale;
     return this;
@@ -14,7 +14,7 @@ export class Vec extends Point {
   /**
    * Subtract the given vector from this vector, optionally scaling the given vector's components before subtracting them.
    */
-  subtract(other: Vec, scale = 1) {
+  subtract(other: Point, scale = 1) {
     this.x -= other.x * scale;
     this.y -= other.y * scale;
     return this;
@@ -50,7 +50,7 @@ export class Vec extends Point {
   /**
    * Copy the components of the given vector.
    */
-  copy(other: Vec) {
+  copy(other: Point) {
     this.x = other.x;
     this.y = other.y;
     return this;
@@ -88,21 +88,21 @@ export class Vec extends Point {
   /**
    * Get the distance from this vector to the given vector.
    */
-  distance(other: Vec) {
+  distance(other: Point) {
     return getDistance(this.x, this.y, other.x, other.y);
   }
 
   /**
    * Get the angle in degrees from this vector to the given vector.
    */
-  angle(other: Vec) {
+  angle(other: Point) {
     return getAngle(this.x, this.y, other.x, other.y);
   }
 
   /**
    * Returns true if this vector has the same values as the given vector.
    */
-  equals(other: Vec) {
+  equals(other: Point) {
     return this.x == other.x && this.y == other.y;
   }
 

@@ -1,13 +1,13 @@
 import { getCamera } from "./camera.js";
 import { canvas, scale } from "./canvas.js";
-import { Vec, vec } from "./vector.js";
+import { Point, point } from "./point.js";
 
 const inputsDown: Record<string, boolean> = {};
 const inputsPressed: Record<string, boolean> = {};
 const inputsReleased: Record<string, boolean> = {};
 
-const mouseWorldPosition = vec();
-const mouseScreenPosition = vec();
+const mouseWorldPosition = point();
+const mouseScreenPosition = point();
 
 /**
  * Add the input event listeners.
@@ -142,6 +142,6 @@ export function isInputReleased(id: string) {
 /**
  * The mouse position on the canvas.
  */
-export function getMousePosition(inWorld: boolean): Readonly<Vec> {
+export function getMousePosition(inWorld: boolean): Readonly<Point> {
   return inWorld ? mouseWorldPosition : mouseScreenPosition;
 }
