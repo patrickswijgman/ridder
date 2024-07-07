@@ -10,7 +10,7 @@ type PointTuple = [x: number, y: number];
 export class Polygon extends BaseObject {
   /** The points (in clock-wise order) that makes up the shape of this convex polygon. */
   points: Array<Point> = [];
-  /** The rotation in degrees of this polygon, use `rotate` and `rotateBy` to adjust the rotation. Note that `rotation` is not the same as `angle`, `angle` is unused for polygons. */
+  /** The rotation in degrees of this polygon, use `setRotation` and `rotate` to change the rotation. Note that `rotation` is not the same as `angle`, `angle` is unused for polygons. */
   rotation = 0;
 
   /**
@@ -20,20 +20,20 @@ export class Polygon extends BaseObject {
     this.x = x;
     this.y = y;
     this.points = points.map(([x, y]) => point(x, y));
-    this.rotate(rotation);
+    this.setRotation(rotation);
   }
 
   /**
    * Set the rotation of this polygon to the given value in degrees.
    */
-  rotate(rotation: number) {
-    this.rotateBy(rotation - this.rotation);
+  setRotation(rotation: number) {
+    this.rotate(rotation - this.rotation);
   }
 
   /**
    * Rotate the this polygon by the given value in degrees.
    */
-  rotateBy(rotation: number) {
+  rotate(rotation: number) {
     if (rotation === 0) return;
 
     const radians = toRadians(rotation);
