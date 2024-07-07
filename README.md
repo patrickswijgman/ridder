@@ -2,9 +2,11 @@
 
 A no-dependency, straightforward game making library in TypeScript using HTML5 canvas.
 
-This is not a game framework but a game library, it's smaller but it should give you everything you need to get started right away! For example, it includes the game loop for logic updates and rendering but there is no base game object (entity) however, you can create it yourself easily using the components (e.g. `sprite` and `timer`) this library provides. This keeps the library flexible for any type of game you would like to make :D
+This is not a game framework but a game library, it's smaller but it should give you everything you need to get started right away! For example, it includes the game loop for logic updates and rendering but there is no base game object (entity).
 
-See the [examples](#examples) for running examples such as a simple platformer!
+However, you can create it yourself easily using the [components](#components-for-your-entities) this library provides (I do this all the time in the [examples](#examples)). This keeps the library flexible for any type of game you would like to make :D
+
+See the [examples](#examples) section for running examples such as a simple platformer!
 
 ## Issues
 
@@ -16,7 +18,7 @@ None that I know of, so if you encounter any issues please let me know by creati
 
 Load assets asynchronously with `loadTexture`, `loadSprite`, `loadFont` and `loadSound`.
 
-You can even create your own textures with code using `loadRenderTexture`! See an example [here](https://stackblitz.com/edit/ridder-example-render-texture?file=src%2Fmain.ts)
+You can even create your own textures with code using `loadRenderTexture`! See an example [here](https://stackblitz.com/edit/ridder-example-render-texture?file=src%2Fmain.ts).
 
 #### Components for your entities
 
@@ -28,8 +30,8 @@ You can even create your own textures with code using `loadRenderTexture`! See a
 - Physics `body`
   - Simple and fast, everything is a rectangle
 - 2D point `point`
-- 2D Vector `vec`
-  - A point with mathematical functions such as `add`, `subtract` and `normalize`
+- 2D vector `vec`
+  - A 2D point with mathematical functions such as `add`, `subtract` and `normalize`
 - Rectangle `rect`
 - Circle `circle`
 - Polygon `polygon`

@@ -1,3 +1,4 @@
+export * from "./base.js";
 export * from "./body.js";
 export * from "./camera.js";
 export * from "./circle.js";

@@ -5,7 +5,7 @@ import { getFont } from "./fonts.js";
 export class Text extends BaseObject {
   /** The text to draw. */
   text = "";
-  /** The id of the font, this is a reference to the font loaded in memory */
+  /** The id of the font, this is a reference to the font loaded in memory. */
   fontId = "default";
   /** The horizontal alignment */
   align: CanvasTextAlign = "left";
