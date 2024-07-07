@@ -1,9 +1,11 @@
+import { BaseObject } from "./base.js";
 import { ctx } from "./canvas.js";
 import { getMousePosition } from "./input.js";
-import { RenderObject } from "./render.js";
 
-export class Rect extends RenderObject {
+export class Rect extends BaseObject {
+  /** The width of this rectangle. */
   w = 0;
+  /** The height of this rectangle. */
   h = 0;
 
   /**

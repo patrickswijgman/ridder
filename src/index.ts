@@ -12,7 +12,6 @@ export {
 } from "./input.js";
 export * from "./main.js";
 export * from "./rect.js";
-export * from "./render.js";
 export * from "./settings.js";
 export * from "./sounds.js";
 export * from "./sprite.js";

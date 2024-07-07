@@ -1,26 +1,28 @@
+import { BaseObject } from "./base.js";
 import { ctx } from "./canvas.js";
 import { linesIntersect } from "./geom.js";
 import { getMousePosition } from "./input.js";
 import { Point, point } from "./point.js";
-import { RenderObject } from "./render.js";
 import { toRadians } from "./utils.js";
 import { vec } from "./vector.js";
 
 type PointTuple = [x: number, y: number];
 
-export class Polygon extends RenderObject {
+export class Polygon extends BaseObject {
+  /** The points (in clock-wise order) that makes up the shape of this convex polygon. */
   points: Array<Point> = [];
+  /** The rotation in degrees of this polygon, use `rotate` and `rotateBy` to adjust the rotation. Note that `rotation` is not the same as `angle`, `angle` is unused for polygons. */
   rotation = 0;
 
   /**
-   * Change the angle (rotation) of this polygon.
+   * Set the rotation of this polygon to the given value in degrees.
    */
   rotate(rotation: number) {
     this.rotateBy(rotation - this.rotation);
   }
 
   /**
-   * Rotate the angle of this polygon by the given value.
+   * Rotate the this polygon by the given value in degrees.
    */
   rotateBy(rotation: number) {
     if (rotation === 0) return;

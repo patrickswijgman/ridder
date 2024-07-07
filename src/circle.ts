@@ -1,9 +1,10 @@
+import { BaseObject } from "./base.js";
 import { ctx } from "./canvas.js";
 import { getMousePosition } from "./input.js";
-import { RenderObject } from "./render.js";
 import { getDistance } from "./utils.js";
 
-export class Circle extends RenderObject {
+export class Circle extends BaseObject {
+  /** The radius of this circle. */
   r = 0;
 
   /**

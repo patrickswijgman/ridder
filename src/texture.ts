@@ -1,8 +1,9 @@
+import { BaseObject } from "./base.js";
 import { ctx } from "./canvas.js";
-import { RenderObject } from "./render.js";
 import { getTexture } from "./textures.js";
 
-export class Texture extends RenderObject {
+export class Texture extends BaseObject {
+  /** The id of the texture, this is a reference to the texture loaded in memory */
   id = "";
 
   draw() {

@@ -1,9 +1,10 @@
+import { BaseObject } from "./base.js";
 import { ctx } from "./canvas.js";
-import { RenderObject } from "./render.js";
 import { getSprite } from "./sprites.js";
 import { getTexture } from "./textures.js";
 
-export class Sprite extends RenderObject {
+export class Sprite extends BaseObject {
+  /** The id of the sprite, this is a reference to the sprite loaded in memory */
   id = "";
 
   draw() {

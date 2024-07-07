@@ -4,13 +4,20 @@ import { point } from "./point.js";
 import { toRadians } from "./utils.js";
 import { vec } from "./vector.js";
 
-export abstract class RenderObject {
+export abstract class BaseObject {
+  /** The position of this object. */
   position = vec();
+  /** The scale factor when drawing this object. */
   scale = point(1, 1);
+  /** The camera scrolling factor, e.g. set x=0 and y=0 for UI objects. */
   scroll = point(1, 1);
+  /** The angle in degrees when drawing this object. */
   angle = 0;
+  /** The alpha (opacity) value when drawing this object (0.0 ~ 1.0). */
   alpha = 1;
+  /** The color when drawing this object, can be a word e.g. "blue" or a hex e.g. "#0000ff". */
   color = "white";
+  /** When drawing this object; whether to fill or stroke the shape. */
   fill = false;
 
   draw() {
