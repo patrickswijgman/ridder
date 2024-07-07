@@ -2,11 +2,15 @@
 
 A no-dependency, straightforward game making library in TypeScript using HTML5 canvas.
 
-This library is a hobby project of mine to create small games with. I often found myself re-writing the same code so I thought: why not make a library for myself and maybe others would like it as well?
+This library is a hobby project of mine to create small games with. I often found myself re-writing the same code so I thought: why not make a simple-to-use library for myself and perhaps others would like it as well?
 
-This is not a framework but a library, it includes some basic things that I have often needed in the past. There is no base game object (entity), but you can create these yourself using the components (e.g. `sprite` and `timer`) this library provides.
+This is not a framework but a library, it includes some basic things that I have often needed in the past. There is no base game object (entity), but you can create it yourself using the components (e.g. `sprite` and `timer`) this library provides. This keeps the library flexible for any type of game you would like to make :D
 
-See the bottom of this readme for examples such as a simple platformer!
+See the [examples](#examples) for running examples such as a simple platformer!
+
+## Issues
+
+None that I know of, so if you encounter any issues please let me know by creating an issue or a pull request! I would really appreciate it <3
 
 ## Features
 
