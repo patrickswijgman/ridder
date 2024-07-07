@@ -1,11 +1,7 @@
+import { Point } from "./point.js";
 import { getAngle, getDistance } from "./utils.js";
 
-export class Vec {
-  constructor(
-    public x: number,
-    public y: number,
-  ) {}
-
+export class Vec extends Point {
   /**
    * Add the given vector to this vector, optionally scaling the given vector's components before adding them.
    */
@@ -114,7 +110,12 @@ export class Vec {
    * Clone this vector.
    */
   clone() {
-    return new Vec(this.x, this.y);
+    const v = new Vec();
+
+    v.x = this.x;
+    v.y = this.y;
+
+    return v;
   }
 }
 
@@ -122,5 +123,10 @@ export class Vec {
  * Create a new vector.
  */
 export function vec(x = 0, y = 0) {
-  return new Vec(x, y);
+  const v = new Vec();
+
+  v.x = x;
+  v.y = y;
+
+  return v;
 }

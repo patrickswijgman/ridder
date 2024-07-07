@@ -1,83 +1,44 @@
+import { ctx } from "./canvas.js";
 import { linesIntersect } from "./geom.js";
 import { getMousePosition } from "./input.js";
-import { Rect } from "./rect.js";
+import { Point, point } from "./point.js";
+import { RenderObject } from "./render.js";
 import { toRadians } from "./utils.js";
-import { Vec, vec } from "./vector.js";
+import { vec } from "./vector.js";
 
 type PointTuple = [x: number, y: number];
 
-export class Polygon {
-  private angle = 0;
-
-  constructor(
-    /** The position of this polygon. */
-    public position: Vec,
-    /** The points that make up this convex polygon. */
-    public points: Array<Vec>,
-    /** The pivot point of this polygon. */
-    public pivot: Vec,
-  ) {}
-
-  /**
-   * Move the position of this polygon by the given amount.
-   */
-  move(x: number, y: number) {
-    this.position.x += x;
-    this.position.y += y;
-    return this;
-  }
-
-  /**
-   * Change this polygon's shape to the given points.
-   */
-  reshape(points: Array<PointTuple>) {
-    this.points = points.map(([x, y]) => vec(x, y));
-    return this;
-  }
+export class Polygon extends RenderObject {
+  points: Array<Point> = [];
+  rotation = 0;
 
   /**
    * Change the angle (rotation) of this polygon.
    */
-  rotate(angle: number) {
-    return this.rotateBy(angle - this.angle);
+  rotate(rotation: number) {
+    this.rotateBy(rotation - this.rotation);
   }
 
   /**
    * Rotate the angle of this polygon by the given value.
    */
-  rotateBy(angle: number) {
-    if (angle === 0) return this;
+  rotateBy(rotation: number) {
+    if (rotation === 0) return;
 
-    const radians = toRadians(angle);
+    const radians = toRadians(rotation);
 
     for (const point of this.points) {
-      const x = point.x - this.pivot.x;
-      const y = point.y - this.pivot.y;
+      const x = point.x;
+      const y = point.y;
+
       const rotatedX = x * Math.cos(radians) - y * Math.sin(radians);
       const rotatedY = x * Math.sin(radians) + y * Math.cos(radians);
 
-      point.x = rotatedX + this.pivot.x;
-      point.y = rotatedY + this.pivot.y;
+      point.x = rotatedX;
+      point.y = rotatedY;
     }
 
-    this.angle += angle;
-
-    return this;
-  }
-
-  /**
-   * Change this polygon's shape to the given rectangle.
-   */
-  rect(rect: Rect) {
-    this.pivot.copy(rect.pivot);
-    this.reshape([
-      [0, 0],
-      [rect.width, 0],
-      [rect.width, rect.height],
-      [0, rect.height],
-    ]);
-
-    return this;
+    this.rotation += rotation;
   }
 
   /**
@@ -157,13 +118,6 @@ export class Polygon {
     return this.contains(mouse.x, mouse.y);
   }
 
-  get x() {
-    return this.position.x - this.pivot.x;
-  }
-  get y() {
-    return this.position.y - this.pivot.y;
-  }
-
   /**
    * A convex polygon is valid when it has three or more points.
    */
@@ -172,37 +126,54 @@ export class Polygon {
   }
 
   /**
-   * Clone this polygon.
+   * Change this polygon's shape to the given rectangle.
    */
-  clone() {
-    return new Polygon(
-      this.position.clone(),
-      this.points.map((point) => point.clone()),
-      this.pivot.clone(),
+  toRect(x: number, y: number, w: number, h: number) {
+    this.points.length = 0;
+    this.points.push(
+      point(x, y),
+      point(x + w, y),
+      point(x + w, y + h),
+      point(x, y + h),
     );
+  }
+
+  /**
+   * Draw this polygon to the canvas.
+   */
+  draw() {
+    if (!this.isValid()) return;
+
+    super.draw();
+
+    ctx.beginPath();
+    ctx.moveTo(this.points[0].x, this.points[0].y);
+
+    for (let i = 1; i < this.points.length; i++) {
+      ctx.lineTo(this.points[i].x, this.points[i].y);
+    }
+
+    ctx.closePath();
+
+    if (this.fill) {
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    } else {
+      ctx.strokeStyle = this.color;
+      ctx.stroke();
+    }
   }
 }
 
 /**
  * Create a new convex polygon.
- *
- * A polygon consists of three components:
- * - the (x,y) position
- * - the array of clock-wise points ([x,y] tuples) that make up the shape.
- * - the (pivotX, pivotY) pivot point (relative to position)
- *
- * The polygon is auto-closing, meaning that its last point is connected to its first point.
  */
-export function polygon(
-  x = 0,
-  y = 0,
-  points: Array<PointTuple> = [],
-  pivotX = 0,
-  pivotY = 0,
-) {
-  return new Polygon(
-    vec(x, y),
-    points.map(([x, y]) => vec(x, y)),
-    vec(pivotX, pivotY),
-  );
+export function polygon(x = 0, y = 0, points: Array<PointTuple> = []) {
+  const p = new Polygon();
+
+  p.x = x;
+  p.y = y;
+  p.points = points.map(([x, y]) => vec(x, y));
+
+  return p;
 }

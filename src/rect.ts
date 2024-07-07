@@ -1,85 +1,10 @@
+import { ctx } from "./canvas.js";
 import { getMousePosition } from "./input.js";
-import { Vec, vec } from "./vector.js";
+import { RenderObject } from "./render.js";
 
-export class Rect {
-  constructor(
-    /** The position (top-left corner) of the rectangle. */
-    public position: Vec,
-    /** The size (bottom-right corner) of the rectangle, relative to the position. */
-    public size: Vec,
-    /** The pivot point of the rectangle, relative to the position. */
-    public pivot: Vec,
-  ) {}
-
-  /**
-   * Move the position of this rectangle by the given amount.
-   */
-  move(x: number, y: number) {
-    this.position.x += x;
-    this.position.y += y;
-    return this;
-  }
-
-  /**
-   * Set the size of this rectangle.
-   */
-  resize(width: number, height: number) {
-    this.size.set(width, height);
-    return this;
-  }
-
-  /**
-   * Set the pivot point of this rectangle using an anchor string.
-   */
-  anchor(
-    anchor:
-      | "top_left"
-      | "top_center"
-      | "top_right"
-      | "middle_left"
-      | "middle_center"
-      | "middle_right"
-      | "bottom_left"
-      | "bottom_center"
-      | "bottom_right",
-  ) {
-    const w = this.size.x;
-    const h = this.size.y;
-
-    switch (anchor) {
-      case "top_left":
-        this.pivot.set(0, 0);
-        break;
-      case "top_center":
-        this.pivot.set(w / 2, 0);
-        break;
-      case "top_right":
-        this.pivot.set(w, 0);
-        break;
-
-      case "middle_left":
-        this.pivot.set(0, h / 2);
-        break;
-      case "middle_center":
-        this.pivot.set(w / 2, h / 2);
-        break;
-      case "middle_right":
-        this.pivot.set(w, h / 2);
-        break;
-
-      case "bottom_left":
-        this.pivot.set(0, h);
-        break;
-      case "bottom_center":
-        this.pivot.set(w / 2, h);
-        break;
-      case "bottom_right":
-        this.pivot.set(w, h);
-        break;
-    }
-
-    return this;
-  }
+export class Rect extends RenderObject {
+  w = 0;
+  h = 0;
 
   /**
    * Returns true if this rectangle intersects with the given rectangle.
@@ -112,19 +37,6 @@ export class Rect {
     return this.contains(mouse.x, mouse.y);
   }
 
-  get x() {
-    return this.position.x - this.pivot.x;
-  }
-  get y() {
-    return this.position.y - this.pivot.y;
-  }
-  get width() {
-    return this.size.x;
-  }
-  get height() {
-    return this.size.y;
-  }
-
   get left() {
     return this.x;
   }
@@ -132,46 +44,47 @@ export class Rect {
     return this.y;
   }
   get right() {
-    return this.x + this.width;
+    return this.x + this.w;
   }
   get bottom() {
-    return this.y + this.height;
+    return this.y + this.h;
   }
 
   /**
    * A rectangle is valid when it has a width or height larger than zero.
    */
   isValid() {
-    return this.width > 0 || this.height > 0;
+    return this.w > 0 || this.h > 0;
   }
 
   /**
-   * Clone this rectangle.
+   * Draw this rectangle to the canvas.
    */
-  clone() {
-    return new Rect(
-      this.position.clone(),
-      this.size.clone(),
-      this.pivot.clone(),
-    );
+  draw() {
+    if (!this.isValid) return;
+
+    super.draw();
+
+    if (this.fill) {
+      ctx.fillStyle = this.color;
+      ctx.fillRect(this.x, this.y, this.w, this.h);
+    } else {
+      ctx.strokeStyle = this.color;
+      ctx.strokeRect(this.x, this.y, this.w, this.h);
+    }
   }
 }
 
 /**
  * Create a new rectangle.
- *
- * A rectangle consists of three vector points:
- * - the (x,y) position (top-left corner)
- * - the (width,height) size (bottom-right corner, relative to position)
- * - the (pivotX,pivotY) pivot point (relative to position)
  */
-export function rect(
-  x = 0,
-  y = 0,
-  width = 0,
-  height = 0,
-  pivotX = 0,
-  pivotY = 0,
-) {
-  return new Rect(vec(x, y), vec(width, height), vec(pivotX, pivotY));
+export function rect(x = 0, y = 0, w = 0, h = 0) {
+  const r = new Rect();
+
+  r.x = x;
+  r.y = y;
+  r.w = w;
+  r.h = h;
+
+  return r;
 }

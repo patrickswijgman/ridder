@@ -3,11 +3,11 @@ import { RenderObject } from "./render.js";
 import { getTexture } from "./textures.js";
 
 export class Texture extends RenderObject {
-  constructor(public id: string) {
-    super();
-  }
+  id = "";
 
   draw() {
+    if (!this.id) return;
+
     super.draw();
 
     ctx.drawImage(getTexture(this.id), 0, 0);
@@ -18,5 +18,9 @@ export class Texture extends RenderObject {
  * Create a Texture instance, ready for drawing.
  */
 export function texture(id = "") {
-  return new Texture(id);
+  const obj = new Texture();
+
+  obj.id = id;
+
+  return obj;
 }

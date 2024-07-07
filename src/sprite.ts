@@ -4,11 +4,11 @@ import { getSprite } from "./sprites.js";
 import { getTexture } from "./textures.js";
 
 export class Sprite extends RenderObject {
-  constructor(public id: string) {
-    super();
-  }
+  id = "";
 
   draw() {
+    if (!this.id) return;
+
     super.draw();
 
     const spr = getSprite(this.id);
@@ -32,5 +32,9 @@ export class Sprite extends RenderObject {
  * Create a Sprite instance, ready for drawing.
  */
 export function sprite(id = "") {
-  return new Sprite(id);
+  const obj = new Sprite();
+
+  obj.id = id;
+
+  return obj;
 }

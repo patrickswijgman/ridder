@@ -120,19 +120,14 @@ export class Body extends Rect {
 
 /**
  * Create a new (rectangular) physics body.
- *
- * A rectangle consists of three vector points:
- * - the (x,y) position (top-left corner)
- * - the (width,height) size (bottom-right corner, relative to position)
- * - the (pivotX,pivotY) pivot point (relative to position)
  */
-export function body(
-  x = 0,
-  y = 0,
-  width = 0,
-  height = 0,
-  pivotX = 0,
-  pivotY = 0,
-) {
-  return new Body(vec(x, y), vec(width, height), vec(pivotX, pivotY));
+export function body(x = 0, y = 0, w = 0, h = 0) {
+  const b = new Body();
+
+  b.x = x;
+  b.y = y;
+  b.w = w;
+  b.h = h;
+
+  return b;
 }

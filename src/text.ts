@@ -3,16 +3,14 @@ import { getFont } from "./fonts.js";
 import { RenderObject } from "./render.js";
 
 export class Text extends RenderObject {
+  text = "";
   fontId = "default";
-  color = "white";
   align: CanvasTextAlign = "left";
   baseline: CanvasTextBaseline = "top";
 
-  constructor(public text: string) {
-    super();
-  }
-
   draw() {
+    if (!this.text) return;
+
     super.draw();
 
     ctx.font = getFont(this.fontId);
@@ -27,5 +25,9 @@ export class Text extends RenderObject {
  * Create a Text instance, ready for drawing.
  */
 export function text(text = "") {
-  return new Text(text);
+  const obj = new Text();
+
+  obj.text = text;
+
+  return obj;
 }
