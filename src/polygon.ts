@@ -31,7 +31,7 @@ export class Polygon extends BaseObject {
   }
 
   /**
-   * Rotate the this polygon by the given value in degrees.
+   * Rotate this polygon by the given value in degrees.
    */
   rotate(rotation: number) {
     if (rotation === 0) return;
