@@ -124,10 +124,7 @@ export class Body extends Rect {
 export function body(x = 0, y = 0, w = 0, h = 0) {
   const b = new Body();
 
-  b.x = x;
-  b.y = y;
-  b.w = w;
-  b.h = h;
+  b.set(x, y, w, h);
 
   return b;
 }
