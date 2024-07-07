@@ -53,7 +53,7 @@ export class Circle extends BaseObject {
   }
 
   /**
-   * Draw this circle to the canvas.
+   * Draw this circle on the canvas.
    */
   draw() {
     if (!this.isValid()) return;

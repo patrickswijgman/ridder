@@ -14,6 +14,9 @@ export class Text extends BaseObject {
   /** The maximum of width in pixels before it is scaled down to fit the width. */
   maxWidth = Number.MAX_SAFE_INTEGER;
 
+  /**
+   * Draw the text on the canvas.
+   */
   draw() {
     if (!this.text) return;
 

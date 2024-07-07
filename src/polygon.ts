@@ -150,7 +150,7 @@ export class Polygon extends BaseObject {
   }
 
   /**
-   * Draw this polygon to the canvas.
+   * Draw this polygon on the canvas.
    */
   draw() {
     if (!this.isValid()) return;

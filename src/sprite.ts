@@ -7,6 +7,9 @@ export class Sprite extends BaseObject {
   /** The id of the sprite, this is a reference to the sprite loaded in memory */
   id = "";
 
+  /**
+   * Draw this sprite on the canvas.
+   */
   draw() {
     if (!this.id) return;
 

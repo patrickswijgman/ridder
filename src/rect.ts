@@ -70,7 +70,7 @@ export class Rect extends BaseObject {
   }
 
   /**
-   * Draw this rectangle to the canvas.
+   * Draw this rectangle on the canvas.
    */
   draw() {
     if (!this.isValid()) return;

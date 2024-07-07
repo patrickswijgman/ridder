@@ -6,6 +6,9 @@ export class Texture extends BaseObject {
   /** The id of the texture, this is a reference to the texture loaded in memory */
   id = "";
 
+  /**
+   * Draw this texture on the canvas.
+   */
   draw() {
     if (!this.id) return;
 
