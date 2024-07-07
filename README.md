@@ -36,7 +36,12 @@ Load assets asynchronously with `loadTexture`, `loadSprite`, `loadFont` and `loa
 
 #### Input
 
-Supports mouse and keyboard (no support for controllers, yet)
+Supports mouse and keyboard (no support for controllers, yet).
+
+The mouse supports both screen space and world space:
+
+- Screen space is used for UI, e.g. menu buttons
+- World space is used for the game world, e.g. shooting a bullet from the player to the mouse position
 
 #### Sounds
 
