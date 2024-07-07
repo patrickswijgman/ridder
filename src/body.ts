@@ -1,4 +1,4 @@
-import { Rect } from "./rect.js";
+import { Rect } from "./rectangle.js";
 import { getSettings } from "./settings.js";
 import { delta } from "./state.js";
 import { vec } from "./vector.js";

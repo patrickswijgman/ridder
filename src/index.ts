@@ -13,7 +13,7 @@ export {
 export * from "./main.js";
 export * from "./point.js";
 export * from "./polygon.js";
-export * from "./rect.js";
+export * from "./rectangle.js";
 export * from "./settings.js";
 export * from "./sounds.js";
 export * from "./sprite.js";
