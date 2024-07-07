@@ -122,3 +122,4 @@ Open the links below to see a running example in StackBlitz.
 - [Platformer](https://stackblitz.com/edit/ridder-example-platformer?file=src%2Fmain.ts)
 - [Render texture](https://stackblitz.com/edit/ridder-example-render-texture?file=src%2Fmain.ts)
 - [Polygon](https://stackblitz.com/edit/ridder-example-polygon?file=src%2Fmain.ts)
+- [Input](https://stackblitz.com/edit/ridder-example-input?file=src%2Fmain.ts)
