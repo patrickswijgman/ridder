@@ -108,9 +108,7 @@ run({
     if (isInputDown("ArrowRight")) {
       player.texture.x += 2 * delta;
     }
-  },
 
-  render: () => {
     player.texture.draw();
   },
 });

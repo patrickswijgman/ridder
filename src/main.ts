@@ -11,12 +11,10 @@ import { fps, setupState, updateState } from "./state.js";
 type RunConfig = {
   /** The global game settings. */
   settings: Partial<Settings>;
-  /**Setup before the game starts. Load your textures, fonts and sounds here. */
+  /** Setup before the game starts. Load your textures, sprites, fonts and sounds here. */
   setup: () => Promise<void>;
-  /** Game logic update for the current frame. */
+  /** Game logic and render update for the current frame. */
   update: () => void;
-  /** Render the textures, sprites and texts in the current frame. */
-  render: () => void;
 };
 
 /**
@@ -35,11 +33,10 @@ export async function run(config: RunConfig) {
     const valid = updateState();
 
     if (valid) {
+      clearBackground(settings.background);
       updateMousePosition();
       config.update();
-      renderBackground(settings.background);
-      config.render();
-      renderDebugInfo(settings.debug);
+      drawDebugInfo(settings.debug);
       resetInputs();
     }
 
@@ -53,7 +50,7 @@ export async function run(config: RunConfig) {
  * Clear the canvas before rendering the next frame. This prevents draw
  * artifacts from the previous frame.
  */
-function renderBackground(color: string) {
+function clearBackground(color: string) {
   ctx.resetTransform();
   ctx.fillStyle = color;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -62,7 +59,7 @@ function renderBackground(color: string) {
 /**
  * Draw debug info like frames-per-second.
  */
-function renderDebugInfo(enabled: boolean) {
+function drawDebugInfo(enabled: boolean) {
   if (!enabled) return;
 
   const msp = getMousePosition(false);
