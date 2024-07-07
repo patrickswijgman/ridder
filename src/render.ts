@@ -4,7 +4,7 @@ import { point } from "./point.js";
 import { toRadians } from "./utils.js";
 import { vec } from "./vector.js";
 
-export abstract class BaseObject {
+export abstract class RenderObject {
   /** The position of this object. */
   position = vec();
   /** The scale factor when drawing this object. */

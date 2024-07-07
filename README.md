@@ -31,7 +31,7 @@ You can even create your own textures with code using `loadRenderTexture`! See a
   - Simple and fast, everything is a rectangle
 - 2D point `point`
 - 2D vector `vec`
-  - A 2D point with mathematical functions such as `add`, `subtract` and `normalize`
+  - A 2D point with many mathematical functions such as `add`, `subtract`, `scale` and `normalize`
 - Rectangle `rect`
 - Circle `circle`
 - Polygon `polygon`

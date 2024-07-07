@@ -1,13 +1,13 @@
-import { BaseObject } from "./base.js";
 import { ctx } from "./canvas.js";
 import { linesIntersect } from "./geom.js";
 import { getMousePosition } from "./input.js";
 import { Point, point } from "./point.js";
+import { RenderObject } from "./render.js";
 import { toRadians } from "./utils.js";
 
 type PointTuple = [x: number, y: number];
 
-export class Polygon extends BaseObject {
+export class Polygon extends RenderObject {
   /** The points (in clock-wise order) that makes up the shape of this convex polygon. */
   points: Array<Point> = [];
   /** The rotation in degrees of this polygon, use `setRotation` and `rotate` to change the rotation. Note that `rotation` is not the same as `angle`, `angle` is unused for polygons. */

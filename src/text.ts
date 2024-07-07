@@ -1,8 +1,8 @@
-import { BaseObject } from "./base.js";
 import { ctx } from "./canvas.js";
 import { getFont } from "./fonts.js";
+import { RenderObject } from "./render.js";
 
-export class Text extends BaseObject {
+export class Text extends RenderObject {
   /** The text to draw. */
   text = "";
   /** The id of the font, this is a reference to the font loaded in memory. */

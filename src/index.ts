@@ -1,4 +1,3 @@
-export * from "./base.js";
 export * from "./body.js";
 export * from "./camera.js";
 export * from "./circle.js";
@@ -15,6 +14,7 @@ export * from "./main.js";
 export * from "./point.js";
 export * from "./polygon.js";
 export * from "./rectangle.js";
+export * from "./render.js";
 export * from "./settings.js";
 export * from "./sounds.js";
 export * from "./sprite.js";
