@@ -4,10 +4,7 @@ import { time } from "./state.js";
 export class Tween {
   elapsed = 0;
   value = 0;
-
-  constructor(public defaultValue: number) {
-    this.value = defaultValue;
-  }
+  defaultValue = 0;
 
   /**
    * Advance the tween, updating its value between the start and end values over the given duration.
@@ -53,5 +50,10 @@ export class Tween {
  * Create a tween that can be used for animations.
  */
 export function tween(defaultValue = 0) {
-  return new Tween(defaultValue);
+  const t = new Tween();
+
+  t.defaultValue = defaultValue;
+  t.value = defaultValue;
+
+  return t;
 }
