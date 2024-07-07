@@ -35,16 +35,16 @@ More complete examples, like a simple platformer, see [Examples](#examples) belo
 ```typescript
 import {
   delta,
-  drawTexture,
   getSettings,
   isInputDown,
   loadTexture,
   run,
+  texture,
   vec,
 } from "ridder";
 
 class Player {
-  position = vec();
+  texture = texture("player");
 }
 
 const player = new Player();
@@ -60,8 +60,8 @@ run({
 
     const settings = getSettings();
 
-    player.position.x = settings.width / 2;
-    player.position.y = settings.height / 2;
+    player.texture.x = settings.width / 2;
+    player.texture.y = settings.height / 2;
   },
 
   update: () => {
@@ -75,7 +75,7 @@ run({
   },
 
   render: () => {
-    drawTexture("player", player.position.x, player.position.y);
+    player.texture.draw();
   },
 });
 ```

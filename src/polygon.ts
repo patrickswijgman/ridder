@@ -128,7 +128,8 @@ export class Polygon extends BaseObject {
   }
 
   /**
-   * Change this polygon's shape to the given rectangle.
+   * Change this polygon's shape to the given rectangle. The given values
+   * are the points, so these are relative to this polygon's position.
    */
   toRect(x: number, y: number, w: number, h: number) {
     this.points.length = 0;
