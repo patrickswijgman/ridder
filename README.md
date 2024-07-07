@@ -33,17 +33,18 @@ Load assets asynchronously with `loadTexture`, `loadSprite`, `loadFont` and `loa
 - Timer `timer`
 - Tween `tween`
   - Tween a value using [easing](https://easings.net/) functions
-- Input
-  - Supports mouse and keyboard
+
+#### Input
+
+Supports mouse and keyboard (no support for controllers, yet)
 
 #### Sounds
 
-- Simply play or stop a sound with `playSound` and `stopSound`
+Simply play or stop a sound with `playSound` and `stopSound`
 
 #### Camera
 
-- Follow an object with smoothing
-- Parallax scrolling
+Follow an object with smoothing and allows for parallax scrolling.
 
 ## Installation
 
