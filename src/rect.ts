@@ -93,10 +93,7 @@ export class Rect extends BaseObject {
 export function rect(x = 0, y = 0, w = 0, h = 0) {
   const r = new Rect();
 
-  r.x = x;
-  r.y = y;
-  r.w = w;
-  r.h = h;
+  r.set(x, y, w, h);
 
   return r;
 }

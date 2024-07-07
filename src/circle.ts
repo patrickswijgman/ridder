@@ -80,9 +80,7 @@ export class Circle extends BaseObject {
 export function circle(x = 0, y = 0, r = 0) {
   const c = new Circle();
 
-  c.x = x;
-  c.y = y;
-  c.r = r;
+  c.set(x, y, r);
 
   return c;
 }

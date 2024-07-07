@@ -137,8 +137,7 @@ export class Polygon extends BaseObject {
   }
 
   /**
-   * Change this polygon's shape to the given rectangle. The given values
-   * are the points, so these are relative to this polygon's position.
+   * Change this polygon's shape to the given rectangle.
    */
   toRect(x: number, y: number, w: number, h: number) {
     this.points.length = 0;
@@ -180,12 +179,15 @@ export class Polygon extends BaseObject {
 /**
  * Create a new convex polygon.
  */
-export function polygon(x = 0, y = 0, points: Array<PointTuple> = []) {
+export function polygon(
+  x = 0,
+  y = 0,
+  points: Array<PointTuple> = [],
+  rotation = 0,
+) {
   const p = new Polygon();
 
-  p.x = x;
-  p.y = y;
-  p.points = points.map(([x, y]) => point(x, y));
+  p.set(x, y, points, rotation);
 
   return p;
 }
