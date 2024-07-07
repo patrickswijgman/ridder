@@ -4,7 +4,6 @@ import { linesIntersect } from "./geom.js";
 import { getMousePosition } from "./input.js";
 import { Point, point } from "./point.js";
 import { toRadians } from "./utils.js";
-import { vec } from "./vector.js";
 
 type PointTuple = [x: number, y: number];
 
@@ -13,6 +12,16 @@ export class Polygon extends BaseObject {
   points: Array<Point> = [];
   /** The rotation in degrees of this polygon, use `rotate` and `rotateBy` to adjust the rotation. Note that `rotation` is not the same as `angle`, `angle` is unused for polygons. */
   rotation = 0;
+
+  /**
+   * Set the components of this polygon.
+   */
+  set(x: number, y: number, points: Array<PointTuple>, rotation: number) {
+    this.x = x;
+    this.y = y;
+    this.points = points.map(([x, y]) => point(x, y));
+    this.rotate(rotation);
+  }
 
   /**
    * Set the rotation of this polygon to the given value in degrees.
@@ -176,7 +185,7 @@ export function polygon(x = 0, y = 0, points: Array<PointTuple> = []) {
 
   p.x = x;
   p.y = y;
-  p.points = points.map(([x, y]) => vec(x, y));
+  p.points = points.map(([x, y]) => point(x, y));
 
   return p;
 }

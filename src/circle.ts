@@ -8,6 +8,15 @@ export class Circle extends BaseObject {
   r = 0;
 
   /**
+   * Set the components of this circle.
+   */
+  set(x: number, y: number, r: number) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+  }
+
+  /**
    * Returns true if this circle intersects with the given circle.
    */
   intersects(other: Circle) {

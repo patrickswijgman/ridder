@@ -9,6 +9,16 @@ export class Rect extends BaseObject {
   h = 0;
 
   /**
+   * Set the components of this rectangle.
+   */
+  set(x: number, y: number, w: number, h: number) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+  }
+
+  /**
    * Returns true if this rectangle intersects with the given rectangle.
    */
   intersects(other: Rect) {
