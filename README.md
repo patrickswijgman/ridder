@@ -18,11 +18,13 @@ None that I know of, so if you encounter any issues please let me know by creati
 
 Load assets asynchronously with `loadTexture`, `loadSprite`, `loadFont` and `loadSound`.
 
+You can even create your own textures with code using `loadRenderTexture`! See an example [here](https://stackblitz.com/edit/ridder-example-render-texture?file=src%2Fmain.ts)
+
 #### Components for your entities
 
 - Texture `texture`
 - Sprite `sprite`
-  - Sub region of a texture for more efficient rendering
+  - Sub region of a texture for more efficient rendering and drawing options such as a pivot point (center of rotation)
 - Text `text`
   - Render text using a font file
 - Physics `body`
@@ -120,3 +122,4 @@ Open the links below to see a running example in StackBlitz.
 
 - [Sprites](https://stackblitz.com/edit/ridder-example-sprites?file=src%2Fmain.ts)
 - [Platformer](https://stackblitz.com/edit/ridder-example-platformer?file=src%2Fmain.ts)
+- [Render texture](https://stackblitz.com/edit/ridder-example-render-texture?file=src%2Fmain.ts)
