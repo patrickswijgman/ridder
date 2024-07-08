@@ -6,8 +6,8 @@ const inputsDown: Record<string, boolean> = {};
 const inputsPressed: Record<string, boolean> = {};
 const inputsReleased: Record<string, boolean> = {};
 
+const mousePosition = point();
 const mouseWorldPosition = point();
-const mouseScreenPosition = point();
 
 /**
  * The most recent pressed input's code.
@@ -45,7 +45,7 @@ export function setupInput() {
   canvas.addEventListener("mousemove", ({ clientX, clientY }) => {
     const x = clientX / scale.x;
     const y = clientY / scale.y;
-    mouseScreenPosition.set(x, y);
+    mousePosition.set(x, y);
   });
 
   canvas.addEventListener("contextmenu", (e) => {
@@ -93,8 +93,8 @@ function mouseButtonToCode(button: number) {
  */
 export function updateMousePosition() {
   const camera = getCamera();
-  mouseWorldPosition.x = mouseScreenPosition.x + camera.x;
-  mouseWorldPosition.y = mouseScreenPosition.y + camera.y;
+  mouseWorldPosition.x = mousePosition.x + camera.x;
+  mouseWorldPosition.y = mousePosition.y + camera.y;
 }
 
 /**
@@ -149,9 +149,9 @@ export function isInputReleased(code: string) {
 }
 
 /**
- * The mouse position on the canvas. Pass true to get the world space
+ * The mouse position on the canvas. Give true to get the world space
  * coordinates otherwise get the screen space coordinates.
  */
 export function getMousePosition(inWorld: boolean): Readonly<Point> {
-  return inWorld ? mouseWorldPosition : mouseScreenPosition;
+  return inWorld ? mouseWorldPosition : mousePosition;
 }

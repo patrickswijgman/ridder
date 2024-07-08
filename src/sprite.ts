@@ -15,19 +15,19 @@ export class Sprite extends RenderObject {
 
     super.draw();
 
-    const spr = getSprite(this.id);
-    const tex = getTexture(spr.textureId);
+    const sprite = getSprite(this.id);
+    const texture = getTexture(sprite.textureId);
 
     ctx.drawImage(
-      tex,
-      spr.x,
-      spr.y,
-      spr.w,
-      spr.h,
-      -spr.pivotX,
-      -spr.pivotY,
-      spr.w,
-      spr.h,
+      texture.source,
+      sprite.x,
+      sprite.y,
+      sprite.w,
+      sprite.h,
+      -sprite.pivotX,
+      -sprite.pivotY,
+      sprite.w,
+      sprite.h,
     );
   }
 }

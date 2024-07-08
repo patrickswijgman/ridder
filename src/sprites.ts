@@ -29,6 +29,6 @@ export function loadSprite(
 /**
  * Get a loaded sprite.
  */
-export function getSprite(id: string) {
+export function getSprite(id: string): Readonly<SpriteData> {
   return sprites[id];
 }

@@ -38,4 +38,5 @@ function resize() {
   canvas.height = h;
 
   ctx.imageSmoothingEnabled = false;
+  ctx.textRendering = "optimizeSpeed";
 }

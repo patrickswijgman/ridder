@@ -24,7 +24,7 @@ You can even create your own textures with code using `loadRenderTexture`! See a
 
 - Texture `texture`
 - Sprite `sprite`
-  - Sub region of a texture for more efficient rendering and drawing options such as a pivot point (center of rotation)
+  - Sub region of a texture for more efficient rendering
 - Text `text`
   - Render text using a font file
 - Physics `body`

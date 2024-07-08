@@ -22,11 +22,19 @@ export class Text extends RenderObject {
 
     super.draw();
 
-    ctx.font = getFont(this.fontId);
+    const font = getFont(this.fontId);
+
+    ctx.font = font.font;
     ctx.textAlign = this.align;
     ctx.textBaseline = this.baseline;
     ctx.fillStyle = this.color;
-    ctx.fillText(this.text, 0, 0, this.maxWidth);
+
+    const lines = this.text.split("\n");
+
+    for (const line of lines) {
+      ctx.fillText(line, 0, 0, this.maxWidth);
+      ctx.translate(0, font.height);
+    }
   }
 }
 
