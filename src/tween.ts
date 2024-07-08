@@ -8,22 +8,24 @@ export class Tween {
 
   /**
    * Advance the tween, updating its value between the start and end values over the given duration.
-   *
-   * Iterations is the amount of times this tween goes back and forth, to run this tween only once set iterations to one.
-   *
-   * If iterations is higher than one, consider the use of an "inOut" easing function e.g. "easeInOutSine" to gracefully
-   * let this tween go back and forth.
-   *
-   * Returns true if the tween has completed this frame.
+   * If `reverse` is true, consider using a "inOut" variant of the easing function.
+   * Returns true if the tween has completed this frame, unless `loop` is true.
    */
   tween(
     start: number,
     end: number,
     duration: number,
-    iterations: number,
     easing: EasingFunction,
+    loop = false,
+    reverse = false,
   ) {
-    const totalDuration = duration * iterations;
+    const totalDuration = reverse ? duration * 2 : duration;
+
+    if (loop) {
+      if (this.elapsed === totalDuration) {
+        this.reset();
+      }
+    }
 
     if (totalDuration <= 0 || this.elapsed >= totalDuration) {
       return false;
@@ -33,6 +35,10 @@ export class Tween {
     this.elapsed = Math.min(this.elapsed, totalDuration);
 
     this.value = start + (end - start) * easing(this.elapsed / duration);
+
+    if (loop) {
+      return false;
+    }
 
     return this.elapsed === totalDuration;
   }

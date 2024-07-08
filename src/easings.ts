@@ -1,4 +1,4 @@
-// source: https://github.com/ai/easings.net/blob/master/src/easings/easingsFunctions.ts
+// Source: https://github.com/ai/easings.net/blob/master/src/easings/easingsFunctions.ts
 // Refactored to named exports instead of a default export.
 
 export type EasingFunction = (progress: number) => number;
