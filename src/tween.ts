@@ -1,4 +1,4 @@
-import { EasingFunction } from "./easings.js";
+import { easings } from "./easings.js";
 import { time } from "./state.js";
 
 export class Tween {
@@ -15,16 +15,14 @@ export class Tween {
     start: number,
     end: number,
     duration: number,
-    easing: EasingFunction,
+    easing: keyof typeof easings,
     loop = false,
     reverse = false,
   ) {
     const totalDuration = reverse ? duration * 2 : duration;
 
-    if (loop) {
-      if (this.elapsed === totalDuration) {
-        this.reset();
-      }
+    if (loop && this.elapsed === totalDuration) {
+      this.reset();
     }
 
     if (totalDuration <= 0 || this.elapsed >= totalDuration) {
@@ -34,7 +32,9 @@ export class Tween {
     this.elapsed += time;
     this.elapsed = Math.min(this.elapsed, totalDuration);
 
-    this.value = start + (end - start) * easing(this.elapsed / duration);
+    const easingFn = easings[easing];
+
+    this.value = start + (end - start) * easingFn(this.elapsed / duration);
 
     if (loop) {
       return false;

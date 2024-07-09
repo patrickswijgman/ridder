@@ -1,7 +1,40 @@
 // Source: https://github.com/ai/easings.net/blob/master/src/easings/easingsFunctions.ts
-// Refactored to named exports instead of a default export.
 
 export type EasingFunction = (progress: number) => number;
+
+export type EasingDictionary = {
+  linear: EasingFunction;
+  easeInQuad: EasingFunction;
+  easeOutQuad: EasingFunction;
+  easeInOutQuad: EasingFunction;
+  easeInCubic: EasingFunction;
+  easeOutCubic: EasingFunction;
+  easeInOutCubic: EasingFunction;
+  easeInQuart: EasingFunction;
+  easeOutQuart: EasingFunction;
+  easeInOutQuart: EasingFunction;
+  easeInQuint: EasingFunction;
+  easeOutQuint: EasingFunction;
+  easeInOutQuint: EasingFunction;
+  easeInSine: EasingFunction;
+  easeOutSine: EasingFunction;
+  easeInOutSine: EasingFunction;
+  easeInExpo: EasingFunction;
+  easeOutExpo: EasingFunction;
+  easeInOutExpo: EasingFunction;
+  easeInCirc: EasingFunction;
+  easeOutCirc: EasingFunction;
+  easeInOutCirc: EasingFunction;
+  easeInBack: EasingFunction;
+  easeOutBack: EasingFunction;
+  easeInOutBack: EasingFunction;
+  easeInElastic: EasingFunction;
+  easeOutElastic: EasingFunction;
+  easeInOutElastic: EasingFunction;
+  easeInBounce: EasingFunction;
+  easeOutBounce: EasingFunction;
+  easeInOutBounce: EasingFunction;
+};
 
 const pow = Math.pow;
 const sqrt = Math.sqrt;
@@ -29,150 +62,120 @@ const bounceOut: EasingFunction = function (x) {
   }
 };
 
-export const easeLinear: EasingFunction = function (x) {
-  return x;
-};
-
-export const easeInQuad: EasingFunction = function (x) {
-  return x * x;
-};
-
-export const easeOutQuad: EasingFunction = function (x) {
-  return 1 - (1 - x) * (1 - x);
-};
-
-export const easeInOutQuad: EasingFunction = function (x) {
-  return x < 0.5 ? 2 * x * x : 1 - pow(-2 * x + 2, 2) / 2;
-};
-
-export const easeInCubic: EasingFunction = function (x) {
-  return x * x * x;
-};
-
-export const easeOutCubic: EasingFunction = function (x) {
-  return 1 - pow(1 - x, 3);
-};
-
-export const easeInOutCubic: EasingFunction = function (x) {
-  return x < 0.5 ? 4 * x * x * x : 1 - pow(-2 * x + 2, 3) / 2;
-};
-
-export const easeInQuart: EasingFunction = function (x) {
-  return x * x * x * x;
-};
-
-export const easeOutQuart: EasingFunction = function (x) {
-  return 1 - pow(1 - x, 4);
-};
-
-export const easeInOutQuart: EasingFunction = function (x) {
-  return x < 0.5 ? 8 * x * x * x * x : 1 - pow(-2 * x + 2, 4) / 2;
-};
-
-export const easeInQuint: EasingFunction = function (x) {
-  return x * x * x * x * x;
-};
-
-export const easeOutQuint: EasingFunction = function (x) {
-  return 1 - pow(1 - x, 5);
-};
-
-export const easeInOutQuint: EasingFunction = function (x) {
-  return x < 0.5 ? 16 * x * x * x * x * x : 1 - pow(-2 * x + 2, 5) / 2;
-};
-
-export const easeInSine: EasingFunction = function (x) {
-  return 1 - cos((x * PI) / 2);
-};
-
-export const easeOutSine: EasingFunction = function (x) {
-  return sin((x * PI) / 2);
-};
-
-export const easeInOutSine: EasingFunction = function (x) {
-  return -(cos(PI * x) - 1) / 2;
-};
-
-export const easeInExpo: EasingFunction = function (x) {
-  return x === 0 ? 0 : pow(2, 10 * x - 10);
-};
-
-export const easeOutExpo: EasingFunction = function (x) {
-  return x === 1 ? 1 : 1 - pow(2, -10 * x);
-};
-
-export const easeInOutExpo: EasingFunction = function (x) {
-  return x === 0
-    ? 0
-    : x === 1
-      ? 1
-      : x < 0.5
-        ? pow(2, 20 * x - 10) / 2
-        : (2 - pow(2, -20 * x + 10)) / 2;
-};
-
-export const easeInCirc: EasingFunction = function (x) {
-  return 1 - sqrt(1 - pow(x, 2));
-};
-
-export const easeOutCirc: EasingFunction = function (x) {
-  return sqrt(1 - pow(x - 1, 2));
-};
-
-export const easeInOutCirc: EasingFunction = function (x) {
-  return x < 0.5
-    ? (1 - sqrt(1 - pow(2 * x, 2))) / 2
-    : (sqrt(1 - pow(-2 * x + 2, 2)) + 1) / 2;
-};
-
-export const easeInBack: EasingFunction = function (x) {
-  return c3 * x * x * x - c1 * x * x;
-};
-
-export const easeOutBack: EasingFunction = function (x) {
-  return 1 + c3 * pow(x - 1, 3) + c1 * pow(x - 1, 2);
-};
-
-export const easeInOutBack: EasingFunction = function (x) {
-  return x < 0.5
-    ? (pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
-    : (pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
-};
-
-export const easeInElastic: EasingFunction = function (x) {
-  return x === 0
-    ? 0
-    : x === 1
-      ? 1
-      : -pow(2, 10 * x - 10) * sin((x * 10 - 10.75) * c4);
-};
-
-export const easeOutElastic: EasingFunction = function (x) {
-  return x === 0
-    ? 0
-    : x === 1
-      ? 1
-      : pow(2, -10 * x) * sin((x * 10 - 0.75) * c4) + 1;
-};
-
-export const easeInOutElastic: EasingFunction = function (x) {
-  return x === 0
-    ? 0
-    : x === 1
-      ? 1
-      : x < 0.5
-        ? -(pow(2, 20 * x - 10) * sin((20 * x - 11.125) * c5)) / 2
-        : (pow(2, -20 * x + 10) * sin((20 * x - 11.125) * c5)) / 2 + 1;
-};
-
-export const easeInBounce: EasingFunction = function (x) {
-  return 1 - bounceOut(1 - x);
-};
-
-export const easeOutBounce = bounceOut;
-
-export const easeInOutBounce: EasingFunction = function (x) {
-  return x < 0.5
-    ? (1 - bounceOut(1 - 2 * x)) / 2
-    : (1 + bounceOut(2 * x - 1)) / 2;
+export const easings: EasingDictionary = {
+  linear: (x) => x,
+  easeInQuad: function (x) {
+    return x * x;
+  },
+  easeOutQuad: function (x) {
+    return 1 - (1 - x) * (1 - x);
+  },
+  easeInOutQuad: function (x) {
+    return x < 0.5 ? 2 * x * x : 1 - pow(-2 * x + 2, 2) / 2;
+  },
+  easeInCubic: function (x) {
+    return x * x * x;
+  },
+  easeOutCubic: function (x) {
+    return 1 - pow(1 - x, 3);
+  },
+  easeInOutCubic: function (x) {
+    return x < 0.5 ? 4 * x * x * x : 1 - pow(-2 * x + 2, 3) / 2;
+  },
+  easeInQuart: function (x) {
+    return x * x * x * x;
+  },
+  easeOutQuart: function (x) {
+    return 1 - pow(1 - x, 4);
+  },
+  easeInOutQuart: function (x) {
+    return x < 0.5 ? 8 * x * x * x * x : 1 - pow(-2 * x + 2, 4) / 2;
+  },
+  easeInQuint: function (x) {
+    return x * x * x * x * x;
+  },
+  easeOutQuint: function (x) {
+    return 1 - pow(1 - x, 5);
+  },
+  easeInOutQuint: function (x) {
+    return x < 0.5 ? 16 * x * x * x * x * x : 1 - pow(-2 * x + 2, 5) / 2;
+  },
+  easeInSine: function (x) {
+    return 1 - cos((x * PI) / 2);
+  },
+  easeOutSine: function (x) {
+    return sin((x * PI) / 2);
+  },
+  easeInOutSine: function (x) {
+    return -(cos(PI * x) - 1) / 2;
+  },
+  easeInExpo: function (x) {
+    return x === 0 ? 0 : pow(2, 10 * x - 10);
+  },
+  easeOutExpo: function (x) {
+    return x === 1 ? 1 : 1 - pow(2, -10 * x);
+  },
+  easeInOutExpo: function (x) {
+    return x === 0
+      ? 0
+      : x === 1
+        ? 1
+        : x < 0.5
+          ? pow(2, 20 * x - 10) / 2
+          : (2 - pow(2, -20 * x + 10)) / 2;
+  },
+  easeInCirc: function (x) {
+    return 1 - sqrt(1 - pow(x, 2));
+  },
+  easeOutCirc: function (x) {
+    return sqrt(1 - pow(x - 1, 2));
+  },
+  easeInOutCirc: function (x) {
+    return x < 0.5
+      ? (1 - sqrt(1 - pow(2 * x, 2))) / 2
+      : (sqrt(1 - pow(-2 * x + 2, 2)) + 1) / 2;
+  },
+  easeInBack: function (x) {
+    return c3 * x * x * x - c1 * x * x;
+  },
+  easeOutBack: function (x) {
+    return 1 + c3 * pow(x - 1, 3) + c1 * pow(x - 1, 2);
+  },
+  easeInOutBack: function (x) {
+    return x < 0.5
+      ? (pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
+      : (pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
+  },
+  easeInElastic: function (x) {
+    return x === 0
+      ? 0
+      : x === 1
+        ? 1
+        : -pow(2, 10 * x - 10) * sin((x * 10 - 10.75) * c4);
+  },
+  easeOutElastic: function (x) {
+    return x === 0
+      ? 0
+      : x === 1
+        ? 1
+        : pow(2, -10 * x) * sin((x * 10 - 0.75) * c4) + 1;
+  },
+  easeInOutElastic: function (x) {
+    return x === 0
+      ? 0
+      : x === 1
+        ? 1
+        : x < 0.5
+          ? -(pow(2, 20 * x - 10) * sin((20 * x - 11.125) * c5)) / 2
+          : (pow(2, -20 * x + 10) * sin((20 * x - 11.125) * c5)) / 2 + 1;
+  },
+  easeInBounce: function (x) {
+    return 1 - bounceOut(1 - x);
+  },
+  easeOutBounce: bounceOut,
+  easeInOutBounce: function (x) {
+    return x < 0.5
+      ? (1 - bounceOut(1 - 2 * x)) / 2
+      : (1 + bounceOut(2 * x - 1)) / 2;
+  },
 };
