@@ -95,10 +95,11 @@ run({
 
     const settings = getSettings();
 
-    // Set the texture to draw.
+    // Set the player's texture component to reference the actual texture that
+    // is stored in memory.
     player.texture.id = "player";
 
-    // 'x' and 'y' are shortcuts to the 'position' vector on the 'Entity' class.
+    // Put the player in the center of the screen.
     player.x = settings.width / 2;
     player.y = settings.height / 2;
   },
