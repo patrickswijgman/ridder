@@ -1,4 +1,4 @@
-import { easings } from "./easings.js";
+import { EasingDictionary, easings } from "./easings.js";
 import { time } from "./state.js";
 
 export class Tween {
@@ -15,32 +15,22 @@ export class Tween {
     start: number,
     end: number,
     duration: number,
-    easing: keyof typeof easings,
-    loop = false,
-    reverse = false,
+    easing: keyof EasingDictionary,
+    iterations = 1,
   ) {
-    const totalDuration = reverse ? duration * 2 : duration;
-
-    if (loop && this.elapsed === totalDuration) {
-      this.reset();
-    }
+    const totalDuration = duration * iterations;
 
     if (totalDuration <= 0 || this.elapsed >= totalDuration) {
       return false;
     }
 
-    this.elapsed += time;
-    this.elapsed = Math.min(this.elapsed, totalDuration);
-
     const easingFn = easings[easing];
 
-    this.value = start + (end - start) * easingFn(this.elapsed / duration);
+    this.elapsed += time;
+    this.elapsed = Math.min(this.elapsed, totalDuration);
+    this.value = easingFn(this.elapsed, start, end - start, duration);
 
-    if (loop) {
-      return false;
-    }
-
-    return this.elapsed === totalDuration;
+    return this.elapsed === duration;
   }
 
   /**

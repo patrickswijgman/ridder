@@ -2,7 +2,6 @@ export * from "./body.js";
 export * from "./camera.js";
 export * from "./circle.js";
 export * from "./consts.js";
-export * from "./easings.js";
 export * from "./fonts.js";
 export {
   getMousePosition,
