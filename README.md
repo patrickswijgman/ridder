@@ -2,9 +2,7 @@
 
 A no-dependency, straightforward game making library in TypeScript using HTML5 canvas.
 
-This is not a game framework but a game library, it's smaller but it should give you everything you need to get started right away! For example, it includes the game loop for logic updates and rendering but there is no base game object (entity).
-
-However, you can create it yourself easily using the [components](#components-for-your-entities) this library provides (I do this all the time in the [examples](#examples)). This keeps the library flexible for any type of game you would like to make :D
+This library will give you everything you need to get started with making your game! It includes the main loop for logic updates and rendering. And it includes multiple components such as `sprite` and `vec` to create your own entities with.
 
 See the [examples](#examples) section for running examples such as a simple platformer!
 
@@ -79,11 +77,12 @@ import {
   vec,
 } from "ridder";
 
-class Player {
-  texture = texture("player");
+class Entity {
+  position = vec();
+  texture = texture();
 }
 
-const player = new Player();
+const player = new Entity();
 
 run({
   settings: {
@@ -96,19 +95,30 @@ run({
 
     const settings = getSettings();
 
-    player.texture.x = settings.width / 2;
-    player.texture.y = settings.height / 2;
+    // Set the texture to draw.
+    player.texture.id = "player";
+
+    // 'x' and 'y' are shortcuts to the 'position' vector on the 'Entity' class.
+    player.x = settings.width / 2;
+    player.y = settings.height / 2;
   },
 
   update: () => {
     if (isInputDown("ArrowLeft")) {
-      player.texture.x -= 2 * delta;
+      player.x -= 2 * delta; // Use 'delta' to have FPS-independent updates.
     }
 
     if (isInputDown("ArrowRight")) {
-      player.texture.x += 2 * delta;
+      player.x += 2 * delta;
     }
 
+    // Set the position of the texture to the player's position.
+    // You could also use the texture's position directly but I like to have a
+    // dedicated position vector that I can use for other components as well.
+    player.texture.position.copy(player.position);
+
+    // Draw the texture to the canvas after all logic is done and the
+    // position is updated.
     player.texture.draw();
   },
 });
