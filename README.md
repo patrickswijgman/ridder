@@ -117,9 +117,16 @@ run({
     // You could also use the texture's position directly but I like to have a
     // dedicated position vector that I can use for other components as well.
     player.texture.position.copy(player.position);
+    // Alternatively:
+    //
+    // player.texture.x = player.position.x;
+    // player.texture.y = player.position.y;
+    //
+    // Most components have a 'position' vector with 'x' and 'y' shortcuts on
+    // the component instance itself.
 
-    // Draw the texture to the canvas after all logic is done and the
-    // position is updated.
+    // Draw the texture to the canvas after all logic is done and the position
+    // is updated.
     player.texture.draw();
   },
 });
