@@ -8,8 +8,7 @@ export class Tween {
 
   /**
    * Advance the tween, updating its value between the start and end values over the given duration.
-   * If `reverse` is true, consider using a "inOut" variant of the easing function.
-   * Returns true if the tween has completed this frame, unless `loop` is true.
+   * Returns true if the tween has completed this frame, unless iterations is Infinity.
    */
   tween(
     start: number,
