@@ -91,12 +91,13 @@ run({
   },
 
   setup: async () => {
+    // Load the image into memory.
     await loadTexture("player", "/textures/player.png");
 
     const settings = getSettings();
 
     // Set the player's texture component to reference the actual texture that
-    // is stored in memory.
+    // is loaded in memory.
     player.texture.id = "player";
 
     // Put the player in the center of the screen.
@@ -106,24 +107,17 @@ run({
 
   update: () => {
     if (isInputDown("ArrowLeft")) {
-      player.x -= 2 * delta; // Use 'delta' to have FPS-independent updates.
+      player.position.x -= 2 * delta; // Use 'delta' to have FPS-independent updates.
     }
 
     if (isInputDown("ArrowRight")) {
-      player.x += 2 * delta;
+      player.position.x += 2 * delta;
     }
 
     // Set the position of the texture to the player's position.
     // You could also use the texture's position directly but I like to have a
     // dedicated position vector that I can use for other components as well.
     player.texture.position.copy(player.position);
-    // Alternatively:
-    //
-    // player.texture.x = player.position.x;
-    // player.texture.y = player.position.y;
-    //
-    // Most components have a 'position' vector with 'x' and 'y' shortcuts on
-    // the component instance itself.
 
     // Draw the texture to the canvas after all logic is done and the position
     // is updated.
