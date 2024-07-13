@@ -24,7 +24,7 @@ export class Circle extends RenderObject {
       return false;
     }
 
-    const d = getDistance(this.x, this.y, other.x, other.y);
+    const d = this.position.distance(other.position);
     const r = this.r + other.r;
 
     return d < r;
