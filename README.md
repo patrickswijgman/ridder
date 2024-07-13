@@ -12,13 +12,17 @@ None that I know of, so if you encounter any issues please let me know by creati
 
 ## Features
 
+### Canvas
+
+The game is rendered using the HTML5 Canvas API. The canvas is automatically scaled to fit the window size while maintaining the aspect ratio.
+
 #### Assets
 
 Load assets asynchronously with `loadTexture`, `loadSprite`, `loadFont` and `loadSound`.
 
 You can even create your own textures with code using `loadRenderTexture`! See an example [here](https://stackblitz.com/edit/ridder-example-render-texture?file=src%2Fmain.ts).
 
-#### Components for your entities
+#### Components
 
 - Texture `texture`
 - Sprite `sprite`
