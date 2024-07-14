@@ -102,13 +102,11 @@ export class Body extends Rect {
   private resolveOverlap(x: number, y: number) {
     if (x) {
       this.position.x += x;
-      this.velocity.x = 0;
       this.gravity.x = 0;
     }
 
     if (y) {
       this.position.y += y;
-      this.velocity.y = 0;
       this.gravity.y = 0;
 
       if (y < 0) {
