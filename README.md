@@ -57,7 +57,16 @@ Simply play or stop a sound with `playSound` and `stopSound`
 
 #### Camera
 
-Follow an object with smoothing and allows for parallax scrolling.
+Follow an object with a smoothing effect (quite satisfying) and supports parallax scrolling.
+
+### Utils
+
+A bunch of useful utility functions, such as:
+
+- `clamp` to keep a value within a range.
+- `randomInt` and `chance` for a random number or boolean, respectively.
+- `toRadians` and `toDegrees` to convert angles from one to the other.
+- `remove`, `shuffle` and `pick` for arrays.
 
 ## Installation
 

@@ -24,7 +24,10 @@ export class Text extends RenderObject {
 
     const font = getFont(this.fontId);
 
-    ctx.font = font.font;
+    if (font) {
+      ctx.font = font.font;
+    }
+
     ctx.textAlign = this.align;
     ctx.textBaseline = this.baseline;
     ctx.fillStyle = this.color;

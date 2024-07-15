@@ -125,8 +125,7 @@ export class Vec extends Point {
 export function vec(x = 0, y = 0) {
   const v = new Vec();
 
-  v.x = x;
-  v.y = y;
+  v.set(x, y);
 
   return v;
 }
