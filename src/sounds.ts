@@ -35,3 +35,10 @@ export function stopSound(id: string) {
   sound.pause();
   sound.currentTime = 0;
 }
+
+/**
+ * Get a loaded sound.
+ */
+export function getSound(id: string): Readonly<HTMLAudioElement> {
+  return sounds[id];
+}
