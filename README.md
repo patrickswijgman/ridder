@@ -20,7 +20,8 @@ The game is rendered using the HTML5 Canvas API. The canvas is automatically sca
 
 Load assets asynchronously with `loadTexture`, `loadSprite`, `loadFont` and `loadSound`.
 
-You can even create your own textures with code using `loadRenderTexture`! See an example [here](https://stackblitz.com/edit/ridder-example-render-texture?file=src%2Fmain.ts).
+You can even create your own textures with code using `loadRenderTexture`. This can come in handy when you want to do more
+fancy things, like creating an outline around a sprite.
 
 #### Components
 

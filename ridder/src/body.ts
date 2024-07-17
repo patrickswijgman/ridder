@@ -8,6 +8,8 @@ export class Body extends Rect {
   velocity = vec();
   /** The gravitational force of the body that is applied each frame. */
   gravity = vec();
+  /** The factor by which this body is affected by gravity. */
+  mass = 1;
   /** Set to true if this body does not move and does not resolve collisions. */
   isStatic = false;
   /** Whether or not this body is resting on top of another body beneath it. */
@@ -24,7 +26,7 @@ export class Body extends Rect {
     const settings = getSettings();
 
     this.gravity.add(settings.gravity, delta).limit(settings.gravityMax);
-    this.velocity.add(this.gravity, delta);
+    this.velocity.add(this.gravity, this.mass * delta);
     this.position.add(this.velocity, delta);
   }
 
