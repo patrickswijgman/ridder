@@ -24,7 +24,7 @@ run({
   },
 
   setup: async () => {
-    await loadTexture("tilemap", "/textures/tilemap.png");
+    await loadTexture("tilemap", "textures/tilemap.png");
 
     loadSprite("snowman", "tilemap", 95, 133, 18, 18);
 
