@@ -141,19 +141,34 @@ run({
 
 ## Examples
 
+You can clone this project and run an example from the `examples` folder like so:
+
+```shell
+# make sure to install the dependencies first, you only need to do this once:
+npm ci
+
+# run an example
+npm start -w <example> # e.g. npm start -w platformer
+```
+
+Or checkout the links below for each example to see it running using GitHub pages.
+
+#### Input
+
+- [play](https://patrickswijgman.github.io/ridder/input/index.html)
+- [code](examples/input/index.ts)
+
 #### Platformer
 
 - [play](https://patrickswijgman.github.io/ridder/platformer/index.html)
 - [code](examples/platformer/index.ts)
 
-## Examples
+#### Polygon
 
-Open the links below to see a running example in StackBlitz.
+- [play](https://patrickswijgman.github.io/ridder/polygon/index.html)
+- [code](examples/polygon/index.ts)
 
-- [Font](https://stackblitz.com/edit/ridder-example-font?file=src%2Fmain.ts)
-- [Input](https://stackblitz.com/edit/ridder-example-input?file=src%2Fmain.ts)
-- [Platformer](https://stackblitz.com/edit/ridder-example-platformer?file=src%2Fmain.ts)
-- [Polygon](https://stackblitz.com/edit/ridder-example-polygon?file=src%2Fmain.ts)
-- [Render texture](https://stackblitz.com/edit/ridder-example-render-texture?file=src%2Fmain.ts)
-- [Sprites](https://stackblitz.com/edit/ridder-example-sprites?file=src%2Fmain.ts)
-- [Tween](https://stackblitz.com/edit/ridder-example-tween?file=src%2Fmain.ts)
+#### Tween
+
+- [play](https://patrickswijgman.github.io/ridder/tween/index.html)
+- [code](examples/tween/index.ts)

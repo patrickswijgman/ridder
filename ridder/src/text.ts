@@ -24,10 +24,7 @@ export class Text extends RenderObject {
 
     const font = getFont(this.fontId);
 
-    if (font) {
-      ctx.font = font.font;
-    }
-
+    ctx.font = font ? font.font : "16px sans-serif";
     ctx.textAlign = this.align;
     ctx.textBaseline = this.baseline;
     ctx.fillStyle = this.color;
@@ -36,7 +33,7 @@ export class Text extends RenderObject {
 
     for (const line of lines) {
       ctx.fillText(line, -this.pivot.x, -this.pivot.y, this.maxWidth);
-      ctx.translate(0, font.height);
+      ctx.translate(0, font ? font.height : 16);
     }
   }
 }
