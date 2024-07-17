@@ -1,5 +1,4 @@
 import {
-  getSettings,
   isInputPressed,
   loadSprite,
   loadTexture,
@@ -14,8 +13,10 @@ class Entity {
   scale = tween(1);
 }
 
-const a = new Entity();
-const b = new Entity();
+const entityA = new Entity();
+const entityB = new Entity();
+
+const entities = new Set<Entity>();
 
 run({
   settings: {
@@ -28,43 +29,42 @@ run({
 
     loadSprite("snowman", "tilemap", 95, 133, 18, 18);
 
-    const settings = getSettings();
+    entityA.sprite.id = "snowman";
+    entityA.sprite.pivot.set(9, 18);
+    entityA.sprite.position.set(50, 50);
+    entities.add(entityA);
 
-    a.sprite.id = "snowman";
-    a.sprite.pivot.set(9, 18);
-    a.sprite.x = settings.width / 3;
-    a.sprite.y = settings.height / 2;
-
-    b.sprite.id = "snowman";
-    b.sprite.pivot.set(9, 9);
-    b.sprite.x = (settings.width / 3) * 2;
-    b.sprite.y = settings.height / 2;
+    entityB.sprite.id = "snowman";
+    entityB.sprite.pivot.set(9, 9);
+    entityB.sprite.position.set(110, 50);
+    entities.add(entityB);
   },
 
   update: () => {
-    // Ease a full rotation (0~360 degrees) in 5 seconds and do this once.
+    // Ease a full rotation (0~360 degrees) in 5 seconds.
     // There are many different easing functions, see them here: https://easings.net/
-    if (a.angle.tween(0, 360, 5000, "easeOutElastic")) {
+    if (entityA.angle.tween(0, 360, 5000, "easeOutElastic")) {
       console.log("done!");
     }
 
+    // You can loop tweens by giving the Infinity value for the iterations argument.
+    entityB.scale.tween(1, 2, 2000, "easeInOutSine", Infinity);
+
     // You can reset tweens and have them play again.
-    // This will revert the tween back to its default value (see line 15 and 16).
+    // This will revert the tween back to its default value (see line 12 and 13).
     if (isInputPressed("Enter")) {
-      a.angle.reset();
-      b.scale.reset();
+      for (const e of entities) {
+        e.scale.reset();
+        e.angle.reset();
+      }
     }
 
-    // You can loop tweens by giving the Infinity value for the iterations argument.
-    b.scale.tween(1, 2, 2000, "easeInOutSine", Infinity);
-
-    // Set the sprite's angle to the tween's current value.
-    a.sprite.angle = a.angle.value;
-    a.sprite.draw();
-
-    // Set the sprite's scaling to the tween's current value.
-    b.sprite.scale.x = b.scale.value;
-    b.sprite.scale.y = b.scale.value;
-    b.sprite.draw();
+    for (const e of entities) {
+      // Set the sprite's properties to the respective tween's current value.
+      e.sprite.scale.x = e.scale.value;
+      e.sprite.scale.y = e.scale.value;
+      e.sprite.angle = e.angle.value;
+      e.sprite.draw();
+    }
   },
 });

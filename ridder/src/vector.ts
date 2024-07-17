@@ -48,6 +48,15 @@ export class Vec extends Point {
   }
 
   /**
+   * Set both the x and y components of this vector to the given value.
+   */
+  splat(value: number) {
+    this.x = value;
+    this.y = value;
+    return this;
+  }
+
+  /**
    * Copy the components of the given vector.
    */
   copy(other: Point) {
