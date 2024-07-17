@@ -1,5 +1,5 @@
 import { Point } from "./point.js";
-import { getAngle, getDistance } from "./utils.js";
+import { getAngle, getDistance, toRadians } from "./utils.js";
 
 export class Vec extends Point {
   /**
@@ -86,10 +86,10 @@ export class Vec extends Point {
   }
 
   /**
-   * Get the distance from this vector to the given vector.
+   * Set the length (magnitude) of this vector.
    */
-  distance(other: Point) {
-    return getDistance(this.x, this.y, other.x, other.y);
+  setLength(length: number) {
+    return this.normalize().scale(length);
   }
 
   /**
@@ -97,6 +97,31 @@ export class Vec extends Point {
    */
   angle(other: Point) {
     return getAngle(this.x, this.y, other.x, other.y);
+  }
+
+  /**
+   * Get the angle in degrees of this vector.
+   */
+  getAngle() {
+    return getAngle(0, 0, this.x, this.y);
+  }
+
+  /**
+   * Point this vector to the given angle in degrees.
+   */
+  setAngle(angle: number) {
+    const len = this.length();
+    const radians = toRadians(angle);
+    this.x = len * Math.cos(radians);
+    this.y = len * Math.sin(radians);
+    return this;
+  }
+
+  /**
+   * Get the distance from this vector to the given vector.
+   */
+  distance(other: Point) {
+    return getDistance(this.x, this.y, other.x, other.y);
   }
 
   /**
@@ -112,8 +137,7 @@ export class Vec extends Point {
   clone() {
     const v = new Vec();
 
-    v.x = this.x;
-    v.y = this.y;
+    v.copy(this);
 
     return v;
   }

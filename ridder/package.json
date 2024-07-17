@@ -1,0 +1,42 @@
+{
+  "name": "ridder",
+  "version": "1.5.12",
+  "description": "A straightforward game making library for simple games",
+  "main": "lib/index.js",
+  "files": [
+    "lib/**/*"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "rimraf lib && tsc --watch --preserveWatchOutput",
+    "build": "rimraf lib && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patrickswijgman/ridder.git"
+  },
+  "keywords": [
+    "2d",
+    "html5",
+    "canvas",
+    "game",
+    "gamedev",
+    "library",
+    "typescript",
+    "input",
+    "physics",
+    "sprites",
+    "camera",
+    "tweens",
+    "vectors"
+  ],
+  "author": "Patrick Swijgman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patrickswijgman/ridder/issues"
+  },
+  "homepage": "https://github.com/patrickswijgman/ridder#readme"
+}

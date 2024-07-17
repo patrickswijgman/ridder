@@ -19,8 +19,16 @@ export class Polygon extends RenderObject {
   set(x: number, y: number, points: Array<PointTuple>, rotation: number) {
     this.x = x;
     this.y = y;
-    this.points = points.map(([x, y]) => point(x, y));
+    this.setShape(points);
     this.setRotation(rotation);
+  }
+
+  /**
+   * Set a new shape for this polygon.
+   */
+  setShape(points: Array<PointTuple>) {
+    this.points.length = 0;
+    this.points.push(...points.map(([x, y]) => point(x, y)));
   }
 
   /**

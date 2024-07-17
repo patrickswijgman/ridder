@@ -1,0 +1,15 @@
+{
+  "name": "platformer",
+  "private": true,
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "esbuild index.ts --bundle --outdir=. --watch --servedir=.",
+    "build": "esbuild index.ts --bundle --outdir=."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ridder": "*"
+  }
+}

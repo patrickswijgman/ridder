@@ -141,6 +141,13 @@ run({
 
 ## Examples
 
+#### Platformer
+
+- [play](https://patrickswijgman.github.io/ridder/platformer/index.html)
+- [code](examples/platformer/index.ts)
+
+## Examples
+
 Open the links below to see a running example in StackBlitz.
 
 - [Font](https://stackblitz.com/edit/ridder-example-font?file=src%2Fmain.ts)
