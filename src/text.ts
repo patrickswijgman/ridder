@@ -35,7 +35,7 @@ export class Text extends RenderObject {
     const lines = this.text.split("\n");
 
     for (const line of lines) {
-      ctx.fillText(line, 0, 0, this.maxWidth);
+      ctx.fillText(line, -this.pivot.x, -this.pivot.y, this.maxWidth);
       ctx.translate(0, font.height);
     }
   }

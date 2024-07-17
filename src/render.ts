@@ -9,6 +9,8 @@ export abstract class RenderObject {
   position = vec();
   /** The scale factor when drawing this object. */
   scale = point(1, 1);
+  /** The center of rotation. */
+  pivot = point(0, 0);
   /** The camera scrolling factor, e.g. set x=0 and y=0 for UI objects. */
   scroll = point(1, 1);
   /** The angle in degrees when drawing this object. */

@@ -4,8 +4,6 @@ type SpriteData = {
   y: number;
   w: number;
   h: number;
-  pivotX: number;
-  pivotY: number;
 };
 
 const sprites: Record<string, SpriteData> = {};
@@ -20,10 +18,8 @@ export function loadSprite(
   y: number,
   w: number,
   h: number,
-  pivotX = 0,
-  pivotY = 0,
 ) {
-  sprites[id] = { textureId, x, y, w, h, pivotX, pivotY };
+  sprites[id] = { textureId, x, y, w, h };
 }
 
 /**

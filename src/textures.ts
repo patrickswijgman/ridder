@@ -1,31 +1,18 @@
-type TextureData = {
-  source: HTMLImageElement | HTMLCanvasElement;
-  pivotX: number;
-  pivotY: number;
-};
+type Texture = HTMLImageElement | HTMLCanvasElement;
 
-const textures: Record<string, TextureData> = {};
+const textures: Record<string, Texture> = {};
 
 /**
  * Load a texture from an image.
  */
-export async function loadTexture(
-  id: string,
-  src: string,
-  pivotX = 0,
-  pivotY = 0,
-) {
+export async function loadTexture(id: string, src: string) {
   const img = new Image();
 
   img.src = src;
 
   await img.decode();
 
-  textures[id] = {
-    source: img,
-    pivotX,
-    pivotY,
-  };
+  textures[id] = img;
 }
 
 /**
@@ -36,8 +23,6 @@ export function loadRenderTexture(
   width: number,
   height: number,
   draw: (ctx: CanvasRenderingContext2D) => void,
-  pivotX = 0,
-  pivotY = 0,
 ) {
   const canvas = document.createElement("canvas");
   canvas.width = width;
@@ -47,16 +32,12 @@ export function loadRenderTexture(
 
   draw(ctx);
 
-  textures[id] = {
-    source: canvas,
-    pivotX,
-    pivotY,
-  };
+  textures[id] = canvas;
 }
 
 /**
  * Get a loaded texture.
  */
-export function getTexture(id: string): Readonly<TextureData> {
+export function getTexture(id: string): Readonly<Texture> {
   return textures[id];
 }

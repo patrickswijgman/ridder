@@ -19,13 +19,13 @@ export class Sprite extends RenderObject {
     const texture = getTexture(sprite.textureId);
 
     ctx.drawImage(
-      texture.source,
+      texture,
       sprite.x,
       sprite.y,
       sprite.w,
       sprite.h,
-      -sprite.pivotX,
-      -sprite.pivotY,
+      -this.pivot.x,
+      -this.pivot.y,
       sprite.w,
       sprite.h,
     );

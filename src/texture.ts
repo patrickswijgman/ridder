@@ -16,7 +16,7 @@ export class Texture extends RenderObject {
 
     const texture = getTexture(this.id);
 
-    ctx.drawImage(texture.source, -texture.pivotX, -texture.pivotY);
+    ctx.drawImage(texture, -this.pivot.x, -this.pivot.y);
   }
 }
 
