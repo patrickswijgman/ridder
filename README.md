@@ -141,7 +141,7 @@ run({
 
 ## Examples
 
-You can clone this project and run an example from the `examples` folder like so:
+You can clone this project and run an example from the [examples](examples/) folder like so:
 
 ```shell
 # make sure to install the dependencies first, you only need to do this once:
