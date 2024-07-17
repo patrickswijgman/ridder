@@ -150,6 +150,23 @@ export class Polygon extends RenderObject {
   }
 
   /**
+   * Change this polygon's shape to the given circle.
+   */
+  toCircle(radius: number, segments: number) {
+    this.points.length = 0;
+
+    const step = 360 / segments;
+
+    for (let a = 0; a < 360; a += step) {
+      const r = toRadians(a);
+      const x = Math.cos(r) * radius;
+      const y = Math.sin(r) * radius;
+
+      this.points.push(point(x, y));
+    }
+  }
+
+  /**
    * Draw this polygon on the canvas.
    */
   draw() {

@@ -17,8 +17,7 @@ export class Point {
 export function point(x = 0, y = 0) {
   const p = new Point();
 
-  p.x = x;
-  p.y = y;
+  p.set(x, y);
 
   return p;
 }
