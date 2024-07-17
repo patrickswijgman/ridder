@@ -12,7 +12,7 @@ None that I know of, so if you encounter any issues please let me know by creati
 
 ## Features
 
-### Canvas
+#### Canvas
 
 The game is rendered using the HTML5 Canvas API. The canvas is automatically scaled to fit the window size while maintaining the aspect ratio.
 
@@ -59,7 +59,7 @@ Simply play or stop a sound with `playSound` and `stopSound`
 
 Follow an object with a smoothing effect (quite satisfying) and supports parallax scrolling.
 
-### Utils
+#### Utils
 
 A bunch of useful utility functions, such as:
 
@@ -114,8 +114,8 @@ run({
     player.texture.id = "player";
 
     // Put the player in the center of the screen.
-    player.x = settings.width / 2;
-    player.y = settings.height / 2;
+    player.position.x = settings.width / 2;
+    player.position.y = settings.height / 2;
   },
 
   update: () => {
