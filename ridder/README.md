@@ -1,3 +1,3 @@
 # Ridder
 
-See documentation on the Github Repository [here](https://github.com/patrickswijgman/ridder?tab=readme-ov-file)
+See documentation on the GitHub Repository [here](https://github.com/patrickswijgman/ridder?tab=readme-ov-file)

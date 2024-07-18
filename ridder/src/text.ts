@@ -24,9 +24,11 @@ export class Text extends RenderObject {
 
     super.draw();
 
-    const font = getFont(this.fontId);
+    const fnt = getFont(this.fontId);
+    const font = fnt ? fnt.font : "16px sans-serif";
+    const height = fnt ? fnt.height : 16;
 
-    ctx.font = font ? font.font : "16px sans-serif";
+    ctx.font = font;
     ctx.textAlign = this.align;
     ctx.textBaseline = this.baseline;
     ctx.fillStyle = this.color;
@@ -35,17 +37,17 @@ export class Text extends RenderObject {
 
     switch (this.baseline) {
       case "middle":
-        ctx.translate(0, -font.height * ((lines.length - 1) / 2));
+        ctx.translate(0, -height * ((lines.length - 1) / 2));
         break;
 
       case "bottom":
-        ctx.translate(0, -font.height * (lines.length - 1));
+        ctx.translate(0, -height * (lines.length - 1));
         break;
     }
 
     for (const line of lines) {
       ctx.fillText(line, -this.pivot.x, -this.pivot.y);
-      ctx.translate(0, font ? font.height : 16);
+      ctx.translate(0, height);
     }
   }
 }
