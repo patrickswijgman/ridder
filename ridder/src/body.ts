@@ -1,3 +1,4 @@
+import { point } from "./point.js";
 import { Rect } from "./rectangle.js";
 import { getSettings } from "./settings.js";
 import { delta } from "./state.js";
@@ -10,6 +11,8 @@ export class Body extends Rect {
   gravity = vec();
   /** The factor by which this body is affected by gravity. */
   mass = 1;
+  /** The result of the most recent intersection between this body and another body. */
+  result = point();
   /** Set to true if this body does not move and does not resolve collisions. */
   isStatic = false;
   /** Whether or not this body is resting on top of another body beneath it. */
@@ -32,6 +35,7 @@ export class Body extends Rect {
 
   /**
    * Resolve a collision (intersection) between this body and the given body.
+   * The values of the resolved intersection are stored on the 'result' property.
    * Returns true of the body has resolved a collision.
    */
   resolveCollision(other: Body) {
@@ -117,6 +121,8 @@ export class Body extends Rect {
         this.isOnGround = true;
       }
     }
+
+    this.result.set(x, y);
   }
 }
 
