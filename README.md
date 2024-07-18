@@ -159,6 +159,11 @@ Or checkout the links below for each example to see it running using GitHub page
 - [play](https://patrickswijgman.github.io/ridder/input/index.html)
 - [code](examples/input/index.ts)
 
+#### Font
+
+- [play](https://patrickswijgman.github.io/ridder/font/index.html)
+- [code](examples/font/index.ts)
+
 #### Platformer
 
 - [play](https://patrickswijgman.github.io/ridder/platformer/index.html)
