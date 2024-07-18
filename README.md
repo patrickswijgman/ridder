@@ -174,6 +174,11 @@ Or checkout the links below for each example to see it running using GitHub page
 - [play](https://patrickswijgman.github.io/ridder/polygon/index.html)
 - [code](examples/polygon/index.ts)
 
+#### Sprite
+
+- [play](https://patrickswijgman.github.io/ridder/sprite/index.html)
+- [code](examples/sprite/index.ts)
+
 #### Tween
 
 - [play](https://patrickswijgman.github.io/ridder/tween/index.html)
