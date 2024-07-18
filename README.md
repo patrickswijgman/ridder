@@ -174,6 +174,11 @@ Or checkout the links below for each example to see it running using GitHub page
 - [play](https://patrickswijgman.github.io/ridder/polygon/index.html)
 - [code](examples/polygon/index.ts)
 
+#### Render Texture
+
+- [play](https://patrickswijgman.github.io/ridder/render-texture/index.html)
+- [code](examples/render-texture/index.ts)
+
 #### Sprite
 
 - [play](https://patrickswijgman.github.io/ridder/sprite/index.html)

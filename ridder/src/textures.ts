@@ -22,7 +22,7 @@ export function loadRenderTexture(
   id: string,
   width: number,
   height: number,
-  draw: (ctx: CanvasRenderingContext2D) => void,
+  draw: (ctx: CanvasRenderingContext2D, width: number, height: number) => void,
 ) {
   const canvas = document.createElement("canvas");
   canvas.width = width;
@@ -30,7 +30,7 @@ export function loadRenderTexture(
 
   const ctx = canvas.getContext("2d")!;
 
-  draw(ctx);
+  draw(ctx, width, height);
 
   textures[id] = canvas;
 }
