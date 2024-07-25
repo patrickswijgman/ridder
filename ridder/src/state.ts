@@ -46,6 +46,4 @@ export function updateState(frameId: number) {
     frames = 0;
     framesTimer.reset();
   }
-
-  return true;
 }
