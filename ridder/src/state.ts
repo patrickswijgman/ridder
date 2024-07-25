@@ -27,7 +27,7 @@ export function setupState() {
  * Update state for the current frame.
  * Returns true if the delta is within an acceptable range.
  */
-export function updateState() {
+export function updateState(frameId: number) {
   last = now;
   now = performance.now();
 
@@ -36,7 +36,7 @@ export function updateState() {
 
   // If the delta time is too high, ignore the frame.
   if (time > 100) {
-    return false;
+    cancelAnimationFrame(frameId);
   }
 
   frames++;
