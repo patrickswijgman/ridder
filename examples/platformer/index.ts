@@ -1,6 +1,5 @@
 import {
   body,
-  delta,
   getSettings,
   isInputDown,
   isInputPressed,
@@ -73,10 +72,10 @@ run({
 
     // For available key codes you can use something like https://keycode.info and use the `event.code` value here.
     if (isInputDown("ArrowLeft")) {
-      player.body.velocity.x -= 1 * delta;
+      player.body.velocity.x -= 1; // The velocity of the body already takes the delta into account.
     }
     if (isInputDown("ArrowRight")) {
-      player.body.velocity.x += 1 * delta;
+      player.body.velocity.x += 1;
     }
 
     // The player may only jump when its on the ground again.
