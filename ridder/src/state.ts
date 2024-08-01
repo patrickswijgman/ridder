@@ -2,6 +2,7 @@ import { timer } from "./timer.js";
 
 let last = 0;
 let now = 0;
+
 let frames = 0;
 
 const framesTimer = timer();
@@ -27,16 +28,16 @@ export function setupState() {
  * Update state for the current frame.
  * Returns true if the delta is within an acceptable range.
  */
-export function updateState(frameId: number) {
+export function updateState() {
   last = now;
   now = performance.now();
 
-  delta = now / last;
   time = now - last;
+  delta = time / (1000 / 60);
 
   // If the delta time is too high, ignore the frame.
   if (time > 100) {
-    cancelAnimationFrame(frameId);
+    return false;
   }
 
   frames++;
@@ -46,4 +47,6 @@ export function updateState(frameId: number) {
     frames = 0;
     framesTimer.reset();
   }
+
+  return true;
 }

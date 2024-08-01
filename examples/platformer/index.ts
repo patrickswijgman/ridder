@@ -36,6 +36,7 @@ run({
     gravityMax: 1,
     background: "#1D263B",
     cameraSmoothing: 0.05,
+    debug: true,
   },
 
   setup: async () => {

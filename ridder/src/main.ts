@@ -18,8 +18,6 @@ type RunConfig = {
   update: () => void;
 };
 
-let frameId: number;
-
 /**
  * Run your game.
  */
@@ -33,17 +31,18 @@ export async function run(config: RunConfig) {
   const settings = getSettings();
 
   const tick = () => {
-    updateState(frameId);
-    clearBackground(settings.background);
-    updateMousePosition();
-    config.update();
-    drawDebugInfo(settings.debug);
-    resetInputs();
+    if (updateState()) {
+      clearBackground(settings.background);
+      updateMousePosition();
+      config.update();
+      drawDebugInfo(settings.debug);
+      resetInputs();
+    }
 
-    frameId = requestAnimationFrame(tick);
+    requestAnimationFrame(tick);
   };
 
-  frameId = requestAnimationFrame(tick);
+  requestAnimationFrame(tick);
 }
 
 /**
