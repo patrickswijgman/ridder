@@ -1,17 +1,15 @@
 import {
   delta,
+  drawSprite,
   getSettings,
   loadSprite,
   loadTexture,
+  rotateTransform,
   run,
-  sprite,
+  translateTransform,
 } from "ridder";
 
-class Entity {
-  sprite = sprite();
-}
-
-const player = new Entity();
+let angle = 0;
 
 run({
   settings: {
@@ -20,8 +18,6 @@ run({
   },
 
   setup: async () => {
-    const settings = getSettings();
-
     // This texture contains all the different sprites we need for our game.
     // Using a single texture with a lot of sprites has some benefits:
     //   1. the browser only needs to download a single image, speeding up the loading time of your game
@@ -32,24 +28,16 @@ run({
 
     // The player sprite in the tilemap texture is positioned at (x=95, y=133), is (x=18, y=18) in size.
     loadSprite("player", "tilemap", 95, 133, 18, 18);
-
-    // The sprite object on the player holds a reference to the sprite configuration you have loaded with 'loadSprite'.
-    player.sprite.id = "player";
-
-    // Set the point of rotation to the bottom-center.
-    player.sprite.pivot.set(9, 18);
-
-    // Put the player in the center of the screen.
-    // 'x' and 'y' on the sprite object are shortcuts to its 'position' vector.
-    player.sprite.x = settings.width / 2;
-    player.sprite.y = settings.height / 2;
   },
 
   update: () => {
+    const settings = getSettings();
     // Rotate the player, multiply this by delta to have this fps-independent. This means that the player
     // will rotate at the same speed when the game runs on any fps such as 30, 60, 120, 144 etc.
-    player.sprite.angle += 2 * delta;
+    angle += 2 * delta;
 
-    player.sprite.draw();
+    translateTransform(settings.width / 2, settings.height / 2); // Put the player in the center of the screen.
+    rotateTransform(angle);
+    drawSprite("player", -9, -18); // When translating the transform matrix you can pass the x and y here as the center of rotation.
   },
 });

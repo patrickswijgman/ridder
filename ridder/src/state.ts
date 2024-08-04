@@ -2,10 +2,10 @@ import { resetTimer, tickTimer, timer } from "./timer.js";
 
 let last = 0;
 let now = 0;
-
 let frames = 0;
 
 const framesTimer = timer();
+const targetTime = 1000 / 60;
 
 export let delta = 0;
 export let time = 0;
@@ -21,7 +21,7 @@ export function updateState() {
   now = performance.now();
 
   time = now - last;
-  delta = time / (1000 / 60);
+  delta = time / targetTime;
 
   // If the delta time is too high, ignore the frame.
   if (time > 100) {

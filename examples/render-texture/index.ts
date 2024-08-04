@@ -1,19 +1,17 @@
 import {
   delta,
+  drawTexture,
   getSettings,
   getTexture,
   loadRenderTexture,
   loadTexture,
+  resetTransform,
+  rotateTransform,
   run,
-  texture,
+  translateTransform,
 } from "ridder";
 
-class Entity {
-  texture = texture();
-}
-
-const block = new Entity();
-const floor = new Entity();
+let rotation = 0;
 
 run({
   settings: {
@@ -22,8 +20,6 @@ run({
   },
 
   setup: async () => {
-    const settings = getSettings();
-
     await loadTexture("tile", "textures/tile.png");
 
     // Example A: draw a simple shape.
@@ -44,26 +40,24 @@ run({
     loadRenderTexture("floor_tiles", 90, 90, (ctx, width, height) => {
       const tile = getTexture("tile");
 
-      for (let x = 0; x < width; x += 18) {
-        for (let y = 0; y < height; y += 18) {
+      for (let x = 0; x < width; x += tile.width) {
+        for (let y = 0; y < height; y += tile.height) {
           ctx.drawImage(tile, x, y);
         }
       }
     });
-
-    // The texture object on the entity holds a reference to the texture you have loaded with 'loadRenderTexture'.
-    block.texture.id = "red_block";
-    block.texture.pivot.set(8, 8);
-    block.texture.position.set(30, settings.height / 2);
-
-    floor.texture.id = "floor_tiles";
-    floor.texture.position.set(settings.width - 90, 0);
   },
 
   update: () => {
-    floor.texture.draw();
+    const settings = getSettings();
 
-    block.texture.angle += 2 * delta;
-    block.texture.draw();
+    rotation += 1 * delta;
+
+    translateTransform(35, settings.height / 2);
+    rotateTransform(rotation);
+    drawTexture("red_block", -8, -8); // When translating the transform matrix you can pass the x and y here as the center of rotation.
+
+    resetTransform(); // Important to reset the transform matrix, otherwise this drawing will be drawn relative to the previous one.
+    drawTexture("floor_tiles", settings.width - 90, 0);
   },
 });

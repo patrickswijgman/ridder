@@ -1,14 +1,14 @@
 import {
+  drawText,
   getSettings,
   isInputDown,
   isInputPressed,
   isInputReleased,
   mostRecentInput,
   run,
-  text,
+  scaleTransform,
+  translateTransform,
 } from "ridder";
-
-const label = text();
 
 run({
   settings: {
@@ -16,15 +16,7 @@ run({
     height: 90,
   },
 
-  setup: async () => {
-    const settings = getSettings();
-
-    label.x = settings.width / 2;
-    label.y = settings.height / 2;
-    label.align = "center";
-    label.baseline = "middle";
-    label.scale.set(0.5, 0.5);
-  },
+  setup: async () => {},
 
   update: () => {
     // For available key codes you can use something like https://keycode.info and use the `event.code` value here.
@@ -45,10 +37,19 @@ run({
       console.log("You have released the enter key");
     }
 
-    label.text = mostRecentInput
-      ? `You have pressed ${mostRecentInput}`
-      : "Press any key or mouse button";
+    const settings = getSettings();
 
-    label.draw();
+    translateTransform(settings.width / 2, settings.height / 2);
+    scaleTransform(0.25, 0.25);
+    drawText(
+      mostRecentInput
+        ? `You have pressed ${mostRecentInput}`
+        : "Press any key or mouse button",
+      0,
+      0,
+      "white",
+      "center",
+      "middle",
+    );
   },
 });

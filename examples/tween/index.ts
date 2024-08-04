@@ -1,22 +1,43 @@
 import {
+  drawSprite,
+  getSettings,
   isInputPressed,
   loadSprite,
   loadTexture,
+  resetTimer,
+  resetTransform,
+  rotateTransform,
   run,
-  sprite,
+  scaleTransform,
+  tickTimer,
+  timer,
+  Timer,
+  translateTransform,
   tween,
+  vec,
+  Vector,
 } from "ridder";
 
-class Entity {
-  sprite = sprite();
-  angle = tween(0);
-  scale = tween(1);
+type Entity = {
+  position: Vector;
+  angle: number;
+  scale: number;
+  timer: Timer;
+};
+
+function createEntity(): Entity {
+  return {
+    position: vec(),
+    angle: 0,
+    scale: 1,
+    timer: timer(),
+  };
 }
 
-const entityA = new Entity();
-const entityB = new Entity();
+const entityA = createEntity();
+const entityB = createEntity();
 
-const entities = new Set<Entity>();
+const entities = [entityA, entityB];
 
 run({
   settings: {
@@ -29,42 +50,46 @@ run({
 
     loadSprite("snowman", "tilemap", 95, 133, 18, 18);
 
-    entityA.sprite.id = "snowman";
-    entityA.sprite.pivot.set(9, 18);
-    entityA.sprite.position.set(50, 50);
-    entities.add(entityA);
+    const settings = getSettings();
 
-    entityB.sprite.id = "snowman";
-    entityB.sprite.pivot.set(9, 9);
-    entityB.sprite.position.set(110, 50);
-    entities.add(entityB);
+    entityA.position.x = settings.width / 3;
+    entityA.position.y = settings.height / 2;
+
+    entityB.position.x = (settings.width / 3) * 2;
+    entityB.position.y = settings.height / 2;
   },
 
   update: () => {
     // Ease a full rotation (0~360 degrees) in 5 seconds.
     // There are many different easing functions, see them here: https://easings.net/
-    if (entityA.angle.tween(0, 360, 5000, "easeOutElastic")) {
-      console.log("done!");
-    }
+    tickTimer(entityA.timer, 5000);
+    entityA.angle = tween(
+      0,
+      360,
+      5000,
+      entityA.timer.elapsed,
+      "easeOutElastic",
+    );
 
-    // You can loop tweens by giving the Infinity value for the iterations argument.
-    entityB.scale.tween(1, 2, 2000, "easeInOutSine", Infinity);
+    // You can loop tweens by passing a timer that runs infinitely.
+    tickTimer(entityB.timer, Infinity);
+    entityB.scale = tween(1, 2, 2000, entityB.timer.elapsed, "easeInOutSine");
 
     // You can reset tweens and have them play again.
-    // This will revert the tween back to its default value (see line 12 and 13).
     if (isInputPressed("Enter")) {
       for (const e of entities) {
-        e.scale.reset();
-        e.angle.reset();
+        e.angle = 0;
+        e.scale = 1;
+        resetTimer(e.timer);
       }
     }
 
     for (const e of entities) {
-      // Set the sprite's properties to the respective tween's current value.
-      e.sprite.scale.x = e.scale.value;
-      e.sprite.scale.y = e.scale.value;
-      e.sprite.angle = e.angle.value;
-      e.sprite.draw();
+      resetTransform(); // Important to reset the transform matrix, otherwise this drawing will be drawn relative to the previous one.
+      translateTransform(e.position.x, e.position.y);
+      rotateTransform(e.angle);
+      scaleTransform(e.scale, e.scale);
+      drawSprite("snowman", -9, -18); // When translating the transform matrix you can pass the x and y here as the center of rotation.
     }
   },
 });
