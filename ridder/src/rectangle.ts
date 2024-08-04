@@ -1,99 +1,99 @@
-import { ctx } from "./canvas.js";
-import { getMousePosition } from "./input.js";
-import { RenderObject } from "./render.js";
+import { getVectorLength, Vector } from "./vector.js";
 
-export class Rect extends RenderObject {
-  /** The width of this rectangle. */
-  w = 0;
-  /** The height of this rectangle. */
-  h = 0;
+export type Rectangle = {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+};
 
-  /**
-   * Set the components of this rectangle.
-   */
-  set(x: number, y: number, w: number, h: number) {
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
+export function rect(x = 0, y = 0, w = 0, h = 0): Rectangle {
+  return { x, y, w, h };
+}
+
+export function isRectangleValid(r: Rectangle) {
+  return r.w > 0 && r.h > 0;
+}
+
+export function doRectanglesIntersect(a: Rectangle, b: Rectangle) {
+  if (a === b || !isRectangleValid(a) || !isRectangleValid(b)) {
+    return false;
   }
 
-  /**
-   * Returns true if this rectangle intersects with the given rectangle.
-   */
-  intersects(other: Rect) {
-    if (other === this || !this.isValid() || !other.isValid()) {
+  return (
+    a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y
+  );
+}
+
+export function resolveIntersectionBetweenRectangles(
+  a: Rectangle,
+  b: Rectangle,
+  velocity: Vector,
+) {
+  if (!getVectorLength(velocity) || !doRectanglesIntersect(a, b)) {
+    return false;
+  }
+
+  const l = a.x + a.w - b.x;
+  const r = b.x + b.w - a.x;
+  const u = a.y + a.h - b.y;
+  const d = b.y + b.h - a.y;
+
+  switch (true) {
+    case velocity.x > 0 && velocity.y > 0:
+      if (l > u) {
+        resolveOverlap(a, 0, -u);
+      } else {
+        resolveOverlap(a, -l, 0);
+      }
+      return true;
+
+    case velocity.x < 0 && velocity.y > 0:
+      if (r > u) {
+        resolveOverlap(a, 0, -u);
+      } else {
+        resolveOverlap(a, r, 0);
+      }
+      return true;
+
+    case velocity.x > 0 && velocity.y < 0:
+      if (l > d) {
+        resolveOverlap(a, 0, d);
+      } else {
+        resolveOverlap(a, -l, 0);
+      }
+      return true;
+
+    case velocity.x < 0 && velocity.y < 0:
+      if (r > d) {
+        resolveOverlap(a, 0, d);
+      } else {
+        resolveOverlap(a, r, 0);
+      }
+      return true;
+
+    case velocity.x > 0:
+      resolveOverlap(a, -l, 0);
+      return true;
+
+    case velocity.x < 0:
+      resolveOverlap(a, r, 0);
+      return true;
+
+    case velocity.y > 0:
+      resolveOverlap(a, 0, -u);
+      return true;
+
+    case velocity.y < 0:
+      resolveOverlap(a, 0, d);
+      return true;
+
+    default:
       return false;
-    }
-
-    return (
-      this.left < other.right &&
-      this.right > other.left &&
-      this.top < other.bottom &&
-      this.bottom > other.top
-    );
-  }
-
-  /**
-   * Returns true if the given position is inside this rectangle.
-   */
-  contains(x: number, y: number) {
-    return x > this.left && x < this.right && y > this.top && y < this.bottom;
-  }
-
-  /**
-   * Returns true if the mouse is inside this rectangle.
-   */
-  containsMouse(inWorld: boolean) {
-    const mouse = getMousePosition(inWorld);
-    return this.contains(mouse.x, mouse.y);
-  }
-
-  get left() {
-    return this.x;
-  }
-  get top() {
-    return this.y;
-  }
-  get right() {
-    return this.x + this.w;
-  }
-  get bottom() {
-    return this.y + this.h;
-  }
-
-  /**
-   * A rectangle is valid when it has a width or height larger than zero.
-   */
-  isValid() {
-    return this.w > 0 || this.h > 0;
-  }
-
-  /**
-   * Draw this rectangle on the canvas.
-   */
-  draw() {
-    if (!this.isValid()) return;
-
-    super.draw();
-
-    if (this.fill) {
-      ctx.fillStyle = this.color;
-      ctx.fillRect(0, 0, this.w, this.h);
-    } else {
-      ctx.strokeStyle = this.color;
-      ctx.strokeRect(0, 0, this.w, this.h);
-    }
   }
 }
 
-/**
- * Create a new rectangle.
- */
-export function rect(x = 0, y = 0, w = 0, h = 0) {
-  const r = new Rect();
-
-  r.set(x, y, w, h);
-
-  return r;
+function resolveOverlap(r: Rectangle, x: number, y: number) {
+  r.x += x;
+  r.y += y;
 }

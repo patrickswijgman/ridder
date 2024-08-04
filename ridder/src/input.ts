@@ -1,22 +1,16 @@
 import { getCamera } from "./camera.js";
 import { canvas, scale } from "./canvas.js";
-import { Point, point } from "./point.js";
+import { Vector, vec } from "./vector.js";
 
 const inputsDown: Record<string, boolean> = {};
 const inputsPressed: Record<string, boolean> = {};
 const inputsReleased: Record<string, boolean> = {};
 
-const mousePosition = point();
-const mouseWorldPosition = point();
+const mousePosition = vec();
+const mouseWorldPosition = vec();
 
-/**
- * The most recent pressed input's code.
- */
 export let mostRecentInput = "";
 
-/**
- * Add the input event listeners.
- */
 export function setupInput() {
   window.addEventListener("keydown", ({ code, repeat }) => {
     mostRecentInput = code;
@@ -43,9 +37,8 @@ export function setupInput() {
   });
 
   canvas.addEventListener("mousemove", ({ clientX, clientY }) => {
-    const x = clientX / scale.x;
-    const y = clientY / scale.y;
-    mousePosition.set(x, y);
+    mousePosition.x = clientX / scale.x;
+    mousePosition.y = clientY / scale.y;
   });
 
   canvas.addEventListener("contextmenu", (e) => {
@@ -53,9 +46,6 @@ export function setupInput() {
   });
 }
 
-/**
- * Input down event listener.
- */
 function onDown(code: string, repeat: boolean) {
   if (repeat) return;
   inputsDown[code] = true;
@@ -63,18 +53,12 @@ function onDown(code: string, repeat: boolean) {
   inputsReleased[code] = false;
 }
 
-/**
- * Input up event listener.
- */
 function onUp(code: string) {
   inputsDown[code] = false;
   inputsPressed[code] = false;
   inputsReleased[code] = true;
 }
 
-/**
- * Translate a mouse button to a string that's similar to a key code.
- */
 function mouseButtonToCode(button: number) {
   switch (button) {
     case 0:
@@ -88,18 +72,12 @@ function mouseButtonToCode(button: number) {
   }
 }
 
-/**
- * Update the mouse position in world space.
- */
 export function updateMousePosition() {
   const camera = getCamera();
   mouseWorldPosition.x = mousePosition.x + camera.x;
   mouseWorldPosition.y = mousePosition.y + camera.y;
 }
 
-/**
- * Reset the pressed and released inputs back to false.
- */
 export function resetInputs() {
   for (const key in inputsPressed) {
     inputsPressed[key] = false;
@@ -110,9 +88,6 @@ export function resetInputs() {
   }
 }
 
-/**
- * Reset all inputs back to false.
- */
 export function resetAllInputs() {
   for (const key in inputsDown) {
     inputsDown[key] = false;
@@ -127,31 +102,18 @@ export function resetAllInputs() {
   }
 }
 
-/**
- * Returns true if the input has been pressed this frame.
- */
 export function isInputPressed(code: string) {
   return !!inputsPressed[code];
 }
 
-/**
- * Returns true if the input is continuously pressed down.
- */
 export function isInputDown(code: string) {
   return !!inputsDown[code];
 }
 
-/**
- * Returns true if the input has been released this frame.
- */
 export function isInputReleased(code: string) {
   return !!inputsReleased[code];
 }
 
-/**
- * The mouse position on the canvas. Give true to get the world space
- * coordinates otherwise get the screen space coordinates.
- */
-export function getMousePosition(inWorld: boolean): Readonly<Point> {
+export function getMousePosition(inWorld: boolean): Readonly<Vector> {
   return inWorld ? mouseWorldPosition : mousePosition;
 }

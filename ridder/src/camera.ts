@@ -1,67 +1,50 @@
-import { Rect } from "./rectangle.js";
+import { Rectangle } from "./rectangle.js";
 import { getSettings } from "./settings.js";
 import { delta } from "./state.js";
 import { clamp } from "./utils.js";
-import { Vec, vec } from "./vector.js";
+import {
+  addVectors,
+  copyVector,
+  getDistanceBetweenVectors,
+  limitVector,
+  normalizeVector,
+  scaleVector,
+  subtractVectors,
+  vec,
+  Vector,
+} from "./vector.js";
 
-const position = vec();
-const velocity = vec();
+const pos = vec();
+const vel = vec();
 const target = vec();
 
-/**
- * Make the camera focus (center) on the given position.
- * Optionally constraining the camera within a rectangular boundary.
- *
- * Set the `cameraSmoothing` setting to increase or decrease the speed at which
- * the camera goes to the given position.
- */
-export function updateCamera(x: number, y: number, boundary?: Rect) {
+export function updateCamera(x: number, y: number, bounds?: Rectangle) {
   const settings = getSettings();
 
   target.x = x - settings.width / 2;
   target.y = y - settings.height / 2;
 
-  const distance = position.distance(target);
+  const distance = getDistanceBetweenVectors(pos, target);
 
-  velocity
-    .copy(target)
-    .subtract(position)
-    .normalize()
-    .scale(distance)
-    .scale(settings.cameraSmoothing)
-    .scale(delta)
-    .limit(distance);
+  copyVector(vel, target);
+  subtractVectors(vel, pos);
+  normalizeVector(vel);
+  scaleVector(vel, distance * settings.cameraSmoothing * delta);
+  limitVector(vel, distance);
+  addVectors(pos, vel);
 
-  position.add(velocity);
-
-  if (boundary) {
-    position.x = clamp(
-      position.x,
-      boundary.left,
-      boundary.right - settings.width,
-    );
-
-    position.y = clamp(
-      position.y,
-      boundary.top,
-      boundary.bottom - settings.height,
-    );
+  if (bounds) {
+    pos.x = clamp(pos.x, bounds.x, bounds.x + bounds.w - settings.width);
+    pos.y = clamp(pos.y, bounds.y, bounds.y + bounds.h - settings.height);
   }
 }
 
-/**
- * Snap the focus (center) of the camera to the given position.
- */
 export function setCamera(x: number, y: number) {
   const settings = getSettings();
-  position.x = x - settings.width / 2;
-  position.y = y - settings.height / 2;
+  pos.x = x - settings.width / 2;
+  pos.y = y - settings.height / 2;
 }
 
-/**
- * Get the camera's current position.
- * Note that this is the top-left coordinate and not the center at which the camera is focused on.
- */
-export function getCamera(): Readonly<Vec> {
-  return position;
+export function getCamera(): Readonly<Vector> {
+  return pos;
 }

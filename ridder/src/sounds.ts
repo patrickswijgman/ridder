@@ -1,24 +1,18 @@
 import { getSettings } from "./settings.js";
 
-const sounds: Record<string, HTMLAudioElement> = {};
+export type Sound = HTMLAudioElement;
 
-/**
- * Load a sound.
- */
+const sounds: Record<string, Sound> = {};
+
 export async function loadSound(id: string, src: string) {
   return await new Promise<void>((resolve, reject) => {
     const sound = new Audio(src);
-
     sound.addEventListener("canplaythrough", () => resolve(), { once: true });
     sound.addEventListener("error", (e) => reject(e), { once: true });
-
     sounds[id] = sound;
   });
 }
 
-/**
- * Play a sound.
- */
 export function playSound(id: string, volume = 1, loop = false) {
   const settings = getSettings();
   const sound = sounds[id];
@@ -27,18 +21,12 @@ export function playSound(id: string, volume = 1, loop = false) {
   sound.play();
 }
 
-/**
- * Stop a sound.
- */
 export function stopSound(id: string) {
   const sound = sounds[id];
   sound.pause();
   sound.currentTime = 0;
 }
 
-/**
- * Get a loaded sound.
- */
-export function getSound(id: string): Readonly<HTMLAudioElement> {
+export function getSound(id: string): Readonly<Sound> {
   return sounds[id];
 }

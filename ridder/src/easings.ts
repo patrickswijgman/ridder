@@ -26,13 +26,9 @@
 */
 
 export type EasingFunction = (
-  /** Current elapsed time in milliseconds. */
   t: number,
-  /** Initial value. */
   b: number,
-  /** Change in value (final value - initial value). */
   c: number,
-  /** Duration in milliseconds. */
   d: number,
   s?: number,
 ) => number;

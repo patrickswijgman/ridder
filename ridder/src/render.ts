@@ -1,51 +1,121 @@
 import { getCamera } from "./camera.js";
-import { ctx, scale } from "./canvas.js";
-import { point } from "./point.js";
+import { canvas, ctx, scale } from "./canvas.js";
+import { Circle } from "./circle.js";
+import { getFont } from "./fonts.js";
+import { Polygon, isPolygonValid } from "./polygon.js";
+import { Rectangle } from "./rectangle.js";
+import { getSprite } from "./sprites.js";
+import { getTexture } from "./textures.js";
 import { toRadians } from "./utils.js";
-import { vec } from "./vector.js";
 
-export abstract class RenderObject {
-  /** The position of this object. */
-  position = vec();
-  /** The scale factor when drawing this object. */
-  scale = point(1, 1);
-  /** The center of rotation. */
-  pivot = point(0, 0);
-  /** The camera scrolling factor, e.g. set x=0 and y=0 for UI objects. */
-  scroll = point(1, 1);
-  /** The angle in degrees when drawing this object. */
-  angle = 0;
-  /** The alpha (opacity) value when drawing this object (0.0 ~ 1.0). */
-  alpha = 1;
-  /** The color when drawing this object, can be a word e.g. "blue" or a hex e.g. "#0000ff". */
-  color = "white";
-  /** When drawing this object; whether to fill or stroke the shape. */
-  fill = false;
+export type TextAlign = "left" | "center" | "right";
+export type TextBaseline = "top" | "middle" | "bottom";
 
-  draw() {
-    const cam = getCamera();
-    const camX = -cam.x * this.scroll.x;
-    const camY = -cam.y * this.scroll.y;
+export function clearBackground(color: string) {
+  ctx.resetTransform();
+  ctx.fillStyle = color;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
 
-    ctx.setTransform(scale.x, 0, 0, scale.y, 0, 0);
-    ctx.translate(camX, camY);
-    ctx.translate(this.x, this.y);
-    ctx.scale(this.scale.x, this.scale.y);
-    ctx.rotate(toRadians(this.angle));
-    ctx.globalAlpha = this.alpha;
+export function resetTransform() {
+  ctx.setTransform(scale.x, 0, 0, scale.y, 0, 0);
+}
+
+export function translateTransform(x: number, y: number) {
+  ctx.translate(x, y);
+}
+
+export function scaleTransform(x: number, y: number) {
+  ctx.scale(x, y);
+}
+
+export function rotateTransform(degrees: number) {
+  ctx.rotate(toRadians(degrees));
+}
+
+export function applyCameraTransform() {
+  const camera = getCamera();
+  ctx.translate(-camera.x, -camera.y);
+}
+
+export function drawTexture(id: string, x: number, y: number) {
+  ctx.drawImage(getTexture(id), x, y);
+}
+
+export function drawSprite(id: string, x: number, y: number) {
+  const sprite = getSprite(id);
+  const texture = getTexture(sprite.textureId);
+  ctx.drawImage(
+    texture,
+    sprite.x,
+    sprite.y,
+    sprite.w,
+    sprite.h,
+    x,
+    y,
+    sprite.w,
+    sprite.h,
+  );
+}
+
+export function drawText(
+  text: string,
+  x: number,
+  y: number,
+  color = "white",
+  align: TextAlign = "left",
+  baseline: TextBaseline = "top",
+  fontId = "default",
+) {
+  const font = getFont(fontId);
+  ctx.font = font ? font : "16px sans-serif";
+  ctx.textAlign = align;
+  ctx.textBaseline = baseline;
+  ctx.fillStyle = color;
+  ctx.fillText(text, x, y);
+}
+
+export function drawRect(r: Rectangle, color = "white", fill = false) {
+  if (fill) {
+    ctx.fillStyle = color;
+    ctx.fillRect(r.x, r.y, r.w, r.h);
+  } else {
+    ctx.strokeStyle = color;
+    ctx.strokeRect(r.x, r.y, r.w, r.h);
+  }
+}
+
+export function drawCircle(c: Circle, color = "white", fill = false) {
+  ctx.beginPath();
+  ctx.arc(c.x, c.y, c.r, 0, 2 * Math.PI);
+  ctx.closePath();
+
+  if (fill) {
+    ctx.fillStyle = color;
+    ctx.fill();
+  } else {
+    ctx.strokeStyle = color;
+    ctx.stroke();
+  }
+}
+
+export function drawPolygon(p: Polygon, color = "white", fill = false) {
+  if (!isPolygonValid(p)) return;
+
+  ctx.beginPath();
+  ctx.moveTo(p.points[0].x, p.points[0].y);
+
+  for (let i = 1; i < p.points.length; i++) {
+    ctx.lineTo(p.points[i].x, p.points[i].y);
   }
 
-  set x(x: number) {
-    this.position.x = x;
-  }
-  get x() {
-    return this.position.x;
-  }
+  ctx.closePath();
 
-  set y(y: number) {
-    this.position.y = y;
-  }
-  get y() {
-    return this.position.y;
+  if (fill) {
+    ctx.fillStyle = color;
+    ctx.fill();
+  } else {
+    ctx.strokeStyle = color;
+    ctx.stroke();
   }
 }

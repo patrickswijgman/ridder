@@ -1,33 +1,24 @@
 import { time } from "./state.js";
 
-export class Timer {
-  elapsed = 0;
+export type Timer = {
+  elapsed: number;
+};
 
-  /**
-   * Advance the timer, returns true if it has reached its duration within this frame.
-   */
-  tick(duration: number) {
-    if (duration <= 0 || this.elapsed >= duration) {
-      return false;
-    }
-
-    this.elapsed += time;
-    this.elapsed = Math.min(this.elapsed, duration);
-
-    return this.elapsed === duration;
-  }
-
-  /**
-   * Reset the timer back to zero.
-   */
-  reset() {
-    this.elapsed = 0;
-  }
+export function timer(): Timer {
+  return { elapsed: 0 };
 }
 
-/**
- * Create a new timer.
- */
-export function timer() {
-  return new Timer();
+export function tickTimer(t: Timer, duration: number) {
+  if (duration <= 0 || t.elapsed >= duration) {
+    return false;
+  }
+
+  t.elapsed += time;
+  t.elapsed = Math.min(t.elapsed, duration);
+
+  return t.elapsed === duration;
+}
+
+export function resetTimer(t: Timer) {
+  t.elapsed = 0;
 }

@@ -1,218 +1,115 @@
-import { ctx } from "./canvas.js";
+import { Circle } from "./circle.js";
 import { linesIntersect } from "./geom.js";
-import { getMousePosition } from "./input.js";
-import { Point, point } from "./point.js";
-import { RenderObject } from "./render.js";
+import { Rectangle } from "./rectangle.js";
 import { toRadians } from "./utils.js";
+import { vec, Vector } from "./vector.js";
 
-type PointTuple = [x: number, y: number];
+export type Polygon = {
+  x: number;
+  y: number;
+  points: Array<Vector>;
+};
 
-export class Polygon extends RenderObject {
-  /** The points (in clock-wise order) that makes up the shape of this convex polygon. */
-  points: Array<Point> = [];
-  /** The rotation in degrees of this polygon, use `setRotation` and `rotate` to change the rotation. Note that `rotation` is not the same as `angle`, `angle` is unused for polygons. */
-  rotation = 0;
+export function polygon(x = 0, y = 0, points: Array<Vector> = []): Polygon {
+  return { x, y, points };
+}
 
-  /**
-   * Set the components of this polygon.
-   */
-  set(x: number, y: number, points: Array<PointTuple>, rotation: number) {
-    this.x = x;
-    this.y = y;
-    this.setShape(points);
-    this.setRotation(rotation);
+export function polygonFromRect(x: number, y: number, r: Rectangle) {
+  return polygon(x, y, [
+    vec(r.x, r.y),
+    vec(r.x + r.w, r.y),
+    vec(r.x + r.w, r.y + r.h),
+    vec(r.x, r.y + r.h),
+  ]);
+}
+
+export function polygonFromCircle(
+  x: number,
+  y: number,
+  c: Circle,
+  segments: number,
+) {
+  const points: Array<Vector> = [];
+  const step = 360 / segments;
+
+  for (let degrees = 0; degrees < 360; degrees += step) {
+    const radians = toRadians(degrees);
+    const x = c.x + Math.cos(radians) * c.r;
+    const y = c.y + Math.sin(radians) * c.r;
+    points.push(vec(x, y));
   }
 
-  /**
-   * Set a new shape for this polygon.
-   */
-  setShape(points: Array<PointTuple>) {
-    this.points.length = 0;
-    this.points.push(...points.map(([x, y]) => point(x, y)));
-  }
+  return polygon(x, y, points);
+}
 
-  /**
-   * Set the rotation of this polygon to the given value in degrees.
-   */
-  setRotation(rotation: number) {
-    this.rotate(rotation - this.rotation);
-  }
+export function isPolygonValid(p: Polygon) {
+  return p.points.length >= 3;
+}
 
-  /**
-   * Rotate this polygon by the given value in degrees.
-   */
-  rotate(rotation: number) {
-    if (rotation === 0) return;
+export function rotatePolygon(p: Polygon, degrees: number) {
+  if (degrees === 0) return;
 
-    const radians = toRadians(rotation);
+  const radians = toRadians(degrees);
 
-    for (const point of this.points) {
-      const x = point.x;
-      const y = point.y;
-
-      const rotatedX = x * Math.cos(radians) - y * Math.sin(radians);
-      const rotatedY = x * Math.sin(radians) + y * Math.cos(radians);
-
-      point.x = rotatedX;
-      point.y = rotatedY;
-    }
-
-    this.rotation += rotation;
-  }
-
-  /**
-   * Returns true if one of the lines of this polygon intersect with one of the lines of the given polygon or
-   * one of the polygon's position is within the other polygon's shape.
-   */
-  intersects(other: Polygon) {
-    if (other === this || !this.isValid() || !other.isValid()) {
-      return false;
-    }
-
-    if (other.contains(this.x, this.y)) {
-      return true;
-    }
-
-    if (this.contains(other.x, other.y)) {
-      return true;
-    }
-
-    for (let i = 0; i < this.points.length; i++) {
-      const p1 = this.points[i];
-      const p2 = this.points[(i + 1) % this.points.length];
-
-      const x1 = p1.x + this.x;
-      const y1 = p1.y + this.y;
-      const x2 = p2.x + this.x;
-      const y2 = p2.y + this.y;
-
-      for (let j = 0; j < other.points.length; j++) {
-        const p3 = other.points[j];
-        const p4 = other.points[(j + 1) % other.points.length];
-
-        const x3 = p3.x + other.x;
-        const y3 = p3.y + other.y;
-        const x4 = p4.x + other.x;
-        const y4 = p4.y + other.y;
-
-        if (linesIntersect(x1, y1, x2, y2, x3, y3, x4, y4)) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-
-  /**
-   * Returns true if the given position is inside this polygon.
-   */
-  contains(x: number, y: number) {
-    let crossings = 0;
-
-    for (let i = 0; i < this.points.length; i++) {
-      const a = this.points[i];
-      const b = this.points[(i + 1) % this.points.length];
-
-      const x1 = a.x + this.x;
-      const y1 = a.y + this.y;
-      const x2 = b.x + this.x;
-      const y2 = b.y + this.y;
-
-      // Use ray-casting (a horizontal line from the given point to, well almost, infinity) to count how many times it intersects.
-      if (linesIntersect(x, y, Number.MAX_SAFE_INTEGER, y, x1, y1, x2, y2)) {
-        crossings++;
-      }
-    }
-
-    // If the point is inside the polygon, the ray will enter and exit the polygon an odd number of times.
-    return crossings % 2 === 1;
-  }
-
-  /**
-   * Returns true if the mouse is inside this polygon.
-   */
-  containsMouse(inWorld: boolean) {
-    const mouse = getMousePosition(inWorld);
-    return this.contains(mouse.x, mouse.y);
-  }
-
-  /**
-   * A convex polygon is valid when it has three or more points.
-   */
-  isValid() {
-    return this.points.length >= 3;
-  }
-
-  /**
-   * Change this polygon's shape to the given rectangle.
-   */
-  toRect(x: number, y: number, w: number, h: number) {
-    this.points.length = 0;
-    this.points.push(
-      point(x, y),
-      point(x + w, y),
-      point(x + w, y + h),
-      point(x, y + h),
-    );
-  }
-
-  /**
-   * Change this polygon's shape to the given circle.
-   */
-  toCircle(radius: number, segments: number) {
-    this.points.length = 0;
-
-    const step = 360 / segments;
-
-    for (let a = 0; a < 360; a += step) {
-      const r = toRadians(a);
-      const x = Math.cos(r) * radius;
-      const y = Math.sin(r) * radius;
-
-      this.points.push(point(x, y));
-    }
-  }
-
-  /**
-   * Draw this polygon on the canvas.
-   */
-  draw() {
-    if (!this.isValid()) return;
-
-    super.draw();
-
-    ctx.beginPath();
-    ctx.moveTo(this.points[0].x, this.points[0].y);
-
-    for (let i = 1; i < this.points.length; i++) {
-      ctx.lineTo(this.points[i].x, this.points[i].y);
-    }
-
-    ctx.closePath();
-
-    if (this.fill) {
-      ctx.fillStyle = this.color;
-      ctx.fill();
-    } else {
-      ctx.strokeStyle = this.color;
-      ctx.stroke();
-    }
+  for (const point of p.points) {
+    const x = point.x;
+    const y = point.y;
+    const rotatedX = x * Math.cos(radians) - y * Math.sin(radians);
+    const rotatedY = x * Math.sin(radians) + y * Math.cos(radians);
+    point.x = rotatedX;
+    point.y = rotatedY;
   }
 }
 
-/**
- * Create a new convex polygon.
- */
-export function polygon(
-  x = 0,
-  y = 0,
-  points: Array<PointTuple> = [],
-  rotation = 0,
-) {
-  const p = new Polygon();
+export function doPolygonsIntersect(a: Polygon, b: Polygon) {
+  if (a === b || !isPolygonValid(a) || !isPolygonValid(b)) {
+    return false;
+  }
 
-  p.set(x, y, points, rotation);
+  if (doesPolygonContain(a, b.x, b.y) || doesPolygonContain(b, a.x, a.y)) {
+    return true;
+  }
 
-  return p;
+  for (let i = 0; i < a.points.length; i++) {
+    const p1 = a.points[i];
+    const p2 = a.points[(i + 1) % a.points.length];
+    const x1 = p1.x + a.x;
+    const y1 = p1.y + a.y;
+    const x2 = p2.x + a.x;
+    const y2 = p2.y + a.y;
+
+    for (let j = 0; j < b.points.length; j++) {
+      const p3 = b.points[j];
+      const p4 = b.points[(j + 1) % b.points.length];
+      const x3 = p3.x + b.x;
+      const y3 = p3.y + b.y;
+      const x4 = p4.x + b.x;
+      const y4 = p4.y + b.y;
+
+      if (linesIntersect(x1, y1, x2, y2, x3, y3, x4, y4)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+export function doesPolygonContain(p: Polygon, x: number, y: number) {
+  let crossings = 0;
+
+  for (let i = 0; i < p.points.length; i++) {
+    const a = p.points[i];
+    const b = p.points[(i + 1) % p.points.length];
+    const x1 = a.x + p.x;
+    const y1 = a.y + p.y;
+    const x2 = b.x + p.x;
+    const y2 = b.y + p.y;
+
+    if (linesIntersect(x, y, Number.MAX_SAFE_INTEGER, y, x1, y1, x2, y2)) {
+      crossings++;
+    }
+  }
+
+  return crossings % 2 === 1;
 }

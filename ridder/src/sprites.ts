@@ -1,4 +1,4 @@
-type SpriteData = {
+export type Sprite = {
   textureId: string;
   x: number;
   y: number;
@@ -6,11 +6,8 @@ type SpriteData = {
   h: number;
 };
 
-const sprites: Record<string, SpriteData> = {};
+const sprites: Record<string, Sprite> = {};
 
-/**
- * Load a sprite from a loaded texture. A sprite is a subregion of a texture.
- */
 export function loadSprite(
   id: string,
   textureId: string,
@@ -22,9 +19,6 @@ export function loadSprite(
   sprites[id] = { textureId, x, y, w, h };
 }
 
-/**
- * Get a loaded sprite.
- */
-export function getSprite(id: string): Readonly<SpriteData> {
+export function getSprite(id: string): Readonly<Sprite> {
   return sprites[id];
 }
