@@ -4,6 +4,7 @@ import { Circle } from "./circle.js";
 import { getFont } from "./fonts.js";
 import { Polygon, isPolygonValid } from "./polygon.js";
 import { Rectangle } from "./rectangle.js";
+import { getSettings } from "./settings.js";
 import { getSprite } from "./sprites.js";
 import { getTexture } from "./textures.js";
 import { toRadians } from "./utils.js";
@@ -11,9 +12,10 @@ import { toRadians } from "./utils.js";
 export type TextAlign = "left" | "center" | "right";
 export type TextBaseline = "top" | "middle" | "bottom";
 
-export function clearBackground(color: string) {
+export function clearBackground() {
+  const settings = getSettings();
   ctx.resetTransform();
-  ctx.fillStyle = color;
+  ctx.fillStyle = settings.background;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -103,10 +105,10 @@ export function drawPolygon(p: Polygon, color = "white", fill = false) {
   if (!isPolygonValid(p)) return;
 
   ctx.beginPath();
-  ctx.moveTo(p.points[0].x, p.points[0].y);
+  ctx.moveTo(p.x + p.points[0].x, p.y + p.points[0].y);
 
   for (let i = 1; i < p.points.length; i++) {
-    ctx.lineTo(p.points[i].x, p.points[i].y);
+    ctx.lineTo(p.x + p.points[i].x, p.y + p.points[i].y);
   }
 
   ctx.closePath();

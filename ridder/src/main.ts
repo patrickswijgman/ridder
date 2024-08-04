@@ -1,30 +1,28 @@
 import { setupCanvas } from "./canvas.js";
 import { resetInputs, setupInput, updateMousePosition } from "./input.js";
 import { clearBackground, resetTransform } from "./render.js";
-import { Settings, getSettings, setSettings } from "./settings.js";
+import { Settings, setSettings } from "./settings.js";
 import { setupState, updateState } from "./state.js";
 
-type RunConfig = {
+type Config = {
   settings: Partial<Settings>;
   setup: () => Promise<void>;
   update: () => void;
 };
 
-export async function run(config: RunConfig) {
-  setSettings(config.settings);
+export async function run(c: Config) {
+  setSettings(c.settings);
   setupCanvas();
   setupInput();
-  await config.setup();
+  await c.setup();
   setupState();
-
-  const settings = getSettings();
 
   const tick = () => {
     if (updateState()) {
-      clearBackground(settings.background);
+      clearBackground();
       resetTransform();
       updateMousePosition();
-      config.update();
+      c.update();
       resetInputs();
     }
 
