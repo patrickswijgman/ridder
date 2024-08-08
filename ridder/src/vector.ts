@@ -9,13 +9,13 @@ export function vec(x = 0, y = 0): Vector {
   return { x, y };
 }
 
-export function addVectors(a: Vector, b: Vector) {
+export function addVector(a: Vector, b: Vector) {
   a.x += b.x;
   a.y += b.y;
   return a;
 }
 
-export function subtractVectors(a: Vector, b: Vector) {
+export function subtractVector(a: Vector, b: Vector) {
   a.x -= b.x;
   a.y -= b.y;
   return a;
@@ -27,8 +27,16 @@ export function scaleVector(v: Vector, s: number) {
   return v;
 }
 
-export function getVectorLength(v: Vector) {
-  return Math.sqrt(v.x * v.x + v.y * v.y);
+export function resetVector(v: Vector) {
+  v.x = 0;
+  v.y = 0;
+  return v;
+}
+
+export function copyVector(a: Vector, b: Vector) {
+  a.x = b.x;
+  a.y = b.y;
+  return a;
 }
 
 export function normalizeVector(v: Vector) {
@@ -49,16 +57,14 @@ export function limitVector(v: Vector, max: number) {
   return v;
 }
 
-export function getDistanceBetweenVectors(a: Vector, b: Vector) {
-  return getDistance(a.x, a.y, b.x, b.y);
-}
-
-export function copyVector(a: Vector, b: Vector) {
-  a.x = b.x;
-  a.y = b.y;
-  return a;
-}
-
 export function cloneVector(v: Vector) {
   return vec(v.x, v.y);
+}
+
+export function getVectorLength(v: Vector) {
+  return Math.sqrt(v.x * v.x + v.y * v.y);
+}
+
+export function getVectorDistance(a: Vector, b: Vector) {
+  return getDistance(a.x, a.y, b.x, b.y);
 }

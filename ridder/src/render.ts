@@ -35,9 +35,9 @@ export function rotateTransform(degrees: number) {
   ctx.rotate(toRadians(degrees));
 }
 
-export function applyCameraTransform() {
+export function applyCameraTransform(scrollX = 1, scrollY = 1) {
   const camera = getCamera();
-  ctx.translate(-camera.x, -camera.y);
+  ctx.translate(-camera.x * scrollX, -camera.y * scrollY);
 }
 
 export function drawTexture(id: string, x: number, y: number) {

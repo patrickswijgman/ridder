@@ -1,107 +1,188 @@
 import {
-  body,
-  getSettings,
+  addVector,
+  applyCameraTransform,
+  cloneVector,
+  copyVector,
+  delta,
+  drawRect,
+  drawText,
+  fps,
   isInputDown,
   isInputPressed,
   rect,
+  Rectangle,
+  resetTransform,
+  resolveIntersectionBetweenRectangles,
   run,
+  scaleTransform,
+  scaleVector,
+  setCamera,
   updateCamera,
   vec,
+  Vector,
 } from "ridder";
 
-class Entity {
-  // The Body class already contains some common physics components like a position and velocity vector,
-  // so no need to define these on the entity as we can already use these vectors instead.
-  body = body();
+// Define our entity struct (I like to use the mega struct approach instead of an entity-component-system).
+type Entity = {
+  position: Vector;
+  velocity: Vector;
+  gravity: Vector;
+
+  body: Rectangle;
+  bodyIsStatic: boolean;
+  bodyIsOnGround: boolean;
+
+  color: string;
+
+  isPlayer: boolean;
+};
+
+function createEntity(): Entity {
+  return {
+    position: vec(),
+    velocity: vec(),
+    gravity: vec(),
+
+    body: rect(),
+    bodyIsStatic: false,
+    bodyIsOnGround: false,
+
+    color: "white",
+
+    isPlayer: false,
+  };
 }
 
-class Scene {
-  entities: Array<Entity> = [];
-  boundary = rect();
-}
+// The scene's data.
+const entities: Array<Entity> = [];
+const boundary = rect(0, 0, 200, 120); // The scene is this big and the camera will be constrained to this boundary.
 
-const scene = new Scene();
-
-const player = new Entity();
-const floor = new Entity();
-const platform = new Entity();
-const wall = new Entity();
+// The constant at which gravity is applied to the entity's gravity vector.
+const GRAVITY = vec(0, 0.01);
 
 run({
   settings: {
     width: 160,
     height: 90,
-    gravity: vec(0, 0.01),
-    gravityMax: 1,
-    background: "#1D263B",
     cameraSmoothing: 0.05,
-    debug: true,
   },
 
   setup: async () => {
-    const settings = getSettings();
-
-    // Setup the scene.
-    scene.entities.push(player, floor, platform, wall);
-    scene.boundary.set(0, 0, 200, settings.height);
-
     // Setup the player entity.
-    player.body.set(20, 70, 6, 8);
-    player.body.color = "#A0EADE";
-    player.body.fill = true;
+    const player = createEntity();
+    player.position.x = 20;
+    player.position.y = boundary.h - 20 - 8;
+    player.body.w = 6;
+    player.body.h = 8;
+    player.color = "white";
+    player.isPlayer = true;
 
     // Setup the floor entity.
-    floor.body.set(0, 70, scene.boundary.w, 20);
-    floor.body.isStatic = true;
-    floor.body.color = "#5C6784";
+    const floor = createEntity();
+    floor.position.x = 0;
+    floor.position.y = boundary.h - 20;
+    floor.body.w = boundary.w;
+    floor.body.h = 20;
+    floor.bodyIsStatic = true;
+    floor.color = "gray";
 
     // Setup the platform entity.
-    platform.body.set(50, 50, 30, 10);
-    platform.body.isStatic = true;
-    platform.body.color = "#5C6784";
+    const platform = createEntity();
+    platform.position.x = 50;
+    platform.position.y = 80;
+    platform.body.w = 60;
+    platform.body.h = 10;
+    platform.bodyIsStatic = true;
+    platform.color = "gray";
 
     // Setup the wall entity.
-    wall.body.set(150, 0, 50, 70);
-    wall.body.isStatic = true;
-    wall.body.color = "#AA5042";
+    const wall = createEntity();
+    wall.position.x = 180;
+    wall.position.y = 0;
+    wall.body.w = 20;
+    wall.body.h = boundary.h;
+    wall.bodyIsStatic = true;
+    wall.color = "gray";
+
+    entities.push(player, floor, platform, wall);
+
+    // Start the camera from the player position, otherwise the camera will start at 0,0 and will move to the player.
+    setCamera(player.position.x, player.position.y);
   },
 
   update: () => {
-    // Reset the player velocity, so if no movement key is pressed the player stands still.
-    player.body.velocity.x = 0;
+    for (const e of entities) {
+      if (e.isPlayer) {
+        // Reset the player horizontal velocity, so if no movement key is pressed the player stands still.
+        e.velocity.x = 0;
 
-    // For available key codes you can use something like https://keycode.info and use the `event.code` value here.
-    if (isInputDown("ArrowLeft")) {
-      player.body.velocity.x -= 1; // The velocity of the body already takes the delta into account.
-    }
-    if (isInputDown("ArrowRight")) {
-      player.body.velocity.x += 1;
-    }
+        // For available key codes you can use something like https://keycode.info and use the `event.code` value here.
+        if (isInputDown("ArrowLeft")) {
+          e.velocity.x -= 1;
+        }
+        if (isInputDown("ArrowRight")) {
+          e.velocity.x += 1;
+        }
 
-    // The player may only jump when its on the ground again.
-    // However you could not check the isOnGround flag and implement something like double jump!
-    if (isInputPressed("Space") && player.body.isOnGround) {
-      player.body.velocity.y = -2;
-    }
+        // The player may only jump when its on the ground again.
+        if (isInputPressed("Space") && e.bodyIsOnGround) {
+          e.velocity.y = -2;
+        }
+      }
 
-    for (const e of scene.entities) {
-      // Update each entity's physics body, this will apply its velocity and gravity to its position.
-      e.body.update();
+      // Update each entity's physics body, if dynamic; apply its velocity and gravity to its position.
+      if (!e.bodyIsStatic) {
+        // Clone the vectors so we can apply a delta-scaled version of them, otherwise
+        // if we don't apply delta the entity will move faster with higher FPS.
+        addVector(e.gravity, scaleVector(cloneVector(GRAVITY), delta));
+        addVector(e.velocity, scaleVector(cloneVector(e.gravity), delta));
+        addVector(e.position, scaleVector(cloneVector(e.velocity), delta));
+      }
+
+      // Move the body to the entity's position so we can check for collisions.
+      copyVector(e.body, e.position);
 
       // Now that the body has moved we can check if it's colliding with another body:
       // For each body, check all other bodies for a collision, if there is a collision then this will
       // be resolved immediately and the position of the entity's body will be corrected.
-      for (const other of scene.entities) {
-        e.body.resolveCollision(other.body);
+      for (const other of entities) {
+        // The third argument is the velocity at which the body is moving.
+        // If the body is not moving it does not need to resolve collisions.
+        resolveIntersectionBetweenRectangles(e.body, other.body, e.velocity);
+      }
+
+      // When the body has been moved because it resolved collisions, we can use this information to
+      // determine if the body is on the ground or if it's colliding with a wall.
+      if (e.body.x !== e.position.x) {
+        e.velocity.x = 0;
+        e.gravity.x = 0;
+      }
+      if (e.body.y !== e.position.y) {
+        e.velocity.y = 0;
+        e.gravity.y = 0;
+      }
+
+      // When the body was moved up it means it collided with the floor.
+      e.bodyIsOnGround = e.body.y < e.position.y;
+
+      copyVector(e.position, e.body);
+
+      if (e.isPlayer) {
+        // Make the camera follow the player but constrain it in the scene's boundary.
+        updateCamera(e.position.x, e.position.y, boundary);
       }
     }
 
-    // Make the camera follow the player but constrain it in the scene's boundary.
-    updateCamera(player.body.x, player.body.y, scene.boundary);
-
     // Draw the physics body for each entity.
-    for (const e of scene.entities) {
-      e.body.draw();
+    for (const e of entities) {
+      resetTransform();
+      applyCameraTransform(); // Apply the camera transform for objects that are affected by the camera.
+      drawRect(e.body, e.color, true);
     }
+
+    resetTransform();
+    scaleTransform(0.25, 0.25);
+    // If you don't apply the camera transform you can draw UI elements for examples.
+    drawText(`FPS: ${fps}`, 2, 2, "white");
   },
 });

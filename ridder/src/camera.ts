@@ -3,13 +3,13 @@ import { getSettings } from "./settings.js";
 import { delta } from "./state.js";
 import { clamp } from "./utils.js";
 import {
-  addVectors,
+  addVector,
   copyVector,
-  getDistanceBetweenVectors,
+  getVectorDistance,
   limitVector,
   normalizeVector,
   scaleVector,
-  subtractVectors,
+  subtractVector,
   vec,
   Vector,
 } from "./vector.js";
@@ -24,14 +24,14 @@ export function updateCamera(x: number, y: number, bounds?: Rectangle) {
   target.x = x - settings.width / 2;
   target.y = y - settings.height / 2;
 
-  const distance = getDistanceBetweenVectors(pos, target);
+  const distance = getVectorDistance(pos, target);
 
   copyVector(vel, target);
-  subtractVectors(vel, pos);
+  subtractVector(vel, pos);
   normalizeVector(vel);
   scaleVector(vel, distance * settings.cameraSmoothing * delta);
   limitVector(vel, distance);
-  addVectors(pos, vel);
+  addVector(pos, vel);
 
   if (bounds) {
     pos.x = clamp(pos.x, bounds.x, bounds.x + bounds.w - settings.width);
