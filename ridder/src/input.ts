@@ -20,6 +20,10 @@ export function setupInput() {
   window.addEventListener("keyup", ({ code }) => {
     onUp(code);
   });
+  
+  window.addEventListener("focus", () => {
+    resetAllInputs();
+  });
 
   window.addEventListener("blur", () => {
     resetAllInputs();

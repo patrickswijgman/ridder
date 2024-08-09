@@ -21,3 +21,7 @@ export function doCirclesIntersect(a: Circle, b: Circle) {
 
   return getDistance(a.x, a.y, b.x, b.y) < a.r + b.r;
 }
+
+export function doesCircleContain(c: Circle, x: number, y: number) {
+  return getDistance(c.x, c.y, x, y) < c.r;
+}

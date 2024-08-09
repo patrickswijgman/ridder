@@ -58,7 +58,7 @@ function createEntity(): Entity {
   };
 }
 
-// Data per scene (AKA level).
+// Data per level (AKA scene).
 type Scene = {
   entities: Entity[];
 };
@@ -104,7 +104,7 @@ run({
   },
 
   update: () => {
-    // Simple depth sort
+    // Simple depth sort.
     world.entities.sort((a, b) => a.position.y - b.position.y);
 
     for (const e of world.entities) {

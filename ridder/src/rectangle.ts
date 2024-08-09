@@ -25,6 +25,10 @@ export function doRectanglesIntersect(a: Rectangle, b: Rectangle) {
   );
 }
 
+export function doesRectangleContain(r: Rectangle, x: number, y: number) {
+  return x > r.x && x < r.x + r.w && y > r.y && y < r.y + r.h;
+}
+
 export function resolveIntersectionBetweenRectangles(
   a: Rectangle,
   b: Rectangle,
