@@ -82,7 +82,6 @@ export function resetInputs() {
   for (const key in inputsPressed) {
     inputsPressed[key] = false;
   }
-
   for (const key in inputsReleased) {
     inputsReleased[key] = false;
   }
@@ -92,11 +91,9 @@ export function resetAllInputs() {
   for (const key in inputsDown) {
     inputsDown[key] = false;
   }
-
   for (const key in inputsPressed) {
     inputsPressed[key] = false;
   }
-
   for (const key in inputsReleased) {
     inputsReleased[key] = false;
   }

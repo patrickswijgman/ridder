@@ -1,5 +1,5 @@
 import { Circle } from "./circle.js";
-import { linesIntersect } from "./geom.js";
+import { doLinesIntersect } from "./line.js";
 import { Rectangle } from "./rectangle.js";
 import { toRadians } from "./utils.js";
 import { vec, Vector } from "./vector.js";
@@ -86,7 +86,7 @@ export function doPolygonsIntersect(a: Polygon, b: Polygon) {
       const x4 = p4.x + b.x;
       const y4 = p4.y + b.y;
 
-      if (linesIntersect(x1, y1, x2, y2, x3, y3, x4, y4)) {
+      if (doLinesIntersect(x1, y1, x2, y2, x3, y3, x4, y4)) {
         return true;
       }
     }
@@ -106,7 +106,7 @@ export function doesPolygonContain(p: Polygon, x: number, y: number) {
     const x2 = b.x + p.x;
     const y2 = b.y + p.y;
 
-    if (linesIntersect(x, y, Number.MAX_SAFE_INTEGER, y, x1, y1, x2, y2)) {
+    if (doLinesIntersect(x, y, Number.MAX_SAFE_INTEGER, y, x1, y1, x2, y2)) {
       crossings++;
     }
   }

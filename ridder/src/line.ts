@@ -1,7 +1,7 @@
 /**
  * Source: https://paulbourke.net/geometry/pointlineplane/javascript.txt
  */
-export function linesIntersect(
+export function doLinesIntersect(
   x1: number,
   y1: number,
   x2: number,

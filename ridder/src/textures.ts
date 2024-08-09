@@ -18,10 +18,8 @@ export function loadRenderTexture(
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
-
   const ctx = canvas.getContext("2d")!;
   draw(ctx, width, height);
-
   textures[id] = canvas;
 }
 

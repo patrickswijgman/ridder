@@ -1,9 +1,7 @@
 import {
   addVector,
   applyCameraTransform,
-  cloneVector,
   copyVector,
-  delta,
   drawRect,
   drawText,
   fps,
@@ -15,7 +13,6 @@ import {
   resolveIntersectionBetweenRectangles,
   run,
   scaleTransform,
-  scaleVector,
   setCamera,
   updateCamera,
   vec,
@@ -132,11 +129,12 @@ run({
 
       // Update each entity's physics body, if dynamic; apply its velocity and gravity to its position.
       if (!e.bodyIsStatic) {
-        // Clone the vectors so we can apply a delta-scaled version of them, otherwise
+        // Add and subtract have a third optional argument that saves you from first manually cloning and scaling
+        // the vector by the delta before applying it.
         // if we don't apply delta the entity will move faster with higher FPS.
-        addVector(e.gravity, scaleVector(cloneVector(GRAVITY), delta));
-        addVector(e.velocity, scaleVector(cloneVector(e.gravity), delta));
-        addVector(e.position, scaleVector(cloneVector(e.velocity), delta));
+        addVector(e.gravity, GRAVITY, true);
+        addVector(e.velocity, e.gravity, true);
+        addVector(e.position, e.velocity, true);
       }
 
       // Move the body to the entity's position so we can check for collisions.
@@ -165,6 +163,7 @@ run({
       // When the body was moved up it means it collided with the floor.
       e.bodyIsOnGround = e.body.y < e.position.y;
 
+      // After the body has been moved and resolved collisions we can copy the body's position back to the entity.
       copyVector(e.position, e.body);
 
       if (e.isPlayer) {

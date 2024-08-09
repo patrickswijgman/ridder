@@ -106,11 +106,9 @@ export function drawPolygon(p: Polygon, color = "white", fill = false) {
 
   ctx.beginPath();
   ctx.moveTo(p.x + p.points[0].x, p.y + p.points[0].y);
-
   for (let i = 1; i < p.points.length; i++) {
     ctx.lineTo(p.x + p.points[i].x, p.y + p.points[i].y);
   }
-
   ctx.closePath();
 
   if (fill) {

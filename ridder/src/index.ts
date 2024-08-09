@@ -9,6 +9,7 @@ export {
   isInputReleased,
   mostRecentInput,
 } from "./input.js";
+export * from "./line.js";
 export * from "./main.js";
 export * from "./polygon.js";
 export * from "./rectangle.js";

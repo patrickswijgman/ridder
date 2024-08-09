@@ -19,7 +19,6 @@ export function setupState() {
 export function updateState() {
   last = now;
   now = performance.now();
-
   time = now - last;
   delta = time / targetTime;
 
@@ -29,7 +28,6 @@ export function updateState() {
   }
 
   frames++;
-
   if (tickTimer(framesTimer, 1000)) {
     fps = frames;
     frames = 0;
