@@ -115,6 +115,18 @@ export function isInputReleased(code: string) {
   return !!inputsReleased[code];
 }
 
+export function consumeInputPressed(code: string) {
+  inputsPressed[code] = false;
+}
+
+export function consumeInputDown(code: string) {
+  inputsDown[code] = false;
+}
+
+export function consumeInputReleased(code: string) {
+  inputsReleased[code] = false;
+}
+
 export function getMousePosition(inWorld: boolean): Readonly<Vector> {
   return inWorld ? mouseWorldPosition : mousePosition;
 }
