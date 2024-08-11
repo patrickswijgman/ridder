@@ -1,5 +1,5 @@
 import {
-  addVector,
+  delta,
   drawSprite,
   isInputDown,
   loadSprite,
@@ -14,7 +14,6 @@ import {
   Vector,
 } from "ridder";
 
-// Data per game object (AKA entity).
 type Entity = {
   isPlayer: boolean;
   isFlipped: boolean;
@@ -26,7 +25,6 @@ type Entity = {
   pivot: Vector;
 };
 
-// Entity factory function.
 function createEntity(): Entity {
   return {
     isPlayer: false,
@@ -40,19 +38,16 @@ function createEntity(): Entity {
   };
 }
 
-// Data per level (AKA scene).
 type Scene = {
-  entities: Entity[];
+  entities: Array<Entity>;
 };
 
-// Scene factory function.
 function createScene(): Scene {
   return {
     entities: [],
   };
 }
 
-// For simplicity we don't have a scene system, just the one.
 const world = createScene();
 
 run({
@@ -86,7 +81,6 @@ run({
   },
 
   update: () => {
-    // Simple depth sort.
     world.entities.sort((a, b) => a.position.y - b.position.y);
 
     for (const e of world.entities) {
@@ -110,7 +104,9 @@ run({
       }
 
       normalizeVector(e.velocity);
-      addVector(e.position, e.velocity, true);
+
+      e.position.x += e.velocity.x * delta;
+      e.position.y += e.velocity.y * delta;
 
       if (e.spriteId) {
         resetTransform();

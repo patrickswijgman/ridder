@@ -12,11 +12,8 @@ import {
   vec,
 } from "ridder";
 
-// Polygon has some convenient functions to create common shapes such as a rectangle or circle.
-const a = polygonFromCircle(0, 0, circle(0, 0, 30), 8);
-// Or you can supply the points manually in clock-wise order, this creates a triangle for example.
-// The points given are relative to the polygon's position.
-const b = polygon(0, 0, [
+const one = polygonFromCircle(0, 0, circle(0, 0, 30), 8);
+const two = polygon(0, 0, [
   vec(-5, 5), // bottom left
   vec(0, -5), // top
   vec(5, 5), //  bottom right
@@ -31,18 +28,18 @@ run({
   setup: async () => {
     const settings = getSettings();
 
-    a.x = settings.width / 2;
-    a.y = settings.height / 2;
+    one.x = settings.width / 2;
+    one.y = settings.height / 2;
   },
 
   update: () => {
+    rotatePolygon(one, 1 * delta);
+
     const mouse = getMousePosition(true);
-    b.x = mouse.x;
-    b.y = mouse.y;
+    two.x = mouse.x;
+    two.y = mouse.y;
 
-    rotatePolygon(a, 1 * delta);
-
-    drawPolygon(a, doPolygonsIntersect(a, b) ? "red" : "white", false);
-    drawPolygon(b, "white", true);
+    drawPolygon(one, doPolygonsIntersect(one, two) ? "red" : "white", false);
+    drawPolygon(two, "white", true);
   },
 });

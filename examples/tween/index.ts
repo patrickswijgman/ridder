@@ -22,6 +22,7 @@ type Entity = {
   position: Vector;
   angle: number;
   scale: number;
+  pivot: Vector;
   timer: Timer;
 };
 
@@ -30,14 +31,15 @@ function createEntity(): Entity {
     position: vec(),
     angle: 0,
     scale: 1,
+    pivot: vec(),
     timer: timer(),
   };
 }
 
-const entityA = createEntity();
-const entityB = createEntity();
+const one = createEntity();
+const two = createEntity();
 
-const entities = [entityA, entityB];
+const entities = [one, two];
 
 run({
   settings: {
@@ -51,31 +53,34 @@ run({
     loadSprite("snowman", "tilemap", 95, 133, 18, 18);
 
     const settings = getSettings();
+    
+    const x = settings.width / 3;
+    const y = settings.height / 2;
 
-    entityA.position.x = settings.width / 3;
-    entityA.position.y = settings.height / 2;
+    one.position.x = x;
+    one.position.y = y;
+    one.pivot.x = 9;
+    one.pivot.y = 18;
 
-    entityB.position.x = (settings.width / 3) * 2;
-    entityB.position.y = settings.height / 2;
+    two.position.x = x * 2;
+    two.position.y = y;
+    two.pivot.x = 9;
+    two.pivot.y = 9;
   },
 
   update: () => {
-    // Ease a full rotation (0~360 degrees) in 5 seconds.
-    // There are many different easing functions, see them here: https://easings.net/
-    tickTimer(entityA.timer, 5000);
-    entityA.angle = tween(
+    tickTimer(one.timer, 5000);
+    one.angle = tween(
       0,
       360,
       5000,
-      entityA.timer.elapsed,
+      one.timer.elapsed,
       "easeOutElastic",
     );
 
-    // You can loop tweens by passing a timer that runs infinitely.
-    tickTimer(entityB.timer, Infinity);
-    entityB.scale = tween(1, 2, 2000, entityB.timer.elapsed, "easeInOutSine");
+    tickTimer(two.timer, Infinity);
+    two.scale = tween(1, 2, 2000, two.timer.elapsed, "easeInOutSine");
 
-    // You can reset tweens and have them play again.
     if (isInputPressed("Enter")) {
       for (const e of entities) {
         e.angle = 0;
@@ -85,11 +90,11 @@ run({
     }
 
     for (const e of entities) {
-      resetTransform(); // Important to reset the transform matrix, otherwise this drawing will be drawn relative to the previous one.
+      resetTransform();
       translateTransform(e.position.x, e.position.y);
       rotateTransform(e.angle);
       scaleTransform(e.scale, e.scale);
-      drawSprite("snowman", -9, -18); // When translating the transform matrix you can pass the x and y here as the center of rotation.
+      drawSprite("snowman", -e.pivot.x, -e.pivot.y);
     }
   },
 });
