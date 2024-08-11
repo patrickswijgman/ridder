@@ -7,6 +7,9 @@ export {
   isInputDown,
   isInputPressed,
   isInputReleased,
+  consumeInputDown,
+  consumeInputPressed,
+  consumeInputReleased,
   mostRecentInput,
 } from "./input.js";
 export * from "./line.js";
