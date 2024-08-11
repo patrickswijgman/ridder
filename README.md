@@ -12,8 +12,8 @@ npm i ridder
 
 ## Getting started
 
-See below for a quick example (taken from the [starter](#starter) example) to get familiar with the beginnings of a game.
-Other examples, like a simple platformer, see the [examples](#examples) section below.
+See the starter example below to get familiar with the simplicity of the game engine.
+For more examples, like a simple platformer, see the [examples](#examples) section below.
 
 ```typescript
 import {
@@ -137,12 +137,11 @@ run({
     }
   },
 });
-
 ```
 
 ## Examples
 
-You can clone this project and run an example from the [examples](examples/) folder like so:
+You can clone this project and run an example from the examples folder like so:
 
 ```shell
 # make sure to install the dependencies first, you only need to do this once:
@@ -152,44 +151,15 @@ npm ci
 npm start -w <example> # e.g. npm start -w platformer
 ```
 
-Or checkout the links below for each example to see it running using GitHub pages.
+See the table below for the code of each example or play it instantly (using Github Pages).
 
-#### Starter
-
-- [play](https://patrickswijgman.github.io/ridder/starter/index.html)
-- [code](examples/starter/index.ts)
-
-#### Input
-
-- [play](https://patrickswijgman.github.io/ridder/input/index.html)
-- [code](examples/input/index.ts)
-
-#### Font
-
-- [play](https://patrickswijgman.github.io/ridder/font/index.html)
-- [code](examples/font/index.ts)
-
-#### Platformer
-
-- [play](https://patrickswijgman.github.io/ridder/platformer/index.html)
-- [code](examples/platformer/index.ts)
-
-#### Polygon
-
-- [play](https://patrickswijgman.github.io/ridder/polygon/index.html)
-- [code](examples/polygon/index.ts)
-
-#### Render Texture
-
-- [play](https://patrickswijgman.github.io/ridder/render-texture/index.html)
-- [code](examples/render-texture/index.ts)
-
-#### Sprite
-
-- [play](https://patrickswijgman.github.io/ridder/sprite/index.html)
-- [code](examples/sprite/index.ts)
-
-#### Tween
-
-- [play](https://patrickswijgman.github.io/ridder/tween/index.html)
-- [code](examples/tween/index.ts)
+|                | Play                                                                       | Code                                     |
+| -------------- | -------------------------------------------------------------------------- | ---------------------------------------- |
+| starter        | [link](https://patrickswijgman.github.io/ridder/starter/index.html)        | [link](examples/starter/index.ts)        |
+| input          | [link](https://patrickswijgman.github.io/ridder/input/index.html)          | [link](examples/input/index.ts)          |
+| font           | [link](https://patrickswijgman.github.io/ridder/font/index.html)           | [link](examples/font/index.ts)           |
+| platformer     | [link](https://patrickswijgman.github.io/ridder/platformer/index.html)     | [link](examples/platformer/index.ts)     |
+| polygon        | [link](https://patrickswijgman.github.io/ridder/polygon/index.html)        | [link](examples/polygon/index.ts)        |
+| render-texture | [link](https://patrickswijgman.github.io/ridder/render-texture/index.html) | [link](examples/render-texture/index.ts) |
+| sprite         | [link](https://patrickswijgman.github.io/ridder/sprite/index.html)         | [link](examples/sprite/index.ts)         |
+| tween          | [link](https://patrickswijgman.github.io/ridder/tween/index.html)          | [link](examples/tween/index.ts)          |
