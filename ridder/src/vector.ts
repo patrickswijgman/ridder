@@ -1,4 +1,3 @@
-import { delta } from "./state.js";
 import { getDistance } from "./utils.js";
 
 export type Vector = {
@@ -10,25 +9,15 @@ export function vec(x = 0, y = 0): Vector {
   return { x, y };
 }
 
-export function addVector(a: Vector, b: Vector, scaleByDelta = false) {
-  if (scaleByDelta) {
-    a.x += b.x * delta;
-    a.y += b.y * delta;
-  } else {
-    a.x += b.x;
-    a.y += b.y;
-  }
+export function addVector(a: Vector, b: Vector) {
+  a.x += b.x;
+  a.y += b.y;
   return a;
 }
 
-export function subtractVector(a: Vector, b: Vector, scaleByDelta = false) {
-  if (scaleByDelta) {
-    a.x -= b.x * delta;
-    a.y -= b.y * delta;
-  } else {
-    a.x -= b.x;
-    a.y -= b.y;
-  }
+export function subtractVector(a: Vector, b: Vector) {
+  a.x -= b.x;
+  a.y -= b.y;
   return a;
 }
 

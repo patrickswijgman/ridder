@@ -33,6 +33,7 @@ export function resolveIntersectionBetweenRectangles(
   a: Rectangle,
   b: Rectangle,
   velocity: Vector,
+  result?: Vector,
 ) {
   if (!getVectorLength(velocity) || !doRectanglesIntersect(a, b)) {
     return false;
@@ -46,50 +47,50 @@ export function resolveIntersectionBetweenRectangles(
   switch (true) {
     case velocity.x > 0 && velocity.y > 0:
       if (l > u) {
-        resolveOverlap(a, 0, -u);
+        resolveOverlap(a, 0, -u, result);
       } else {
-        resolveOverlap(a, -l, 0);
+        resolveOverlap(a, -l, 0, result);
       }
       return true;
 
     case velocity.x < 0 && velocity.y > 0:
       if (r > u) {
-        resolveOverlap(a, 0, -u);
+        resolveOverlap(a, 0, -u, result);
       } else {
-        resolveOverlap(a, r, 0);
+        resolveOverlap(a, r, 0, result);
       }
       return true;
 
     case velocity.x > 0 && velocity.y < 0:
       if (l > d) {
-        resolveOverlap(a, 0, d);
+        resolveOverlap(a, 0, d, result);
       } else {
-        resolveOverlap(a, -l, 0);
+        resolveOverlap(a, -l, 0, result);
       }
       return true;
 
     case velocity.x < 0 && velocity.y < 0:
       if (r > d) {
-        resolveOverlap(a, 0, d);
+        resolveOverlap(a, 0, d, result);
       } else {
-        resolveOverlap(a, r, 0);
+        resolveOverlap(a, r, 0, result);
       }
       return true;
 
     case velocity.x > 0:
-      resolveOverlap(a, -l, 0);
+      resolveOverlap(a, -l, 0, result);
       return true;
 
     case velocity.x < 0:
-      resolveOverlap(a, r, 0);
+      resolveOverlap(a, r, 0, result);
       return true;
 
     case velocity.y > 0:
-      resolveOverlap(a, 0, -u);
+      resolveOverlap(a, 0, -u, result);
       return true;
 
     case velocity.y < 0:
-      resolveOverlap(a, 0, d);
+      resolveOverlap(a, 0, d, result);
       return true;
 
     default:
@@ -97,7 +98,12 @@ export function resolveIntersectionBetweenRectangles(
   }
 }
 
-function resolveOverlap(r: Rectangle, x: number, y: number) {
+function resolveOverlap(r: Rectangle, x: number, y: number, result?: Vector) {
   r.x += x;
   r.y += y;
+
+  if (result) {
+    result.x += x;
+    result.y += y;
+  }
 }
