@@ -1,5 +1,7 @@
 import {
+  addVectorScaled,
   applyCameraTransform,
+  copyVector,
   delta,
   drawRect,
   drawText,
@@ -20,7 +22,7 @@ import {
   Vector,
 } from "ridder";
 
-const GRAVITY = 0.01;
+const GRAVITY = vec(0, 0.01);
 
 type Entity = {
   isPlayer: boolean;
@@ -120,16 +122,12 @@ run({
       }
 
       if (!e.bodyIsStatic) {
-        e.gravity.y += GRAVITY * delta;
-        e.velocity.y += e.gravity.y * delta;
+        addVectorScaled(e.gravity, GRAVITY, delta);
+        addVectorScaled(e.velocity, e.gravity, delta);
       }
+      addVectorScaled(e.position, e.velocity, delta);
 
-      e.position.x += e.velocity.x * delta;
-      e.position.y += e.velocity.y * delta;
-
-      e.body.x = e.position.x;
-      e.body.y = e.position.y;
-
+      copyVector(e.body, e.position);
       resetVector(e.bodyIntersectionResult);
 
       for (const other of entities) {
@@ -143,6 +141,7 @@ run({
 
       if (e.bodyIntersectionResult.x) {
         e.velocity.x = 0;
+        e.gravity.x = 0;
       }
       if (e.bodyIntersectionResult.y) {
         e.velocity.y = 0;
@@ -151,8 +150,7 @@ run({
 
       e.bodyIsOnGround = e.bodyIntersectionResult.y < 0;
 
-      e.position.x = e.body.x;
-      e.position.y = e.body.y;
+      copyVector(e.position, e.body);
 
       if (e.isPlayer) {
         updateCamera(e.position.x, e.position.y, boundary);

@@ -1,4 +1,5 @@
 import {
+  addVectorScaled,
   delta,
   drawSprite,
   InputCode,
@@ -105,9 +106,7 @@ run({
       }
 
       normalizeVector(e.velocity);
-
-      e.position.x += e.velocity.x * delta;
-      e.position.y += e.velocity.y * delta;
+      addVectorScaled(e.position, e.velocity, delta);
 
       if (e.spriteId) {
         resetTransform();

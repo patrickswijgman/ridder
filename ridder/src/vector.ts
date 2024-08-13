@@ -15,9 +15,21 @@ export function addVector(a: Vector, b: Vector) {
   return a;
 }
 
+export function addVectorScaled(a: Vector, b: Vector, s: number) {
+  a.x += b.x * s;
+  a.y += b.y * s;
+  return a;
+}
+
 export function subtractVector(a: Vector, b: Vector) {
   a.x -= b.x;
   a.y -= b.y;
+  return a;
+}
+
+export function subtractVectorScaled(a: Vector, b: Vector, s: number) {
+  a.x -= b.x * s;
+  a.y -= b.y * s;
   return a;
 }
 
