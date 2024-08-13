@@ -1,5 +1,6 @@
 import { getCamera } from "./camera.js";
 import { canvas, scale } from "./canvas.js";
+import { Inputs } from "./consts.js";
 import { Vector, vec } from "./vector.js";
 
 const inputsDown: Record<string, boolean> = {};
@@ -20,7 +21,7 @@ export function setupInput() {
   window.addEventListener("keyup", ({ code }) => {
     onUp(code);
   });
-  
+
   window.addEventListener("focus", () => {
     resetAllInputs();
   });
@@ -63,16 +64,16 @@ function onUp(code: string) {
   inputsReleased[code] = true;
 }
 
-function mouseButtonToCode(button: number) {
+function mouseButtonToCode(button: number): Inputs {
   switch (button) {
     case 0:
-      return "MouseLeft";
+      return Inputs.MOUSE_LEFT;
     case 1:
-      return "MouseMiddle";
+      return Inputs.MOUSE_MIDDLE;
     case 2:
-      return "MouseRight";
+      return Inputs.MOUSE_RIGHT;
     default:
-      return `Mouse${button}`;
+      return Inputs.NONE;
   }
 }
 
@@ -103,27 +104,27 @@ export function resetAllInputs() {
   }
 }
 
-export function isInputPressed(code: string) {
+export function isInputPressed(code: Inputs) {
   return !!inputsPressed[code];
 }
 
-export function isInputDown(code: string) {
+export function isInputDown(code: Inputs) {
   return !!inputsDown[code];
 }
 
-export function isInputReleased(code: string) {
+export function isInputReleased(code: Inputs) {
   return !!inputsReleased[code];
 }
 
-export function consumeInputPressed(code: string) {
+export function consumeInputPressed(code: Inputs) {
   inputsPressed[code] = false;
 }
 
-export function consumeInputDown(code: string) {
+export function consumeInputDown(code: Inputs) {
   inputsDown[code] = false;
 }
 
-export function consumeInputReleased(code: string) {
+export function consumeInputReleased(code: Inputs) {
   inputsReleased[code] = false;
 }
 

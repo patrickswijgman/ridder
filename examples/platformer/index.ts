@@ -4,6 +4,7 @@ import {
   drawRect,
   drawText,
   fps,
+  Inputs,
   isInputDown,
   isInputPressed,
   rect,
@@ -107,13 +108,13 @@ run({
       if (e.isPlayer) {
         e.velocity.x = 0;
 
-        if (isInputDown("ArrowLeft")) {
+        if (isInputDown(Inputs.KEY_LEFT)) {
           e.velocity.x -= 1;
         }
-        if (isInputDown("ArrowRight")) {
+        if (isInputDown(Inputs.KEY_RIGHT)) {
           e.velocity.x += 1;
         }
-        if (isInputPressed("Space") && e.bodyIsOnGround) {
+        if (isInputPressed(Inputs.KEY_SPACE) && e.bodyIsOnGround) {
           e.velocity.y = -2;
         }
       }

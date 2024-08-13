@@ -1,6 +1,7 @@
 import {
   drawSprite,
   getSettings,
+  Inputs,
   isInputPressed,
   loadSprite,
   loadTexture,
@@ -53,7 +54,7 @@ run({
     loadSprite("snowman", "tilemap", 95, 133, 18, 18);
 
     const settings = getSettings();
-    
+
     const x = settings.width / 3;
     const y = settings.height / 2;
 
@@ -70,18 +71,12 @@ run({
 
   update: () => {
     tickTimer(one.timer, 5000);
-    one.angle = tween(
-      0,
-      360,
-      5000,
-      one.timer.elapsed,
-      "easeOutElastic",
-    );
+    one.angle = tween(0, 360, 5000, one.timer.elapsed, "easeOutElastic");
 
     tickTimer(two.timer, Infinity);
     two.scale = tween(1, 2, 2000, two.timer.elapsed, "easeInOutSine");
 
-    if (isInputPressed("Enter")) {
+    if (isInputPressed(Inputs.KEY_ENTER)) {
       for (const e of entities) {
         e.angle = 0;
         e.scale = 1;

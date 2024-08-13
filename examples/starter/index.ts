@@ -1,6 +1,7 @@
 import {
   delta,
   drawSprite,
+  Inputs,
   isInputDown,
   loadSprite,
   loadTexture,
@@ -87,18 +88,18 @@ run({
       if (e.isPlayer) {
         resetVector(e.velocity);
 
-        if (isInputDown("ArrowLeft")) {
+        if (isInputDown(Inputs.KEY_LEFT)) {
           e.velocity.x -= 1;
           e.isFlipped = false;
         }
-        if (isInputDown("ArrowRight")) {
+        if (isInputDown(Inputs.KEY_RIGHT)) {
           e.velocity.x += 1;
           e.isFlipped = true;
         }
-        if (isInputDown("ArrowUp")) {
+        if (isInputDown(Inputs.KEY_UP)) {
           e.velocity.y -= 1;
         }
-        if (isInputDown("ArrowDown")) {
+        if (isInputDown(Inputs.KEY_DOWN)) {
           e.velocity.y += 1;
         }
       }
