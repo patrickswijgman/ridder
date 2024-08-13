@@ -4,16 +4,25 @@ A simple data-oriented game engine for JavaScript that has everything you need t
 
 There won't be extensive documentation as the game engine is intended to be simple, the [examples](#examples) should get you started right away!
 
-## Installation
-
-```shell
-npm i ridder
-```
-
 ## Getting started
 
-See the starter example below to get familiar with the simplicity of the game engine.
-For more examples, like a simple platformer, see the [examples](#examples) section below.
+You can get started instantly by copying the Ridder template [repo](https://github.com/patrickswijgman/ridder-template) with the following command, be sure to replace `<project-name>` with the name of your project.
+
+```shell
+npx degit patrickswijgman/ridder-template#main <project-name>
+cd <project-name>
+npm ci
+npm start
+```
+
+or install manually with the following command.
+
+```shell
+npm install ridder
+```
+
+See the starter example below to get familiar with the concepts of the game engine.
+For more examples, like a platformer, see the [examples](#examples) section below.
 
 ```typescript
 import {
