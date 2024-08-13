@@ -1,6 +1,6 @@
 import { getCamera } from "./camera.js";
 import { canvas, scale } from "./canvas.js";
-import { Inputs } from "./consts.js";
+import { InputCode } from "./consts.js";
 import { Vector, vec } from "./vector.js";
 
 const inputsDown: Record<string, boolean> = {};
@@ -23,11 +23,11 @@ export function setupInput() {
   });
 
   window.addEventListener("focus", () => {
-    resetAllInputs();
+    resetAllInputCode();
   });
 
   window.addEventListener("blur", () => {
-    resetAllInputs();
+    resetAllInputCode();
   });
 
   canvas.addEventListener("mousedown", ({ button }) => {
@@ -64,16 +64,16 @@ function onUp(code: string) {
   inputsReleased[code] = true;
 }
 
-function mouseButtonToCode(button: number): Inputs {
+function mouseButtonToCode(button: number): InputCode {
   switch (button) {
     case 0:
-      return Inputs.MOUSE_LEFT;
+      return InputCode.MOUSE_LEFT;
     case 1:
-      return Inputs.MOUSE_MIDDLE;
+      return InputCode.MOUSE_MIDDLE;
     case 2:
-      return Inputs.MOUSE_RIGHT;
+      return InputCode.MOUSE_RIGHT;
     default:
-      return Inputs.NONE;
+      return InputCode.NONE;
   }
 }
 
@@ -83,7 +83,7 @@ export function updateMousePosition() {
   mouseWorldPosition.y = mousePosition.y + camera.y;
 }
 
-export function resetInputs() {
+export function resetInputCode() {
   for (const key in inputsPressed) {
     inputsPressed[key] = false;
   }
@@ -92,7 +92,7 @@ export function resetInputs() {
   }
 }
 
-export function resetAllInputs() {
+export function resetAllInputCode() {
   for (const key in inputsDown) {
     inputsDown[key] = false;
   }
@@ -104,27 +104,27 @@ export function resetAllInputs() {
   }
 }
 
-export function isInputPressed(code: Inputs) {
+export function isInputPressed(code: InputCode) {
   return !!inputsPressed[code];
 }
 
-export function isInputDown(code: Inputs) {
+export function isInputDown(code: InputCode) {
   return !!inputsDown[code];
 }
 
-export function isInputReleased(code: Inputs) {
+export function isInputReleased(code: InputCode) {
   return !!inputsReleased[code];
 }
 
-export function consumeInputPressed(code: Inputs) {
+export function consumeInputPressed(code: InputCode) {
   inputsPressed[code] = false;
 }
 
-export function consumeInputDown(code: Inputs) {
+export function consumeInputDown(code: InputCode) {
   inputsDown[code] = false;
 }
 
-export function consumeInputReleased(code: Inputs) {
+export function consumeInputReleased(code: InputCode) {
   inputsReleased[code] = false;
 }
 

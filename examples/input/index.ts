@@ -1,5 +1,5 @@
 import {
-  Inputs,
+  InputCode,
   drawText,
   getSettings,
   isInputDown,
@@ -21,15 +21,15 @@ run({
 
   update: () => {
     // See https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values
-    if (isInputPressed(Inputs.KEY_ENTER)) {
+    if (isInputPressed(InputCode.KEY_ENTER)) {
       console.log("You have pressed the enter key");
     }
 
-    if (isInputDown(Inputs.KEY_ENTER)) {
+    if (isInputDown(InputCode.KEY_ENTER)) {
       console.log("You are continuously pressing down the enter key");
     }
 
-    if (isInputReleased(Inputs.KEY_ENTER)) {
+    if (isInputReleased(InputCode.KEY_ENTER)) {
       console.log("You have released the enter key");
     }
 

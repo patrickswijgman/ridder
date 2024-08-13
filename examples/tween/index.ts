@@ -1,7 +1,7 @@
 import {
   drawSprite,
   getSettings,
-  Inputs,
+  InputCode,
   isInputPressed,
   loadSprite,
   loadTexture,
@@ -76,7 +76,7 @@ run({
     tickTimer(two.timer, Infinity);
     two.scale = tween(1, 2, 2000, two.timer.elapsed, "easeInOutSine");
 
-    if (isInputPressed(Inputs.KEY_ENTER)) {
+    if (isInputPressed(InputCode.KEY_ENTER)) {
       for (const e of entities) {
         e.angle = 0;
         e.scale = 1;

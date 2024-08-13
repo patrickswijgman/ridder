@@ -19,7 +19,7 @@ For more examples, like a simple platformer, see the [examples](#examples) secti
 import {
   delta,
   drawSprite,
-  Inputs,
+  InputCode,
   isInputDown,
   loadSprite,
   loadTexture,
@@ -106,18 +106,18 @@ run({
       if (e.isPlayer) {
         resetVector(e.velocity);
 
-        if (isInputDown(Inputs.KEY_LEFT)) {
+        if (isInputDown(InputCode.KEY_LEFT)) {
           e.velocity.x -= 1;
           e.isFlipped = false;
         }
-        if (isInputDown(Inputs.KEY_RIGHT)) {
+        if (isInputDown(InputCode.KEY_RIGHT)) {
           e.velocity.x += 1;
           e.isFlipped = true;
         }
-        if (isInputDown(Inputs.KEY_UP)) {
+        if (isInputDown(InputCode.KEY_UP)) {
           e.velocity.y -= 1;
         }
-        if (isInputDown(Inputs.KEY_DOWN)) {
+        if (isInputDown(InputCode.KEY_DOWN)) {
           e.velocity.y += 1;
         }
       }

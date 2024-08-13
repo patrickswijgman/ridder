@@ -1,5 +1,5 @@
 import { setupCanvas } from "./canvas.js";
-import { resetInputs, setupInput, updateMousePosition } from "./input.js";
+import { resetInputCode, setupInput, updateMousePosition } from "./input.js";
 import { clearBackground, resetTransform } from "./render.js";
 import { Settings, setSettings } from "./settings.js";
 import { setupState, updateState } from "./state.js";
@@ -23,7 +23,7 @@ export async function run(c: Config) {
       resetTransform();
       updateMousePosition();
       c.update();
-      resetInputs();
+      resetInputCode();
     }
 
     requestAnimationFrame(tick);
