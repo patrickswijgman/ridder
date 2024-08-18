@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "esbuild index.ts --bundle --outdir=. --watch --servedir=.",
-    "build": "esbuild index.ts --bundle --outdir=."
+    "start": "vite",
+    "build": "vite build"
   },
   "author": "",
   "license": "ISC",
