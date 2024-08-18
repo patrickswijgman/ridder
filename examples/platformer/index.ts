@@ -8,7 +8,6 @@ import {
   drawRect,
   drawText,
   fps,
-  getIntersectionBetweenRectangles,
   isInputDown,
   isInputPressed,
   rect,
@@ -19,39 +18,40 @@ import {
   setCamera,
   updateCamera,
   vec,
+  writeIntersectionBetweenRectangles,
 } from "ridder";
 
 const GRAVITY = vec(0, 0.01);
 
 type Entity = {
-  isPlayer: boolean;
-
   position: Vector;
   velocity: Vector;
   gravity: Vector;
 
   body: Rectangle;
   bodyIntersectionResult: Vector;
-  bodyIsStatic: boolean;
-  bodyIsOnGround: boolean;
 
   color: string;
+
+  isPlayer: boolean;
+  isAffectedByGravity: boolean;
+  isOnGround: boolean;
 };
 
 function createEntity(): Entity {
   return {
-    isPlayer: false,
-
     position: vec(),
     velocity: vec(),
     gravity: vec(),
 
     body: rect(),
     bodyIntersectionResult: vec(),
-    bodyIsStatic: false,
-    bodyIsOnGround: false,
 
     color: "white",
+
+    isPlayer: false,
+    isAffectedByGravity: false,
+    isOnGround: false,
   };
 }
 
@@ -74,13 +74,13 @@ run({
     player.body.h = 8;
     player.color = "white";
     player.isPlayer = true;
+    player.isAffectedByGravity = true;
 
     const floor = createEntity();
     floor.position.x = 0;
     floor.position.y = boundary.h - 20;
     floor.body.w = boundary.w;
     floor.body.h = 20;
-    floor.bodyIsStatic = true;
     floor.color = "gray";
 
     const platform = createEntity();
@@ -88,15 +88,13 @@ run({
     platform.position.y = 80;
     platform.body.w = 60;
     platform.body.h = 10;
-    platform.bodyIsStatic = true;
     platform.color = "gray";
 
     const wall = createEntity();
-    wall.position.x = 180;
+    wall.position.x = boundary.w - 20;
     wall.position.y = 0;
     wall.body.w = 20;
     wall.body.h = boundary.h;
-    wall.bodyIsStatic = true;
     wall.color = "gray";
 
     entities.push(player, floor, platform, wall);
@@ -115,12 +113,12 @@ run({
         if (isInputDown(InputCode.KEY_RIGHT)) {
           e.velocity.x += 1;
         }
-        if (isInputPressed(InputCode.KEY_SPACE) && e.bodyIsOnGround) {
+        if (isInputPressed(InputCode.KEY_SPACE) && e.isOnGround) {
           e.velocity.y = -2;
         }
       }
 
-      if (!e.bodyIsStatic) {
+      if (e.isAffectedByGravity) {
         addVectorScaled(e.gravity, GRAVITY, delta);
         addVectorScaled(e.velocity, e.gravity, delta);
       }
@@ -131,7 +129,7 @@ run({
       resetVector(e.bodyIntersectionResult);
 
       for (const other of entities) {
-        getIntersectionBetweenRectangles(
+        writeIntersectionBetweenRectangles(
           e.body,
           other.body,
           e.velocity,
@@ -152,7 +150,7 @@ run({
         e.gravity.y = 0;
       }
 
-      e.bodyIsOnGround = e.bodyIntersectionResult.y < 0;
+      e.isOnGround = e.bodyIntersectionResult.y < 0;
 
       if (e.isPlayer) {
         updateCamera(e.position.x, e.position.y, boundary);

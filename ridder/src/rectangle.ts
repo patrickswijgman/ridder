@@ -29,14 +29,14 @@ export function doesRectangleContain(r: Rectangle, x: number, y: number) {
   return x > r.x && x < r.x + r.w && y > r.y && y < r.y + r.h;
 }
 
-export function getIntersectionBetweenRectangles(
+export function writeIntersectionBetweenRectangles(
   a: Rectangle,
   b: Rectangle,
   velocity: Vector,
   out: Vector,
-): Vector {
+) {
   if (!getVectorLength(velocity) || !doRectanglesIntersect(a, b)) {
-    return out;
+    return;
   }
 
   const l = a.x + a.w - b.x;
@@ -93,6 +93,4 @@ export function getIntersectionBetweenRectangles(
       out.y += d;
       break;
   }
-
-  return out;
 }
