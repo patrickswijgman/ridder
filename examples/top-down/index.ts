@@ -1,10 +1,11 @@
 import {
   addVectorScaled,
   delta,
-  drawSprite,
+  drawTexture,
+  getTexture,
   InputCode,
   isInputDown,
-  loadSprite,
+  loadRenderTexture,
   loadTexture,
   normalizeVector,
   resetTransform,
@@ -17,26 +18,26 @@ import {
 } from "ridder";
 
 type Entity = {
-  isPlayer: boolean;
-  isFlipped: boolean;
-
   position: Vector;
   velocity: Vector;
 
-  spriteId: string;
+  textureId: string;
   pivot: Vector;
+
+  isPlayer: boolean;
+  isFlipped: boolean;
 };
 
 function createEntity(): Entity {
   return {
-    isPlayer: false,
-    isFlipped: false,
-
     position: vec(),
     velocity: vec(),
 
-    spriteId: "",
+    textureId: "",
     pivot: vec(),
+
+    isPlayer: false,
+    isFlipped: false,
   };
 }
 
@@ -59,30 +60,40 @@ run({
   },
 
   setup: async () => {
-    await loadTexture("tilemap", "textures/tilemap.png");
+    await loadTexture("player", "textures/player.png");
+    await loadTexture("tree", "textures/tree.png");
+    await loadTexture("grass_tile", "textures/grass_tile.png");
 
-    loadSprite("player", "tilemap", 95, 133, 18, 18);
-    loadSprite("tree", "tilemap", 113, 113, 18, 18);
+    loadRenderTexture("grass", 512, 512, (ctx, w, h) => {
+      const texture = getTexture("grass_tile");
+      for (let x = 0; x < w; x += 16) {
+        for (let y = 0; y < h; y += 16) {
+          ctx.drawImage(texture, x, y);
+        }
+      }
+    });
 
     const player = createEntity();
     player.position.x = 160;
     player.position.y = 90;
-    player.spriteId = "player";
-    player.pivot.x = 9;
-    player.pivot.y = 18;
+    player.textureId = "player";
+    player.pivot.x = 8;
+    player.pivot.y = 16;
     player.isPlayer = true;
 
     const tree = createEntity();
     tree.position.x = 200;
     tree.position.y = 100;
-    tree.spriteId = "tree";
-    tree.pivot.x = 9;
-    tree.pivot.y = 18;
+    tree.textureId = "tree";
+    tree.pivot.x = 8;
+    tree.pivot.y = 16;
 
     world.entities.push(player, tree);
   },
 
   update: () => {
+    drawTexture("grass", 0, 0);
+
     world.entities.sort((a, b) => a.position.y - b.position.y);
 
     for (const e of world.entities) {
@@ -91,11 +102,11 @@ run({
 
         if (isInputDown(InputCode.KEY_LEFT)) {
           e.velocity.x -= 1;
-          e.isFlipped = false;
+          e.isFlipped = true;
         }
         if (isInputDown(InputCode.KEY_RIGHT)) {
           e.velocity.x += 1;
-          e.isFlipped = true;
+          e.isFlipped = false;
         }
         if (isInputDown(InputCode.KEY_UP)) {
           e.velocity.y -= 1;
@@ -108,13 +119,13 @@ run({
       normalizeVector(e.velocity);
       addVectorScaled(e.position, e.velocity, delta);
 
-      if (e.spriteId) {
+      if (e.textureId) {
         resetTransform();
         translateTransform(e.position.x, e.position.y);
         if (e.isFlipped) {
           scaleTransform(-1, 1);
         }
-        drawSprite(e.spriteId, -e.pivot.x, -e.pivot.y);
+        drawTexture(e.textureId, -e.pivot.x, -e.pivot.y);
       }
     }
   },
