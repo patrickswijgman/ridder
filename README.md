@@ -162,13 +162,13 @@ npm start -w <example> # e.g. npm start -w platformer
 
 See the table below for the code of each example or play it instantly (using Github Pages).
 
-|                | Play                                                                       | Code                                     |
-| -------------- | -------------------------------------------------------------------------- | ---------------------------------------- |
-| starter        | [link](https://patrickswijgman.github.io/ridder/starter/index.html)        | [link](examples/starter/index.ts)        |
-| input          | [link](https://patrickswijgman.github.io/ridder/input/index.html)          | [link](examples/input/index.ts)          |
-| font           | [link](https://patrickswijgman.github.io/ridder/font/index.html)           | [link](examples/font/index.ts)           |
-| platformer     | [link](https://patrickswijgman.github.io/ridder/platformer/index.html)     | [link](examples/platformer/index.ts)     |
-| polygon        | [link](https://patrickswijgman.github.io/ridder/polygon/index.html)        | [link](examples/polygon/index.ts)        |
-| render-texture | [link](https://patrickswijgman.github.io/ridder/render-texture/index.html) | [link](examples/render-texture/index.ts) |
-| sprite         | [link](https://patrickswijgman.github.io/ridder/sprite/index.html)         | [link](examples/sprite/index.ts)         |
-| tween          | [link](https://patrickswijgman.github.io/ridder/tween/index.html)          | [link](examples/tween/index.ts)          |
+|                | Play                                                                            | Code                                     |
+| -------------- | ------------------------------------------------------------------------------- | ---------------------------------------- |
+| starter        | [link](https://patrickswijgman.github.io/ridder/starter/dist/index.html)        | [link](examples/starter/index.ts)        |
+| input          | [link](https://patrickswijgman.github.io/ridder/input/dist/index.html)          | [link](examples/input/index.ts)          |
+| font           | [link](https://patrickswijgman.github.io/ridder/font/dist/index.html)           | [link](examples/font/index.ts)           |
+| platformer     | [link](https://patrickswijgman.github.io/ridder/platformer/dist/index.html)     | [link](examples/platformer/index.ts)     |
+| polygon        | [link](https://patrickswijgman.github.io/ridder/polygon/dist/index.html)        | [link](examples/polygon/index.ts)        |
+| render-texture | [link](https://patrickswijgman.github.io/ridder/render-texture/dist/index.html) | [link](examples/render-texture/index.ts) |
+| sprite         | [link](https://patrickswijgman.github.io/ridder/sprite/dist/index.html)         | [link](examples/sprite/index.ts)         |
+| tween          | [link](https://patrickswijgman.github.io/ridder/tween/dist/index.html)          | [link](examples/tween/index.ts)          |
