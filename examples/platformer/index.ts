@@ -1,25 +1,24 @@
 import {
+  InputCode,
+  Rectangle,
+  Vector,
   addVectorScaled,
   applyCameraTransform,
-  copyVector,
   delta,
   drawRect,
   drawText,
   fps,
-  InputCode,
+  getIntersectionBetweenRectangles,
   isInputDown,
   isInputPressed,
   rect,
-  Rectangle,
   resetTransform,
   resetVector,
-  resolveIntersectionBetweenRectangles,
   run,
   scaleTransform,
   setCamera,
   updateCamera,
   vec,
-  Vector,
 } from "ridder";
 
 const GRAVITY = vec(0, 0.01);
@@ -127,11 +126,12 @@ run({
       }
       addVectorScaled(e.position, e.velocity, delta);
 
-      copyVector(e.body, e.position);
+      e.body.x = e.position.x;
+      e.body.y = e.position.y;
       resetVector(e.bodyIntersectionResult);
 
       for (const other of entities) {
-        resolveIntersectionBetweenRectangles(
+        getIntersectionBetweenRectangles(
           e.body,
           other.body,
           e.velocity,
@@ -140,17 +140,19 @@ run({
       }
 
       if (e.bodyIntersectionResult.x) {
+        e.body.x += e.bodyIntersectionResult.x;
+        e.position.x += e.bodyIntersectionResult.x;
         e.velocity.x = 0;
         e.gravity.x = 0;
       }
       if (e.bodyIntersectionResult.y) {
+        e.body.y += e.bodyIntersectionResult.y;
+        e.position.y += e.bodyIntersectionResult.y;
         e.velocity.y = 0;
         e.gravity.y = 0;
       }
 
       e.bodyIsOnGround = e.bodyIntersectionResult.y < 0;
-
-      copyVector(e.position, e.body);
 
       if (e.isPlayer) {
         updateCamera(e.position.x, e.position.y, boundary);

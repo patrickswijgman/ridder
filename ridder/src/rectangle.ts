@@ -29,14 +29,14 @@ export function doesRectangleContain(r: Rectangle, x: number, y: number) {
   return x > r.x && x < r.x + r.w && y > r.y && y < r.y + r.h;
 }
 
-export function resolveIntersectionBetweenRectangles(
+export function getIntersectionBetweenRectangles(
   a: Rectangle,
   b: Rectangle,
   velocity: Vector,
-  result?: Vector,
-) {
+  out: Vector,
+): Vector {
   if (!getVectorLength(velocity) || !doRectanglesIntersect(a, b)) {
-    return false;
+    return out;
   }
 
   const l = a.x + a.w - b.x;
@@ -47,63 +47,52 @@ export function resolveIntersectionBetweenRectangles(
   switch (true) {
     case velocity.x > 0 && velocity.y > 0:
       if (l > u) {
-        resolveOverlap(a, 0, -u, result);
+        out.y -= u;
       } else {
-        resolveOverlap(a, -l, 0, result);
+        out.x -= l;
       }
-      return true;
+      break;
 
     case velocity.x < 0 && velocity.y > 0:
       if (r > u) {
-        resolveOverlap(a, 0, -u, result);
+        out.y -= u;
       } else {
-        resolveOverlap(a, r, 0, result);
+        out.x += r;
       }
-      return true;
+      break;
 
     case velocity.x > 0 && velocity.y < 0:
       if (l > d) {
-        resolveOverlap(a, 0, d, result);
+        out.y += d;
       } else {
-        resolveOverlap(a, -l, 0, result);
+        out.x -= l;
       }
-      return true;
+      break;
 
     case velocity.x < 0 && velocity.y < 0:
       if (r > d) {
-        resolveOverlap(a, 0, d, result);
+        out.y += d;
       } else {
-        resolveOverlap(a, r, 0, result);
+        out.x += r;
       }
-      return true;
+      break;
 
     case velocity.x > 0:
-      resolveOverlap(a, -l, 0, result);
-      return true;
+      out.x -= l;
+      break;
 
     case velocity.x < 0:
-      resolveOverlap(a, r, 0, result);
-      return true;
+      out.x += r;
+      break;
 
     case velocity.y > 0:
-      resolveOverlap(a, 0, -u, result);
-      return true;
+      out.y -= u;
+      break;
 
     case velocity.y < 0:
-      resolveOverlap(a, 0, d, result);
-      return true;
-
-    default:
-      return false;
+      out.y += d;
+      break;
   }
-}
 
-function resolveOverlap(r: Rectangle, x: number, y: number, result?: Vector) {
-  r.x += x;
-  r.y += y;
-
-  if (result) {
-    result.x += x;
-    result.y += y;
-  }
+  return out;
 }
