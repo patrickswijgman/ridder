@@ -71,10 +71,10 @@ run({
 
   update: () => {
     tickTimer(one.timer, 5000);
-    one.angle = tween(0, 360, 5000, one.timer.elapsed, "easeOutElastic");
+    one.angle = tween(0, 360, 5000, "easeOutElastic", one.timer);
 
     tickTimer(two.timer, Infinity);
-    two.scale = tween(1, 2, 2000, two.timer.elapsed, "easeInOutSine");
+    two.scale = tween(1, 2, 2000, "easeInOutSine", two.timer);
 
     if (isInputPressed(InputCode.KEY_ENTER)) {
       for (const e of entities) {

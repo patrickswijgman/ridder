@@ -12,8 +12,7 @@ export function tickTimer(t: Timer, duration: number) {
   if (duration <= 0 || t.elapsed >= duration) {
     return false;
   }
-  t.elapsed += time;
-  t.elapsed = Math.min(t.elapsed, duration);
+  t.elapsed = Math.min(t.elapsed + time, duration);
   return t.elapsed === duration;
 }
 
