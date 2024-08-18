@@ -1,6 +1,6 @@
 # Ridder
 
-A simple data-oriented game engine for JavaScript that has everything you need to get started and to get things done.
+A zero-dependency and simple data-oriented game engine for JavaScript that has everything you need to get started and to get things done.
 
 There won't be extensive documentation as the game engine is intended to be simple, the [examples](#examples) should get you in the right direction.
 
