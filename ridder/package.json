@@ -1,7 +1,7 @@
 {
   "name": "ridder",
   "version": "2.3.1",
-  "description": "A straightforward game making library for simple games",
+  "description": "A straightforward game engine for simple data-driven games in JavaScript",
   "main": "lib/index.js",
   "files": [
     "lib/**/*"

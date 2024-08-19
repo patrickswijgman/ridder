@@ -6,7 +6,7 @@ There won't be extensive documentation as the game engine is intended to be simp
 
 ## Getting started
 
-You can get started instantly by copying the Ridder template [repo](https://github.com/patrickswijgman/ridder-template) with the following command, be sure to replace `<project-name>` with the name of your project.
+You can get started instantly by copying the Ridder template [repo](https://github.com/patrickswijgman/ridder-template) with the following command, be sure to replace `<project-name>` with the name of your game.
 
 ```shell
 npx degit patrickswijgman/ridder-template#main <project-name>
