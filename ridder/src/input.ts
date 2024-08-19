@@ -23,11 +23,11 @@ export function setupInput() {
   });
 
   window.addEventListener("focus", () => {
-    resetAllInputCode();
+    resetAllInputs();
   });
 
   window.addEventListener("blur", () => {
-    resetAllInputCode();
+    resetAllInputs();
   });
 
   canvas.addEventListener("mousedown", ({ button }) => {
@@ -83,7 +83,7 @@ export function updateMousePosition() {
   mouseWorldPosition.y = mousePosition.y + camera.y;
 }
 
-export function resetInputCode() {
+export function resetInputs() {
   for (const key in inputsPressed) {
     inputsPressed[key] = false;
   }
@@ -92,7 +92,7 @@ export function resetInputCode() {
   }
 }
 
-export function resetAllInputCode() {
+export function resetAllInputs() {
   for (const key in inputsDown) {
     inputsDown[key] = false;
   }
