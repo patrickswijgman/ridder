@@ -1,4 +1,4 @@
-import { getVectorLength, vec, Vector } from "./vector.js";
+import { getVectorLength, Vector } from "./vector.js";
 
 export type Rectangle = {
   x: number;
@@ -29,16 +29,12 @@ export function doesRectangleContain(r: Rectangle, x: number, y: number) {
   return x > r.x && x < r.x + r.w && y > r.y && y < r.y + r.h;
 }
 
-export function getIntersectionBetweenRectangles(
+export function writeIntersectionBetweenRectangles(
   a: Rectangle,
   b: Rectangle,
   velocity: Vector,
-  out?: Vector,
+  out: Vector,
 ): Vector {
-  if (!out) {
-    out = vec();
-  }
-
   if (!getVectorLength(velocity) || !doRectanglesIntersect(a, b)) {
     return out;
   }

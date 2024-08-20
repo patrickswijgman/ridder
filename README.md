@@ -45,3 +45,5 @@ npm ci
 # run an example
 npm start -w <example> # e.g. npm start -w platformer
 ```
+
+## API

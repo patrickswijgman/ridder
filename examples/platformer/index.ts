@@ -8,7 +8,6 @@ import {
   drawRect,
   drawText,
   fps,
-  getIntersectionBetweenRectangles,
   isInputDown,
   isInputPressed,
   rect,
@@ -19,6 +18,7 @@ import {
   setCamera,
   updateCamera,
   vec,
+  writeIntersectionBetweenRectangles,
 } from "ridder";
 
 const GRAVITY = vec(0, 0.01);
@@ -129,7 +129,7 @@ run({
       resetVector(e.bodyIntersectionResult);
 
       for (const other of entities) {
-        getIntersectionBetweenRectangles(
+        writeIntersectionBetweenRectangles(
           e.body,
           other.body,
           e.velocity,
