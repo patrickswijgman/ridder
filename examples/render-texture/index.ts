@@ -1,15 +1,4 @@
-import {
-  createRenderTexture,
-  delta,
-  drawTexture,
-  getSettings,
-  getTexture,
-  loadTexture,
-  resetTransform,
-  rotateTransform,
-  run,
-  translateTransform,
-} from "ridder";
+import { createRenderTexture, delta, drawTexture, getSettings, getTexture, loadTexture, resetTransform, rotateTransform, run, translateTransform } from "ridder";
 
 let rotation = 0;
 

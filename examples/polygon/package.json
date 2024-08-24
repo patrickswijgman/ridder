@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "vite build --base=./"
+    "build": "tsc index.ts --noEmit --lib esnext,dom && vite build --base ./"
   },
   "author": "",
   "license": "ISC",

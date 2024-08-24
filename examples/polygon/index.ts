@@ -1,16 +1,4 @@
-import {
-  circle,
-  delta,
-  doPolygonsIntersect,
-  drawPolygon,
-  getMousePosition,
-  getSettings,
-  polygon,
-  polygonFromCircle,
-  rotatePolygon,
-  run,
-  vec,
-} from "ridder";
+import { circle, delta, doPolygonsIntersect, drawPolygonInstance, getMousePosition, getSettings, polygon, polygonFromCircle, rotatePolygon, run, vec } from "ridder";
 
 const one = polygonFromCircle(0, 0, circle(0, 0, 30), 8);
 const two = polygon(0, 0, [
@@ -39,7 +27,7 @@ run({
     two.x = mouse.x;
     two.y = mouse.y;
 
-    drawPolygon(one, doPolygonsIntersect(one, two) ? "red" : "white", false);
-    drawPolygon(two, "white", true);
+    drawPolygonInstance(one, doPolygonsIntersect(one, two) ? "red" : "white", false);
+    drawPolygonInstance(two, "white", true);
   },
 });

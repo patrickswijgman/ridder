@@ -1,23 +1,4 @@
-import {
-  createSprite,
-  drawSprite,
-  getSettings,
-  InputCode,
-  isInputPressed,
-  loadTexture,
-  resetTimer,
-  resetTransform,
-  rotateTransform,
-  run,
-  scaleTransform,
-  tickTimer,
-  timer,
-  Timer,
-  translateTransform,
-  tween,
-  vec,
-  Vector,
-} from "ridder";
+import { createSprite, drawSprite, getSettings, InputCode, isInputPressed, loadTexture, resetTimer, resetTransform, rotateTransform, run, scaleTransform, tickTimer, timer, Timer, translateTransform, tween, vec, Vector } from "ridder";
 
 type Entity = {
   position: Vector;

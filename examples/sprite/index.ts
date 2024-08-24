@@ -1,13 +1,4 @@
-import {
-  createSprite,
-  delta,
-  drawSprite,
-  getSettings,
-  loadTexture,
-  rotateTransform,
-  run,
-  translateTransform,
-} from "ridder";
+import { createSprite, delta, drawSprite, getSettings, loadTexture, rotateTransform, run, translateTransform } from "ridder";
 
 let angle = 0;
 

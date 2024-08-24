@@ -1,15 +1,4 @@
-import {
-  InputCode,
-  drawText,
-  getSettings,
-  isInputDown,
-  isInputPressed,
-  isInputReleased,
-  mostRecentInput,
-  run,
-  scaleTransform,
-  translateTransform,
-} from "ridder";
+import { InputCode, drawText, getSettings, isInputDown, isInputPressed, isInputReleased, mostRecentInput, run, scaleTransform, translateTransform } from "ridder";
 
 run({
   settings: {
@@ -37,15 +26,6 @@ run({
 
     translateTransform(settings.width / 2, settings.height / 2);
     scaleTransform(0.25, 0.25);
-    drawText(
-      mostRecentInput
-        ? `You have pressed ${mostRecentInput}`
-        : "Press any key or mouse button",
-      0,
-      0,
-      "white",
-      "center",
-      "middle",
-    );
+    drawText(mostRecentInput ? `You have pressed ${mostRecentInput}` : "Press any key or mouse button", 0, 0, "white", "center", "middle");
   },
 });

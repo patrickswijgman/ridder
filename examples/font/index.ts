@@ -1,11 +1,4 @@
-import {
-  drawText,
-  getSettings,
-  loadFont,
-  run,
-  scaleTransform,
-  translateTransform,
-} from "ridder";
+import { drawText, getSettings, loadFont, run, scaleTransform, translateTransform } from "ridder";
 
 run({
   settings: {

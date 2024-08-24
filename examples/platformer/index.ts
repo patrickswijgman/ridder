@@ -1,25 +1,4 @@
-import {
-  InputCode,
-  Rectangle,
-  Vector,
-  addVectorScaled,
-  applyCameraTransform,
-  delta,
-  drawRect,
-  drawText,
-  fps,
-  isInputDown,
-  isInputPressed,
-  rect,
-  resetTransform,
-  resetVector,
-  run,
-  scaleTransform,
-  setCamera,
-  updateCamera,
-  vec,
-  writeIntersectionBetweenRectangles,
-} from "ridder";
+import { InputCode, Rectangle, Vector, addVectorScaled, applyCameraTransform, delta, drawRectInstance, drawText, fps, isInputDown, isInputPressed, rect, resetTransform, resetVector, run, scaleTransform, setCamera, updateCamera, vec, writeIntersectionBetweenRectangles } from "ridder";
 
 const GRAVITY = vec(0, 0.01);
 
@@ -129,12 +108,7 @@ run({
       resetVector(e.bodyIntersectionResult);
 
       for (const other of entities) {
-        writeIntersectionBetweenRectangles(
-          e.body,
-          other.body,
-          e.velocity,
-          e.bodyIntersectionResult,
-        );
+        writeIntersectionBetweenRectangles(e.body, other.body, e.velocity, e.bodyIntersectionResult);
       }
 
       if (e.bodyIntersectionResult.x) {
@@ -158,7 +132,7 @@ run({
 
       resetTransform();
       applyCameraTransform();
-      drawRect(e.body, e.color, true);
+      drawRectInstance(e.body, e.color, true);
     }
 
     resetTransform();

@@ -1,21 +1,4 @@
-import {
-  addVectorScaled,
-  createRenderTexture,
-  delta,
-  drawTexture,
-  getTexture,
-  InputCode,
-  isInputDown,
-  loadTexture,
-  normalizeVector,
-  resetTransform,
-  resetVector,
-  run,
-  scaleTransform,
-  translateTransform,
-  vec,
-  Vector,
-} from "ridder";
+import { addVectorScaled, createRenderTexture, delta, drawTexture, getTexture, InputCode, isInputDown, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, translateTransform, vec, Vector } from "ridder";
 
 type Entity = {
   position: Vector;

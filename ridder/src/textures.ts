@@ -9,12 +9,7 @@ export async function loadTexture(id: string, src: string) {
   textures[id] = img;
 }
 
-export function createRenderTexture(
-  id: string,
-  width: number,
-  height: number,
-  draw: (ctx: CanvasRenderingContext2D, width: number, height: number) => void,
-) {
+export function createRenderTexture(id: string, width: number, height: number, draw: (ctx: CanvasRenderingContext2D, width: number, height: number) => void) {
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
@@ -25,12 +20,7 @@ export function createRenderTexture(
   textures[id] = canvas;
 }
 
-export function createOutlineTextureFromTexture(
-  id: string,
-  textureId: string,
-  mode: "circle" | "square",
-  color: string,
-) {
+export function createOutlineTextureFromTexture(id: string, textureId: string, mode: "circle" | "square", color: string) {
   const texture = getTexture(textureId);
 
   createRenderTexture(id, texture.width, texture.height, (ctx, w, h) => {
@@ -55,11 +45,7 @@ export function createOutlineTextureFromTexture(
   });
 }
 
-export function createFlashTextureFromTexture(
-  id: string,
-  textureId: string,
-  color: string,
-) {
+export function createFlashTextureFromTexture(id: string, textureId: string, color: string) {
   const texture = getTexture(textureId);
 
   createRenderTexture(id, texture.width, texture.height, (ctx, w, h) => {

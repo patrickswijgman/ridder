@@ -2,17 +2,7 @@ import { Rectangle } from "./rectangle.js";
 import { getSettings } from "./settings.js";
 import { delta } from "./state.js";
 import { clamp } from "./utils.js";
-import {
-  addVector,
-  copyVector,
-  getVectorDistance,
-  limitVector,
-  normalizeVector,
-  scaleVector,
-  subtractVector,
-  vec,
-  Vector,
-} from "./vector.js";
+import { addVector, copyVector, getVectorDistance, limitVector, normalizeVector, scaleVector, subtractVector, vec, Vector } from "./vector.js";
 
 const pos = vec();
 const vel = vec();

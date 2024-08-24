@@ -15,20 +15,10 @@ export function polygon(x = 0, y = 0, points: Array<Vector> = []): Polygon {
 }
 
 export function polygonFromRect(x: number, y: number, r: Rectangle) {
-  return polygon(x, y, [
-    vec(r.x, r.y),
-    vec(r.x + r.w, r.y),
-    vec(r.x + r.w, r.y + r.h),
-    vec(r.x, r.y + r.h),
-  ]);
+  return polygon(x, y, [vec(r.x, r.y), vec(r.x + r.w, r.y), vec(r.x + r.w, r.y + r.h), vec(r.x, r.y + r.h)]);
 }
 
-export function polygonFromCircle(
-  x: number,
-  y: number,
-  c: Circle,
-  segments: number,
-) {
+export function polygonFromCircle(x: number, y: number, c: Circle, segments: number) {
   const points: Array<Vector> = [];
   const step = 360 / segments;
 

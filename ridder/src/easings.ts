@@ -25,13 +25,7 @@
 	OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-export type EasingFunction = (
-  t: number,
-  b: number,
-  c: number,
-  d: number,
-  s?: number,
-) => number;
+export type EasingFunction = (t: number, b: number, c: number, d: number, s?: number) => number;
 
 export type EasingDictionary = {
   linear: EasingFunction;
@@ -217,13 +211,7 @@ export const easings: EasingDictionary = {
     } else {
       s = (p / (2 * Math.PI)) * Math.asin(c / a);
     }
-    return (
-      -(
-        a *
-        Math.pow(2, 10 * (t -= 1)) *
-        Math.sin(((t * d - s) * (2 * Math.PI)) / p)
-      ) + b
-    );
+    return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin(((t * d - s) * (2 * Math.PI)) / p)) + b;
   },
   easeOutElastic: function (t, b, c, d) {
     let s = 1.70158;
@@ -243,11 +231,7 @@ export const easings: EasingDictionary = {
     } else {
       s = (p / (2 * Math.PI)) * Math.asin(c / a);
     }
-    return (
-      a * Math.pow(2, -10 * t) * Math.sin(((t * d - s) * (2 * Math.PI)) / p) +
-      c +
-      b
-    );
+    return a * Math.pow(2, -10 * t) * Math.sin(((t * d - s) * (2 * Math.PI)) / p) + c + b;
   },
   easeInOutElastic: function (t, b, c, d) {
     let s = 1.70158;
@@ -268,22 +252,9 @@ export const easings: EasingDictionary = {
       s = (p / (2 * Math.PI)) * Math.asin(c / a);
     }
     if (t < 1) {
-      return (
-        -0.5 *
-          (a *
-            Math.pow(2, 10 * (t -= 1)) *
-            Math.sin(((t * d - s) * (2 * Math.PI)) / p)) +
-        b
-      );
+      return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin(((t * d - s) * (2 * Math.PI)) / p)) + b;
     } else {
-      return (
-        a *
-          Math.pow(2, -10 * (t -= 1)) *
-          Math.sin(((t * d - s) * (2 * Math.PI)) / p) *
-          0.5 +
-        c +
-        b
-      );
+      return a * Math.pow(2, -10 * (t -= 1)) * Math.sin(((t * d - s) * (2 * Math.PI)) / p) * 0.5 + c + b;
     }
   },
   easeInBack: function (t, b, c, d, s) {

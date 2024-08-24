@@ -20,21 +20,14 @@ export function doRectanglesIntersect(a: Rectangle, b: Rectangle) {
     return false;
   }
 
-  return (
-    a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y
-  );
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
 
 export function doesRectangleContain(r: Rectangle, x: number, y: number) {
   return x > r.x && x < r.x + r.w && y > r.y && y < r.y + r.h;
 }
 
-export function writeIntersectionBetweenRectangles(
-  a: Rectangle,
-  b: Rectangle,
-  velocity: Vector,
-  out: Vector,
-): Vector {
+export function writeIntersectionBetweenRectangles(a: Rectangle, b: Rectangle, velocity: Vector, out: Vector): Vector {
   if (!getVectorLength(velocity) || !doRectanglesIntersect(a, b)) {
     return out;
   }
