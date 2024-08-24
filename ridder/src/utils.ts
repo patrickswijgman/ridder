@@ -50,3 +50,9 @@ export function remove<T>(a: Array<T>, e: T) {
 
   return a;
 }
+
+export function repeat(x: number, callback: (x: number) => void) {
+  for (let i = 0; i < x; i++) {
+    callback(i);
+  }
+}

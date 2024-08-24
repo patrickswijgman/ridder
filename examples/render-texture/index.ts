@@ -1,9 +1,9 @@
 import {
+  createRenderTexture,
   delta,
   drawTexture,
   getSettings,
   getTexture,
-  loadRenderTexture,
   loadTexture,
   resetTransform,
   rotateTransform,
@@ -22,13 +22,13 @@ run({
   setup: async () => {
     await loadTexture("tile", "textures/tile.png");
 
-    loadRenderTexture("red_block", 16, 16, (ctx, width, height) => {
+    createRenderTexture("red_block", 16, 16, (ctx, width, height) => {
       // See https://www.w3schools.com/html/html5_canvas.asp
       ctx.fillStyle = "red";
       ctx.fillRect(0, 0, width, height);
     });
 
-    loadRenderTexture("floor_tiles", 90, 90, (ctx, width, height) => {
+    createRenderTexture("floor_tiles", 90, 90, (ctx, width, height) => {
       const tile = getTexture("tile");
 
       for (let x = 0; x < width; x += tile.width) {

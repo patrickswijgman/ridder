@@ -25,16 +25,16 @@ npm install ridder
 
 See the table below for the code of each example or play it instantly (using Github Pages).
 
-|                | Play                                                                            | Code                                     | Keywords                                                           |
-| -------------- | ------------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------ |
-| input          | [link](https://patrickswijgman.github.io/ridder/input/dist/index.html)          | [link](examples/input/index.ts)          | `keyboard` `mouse`                                                 |
-| font           | [link](https://patrickswijgman.github.io/ridder/font/dist/index.html)           | [link](examples/font/index.ts)           | `ttf`                                                              |
-| platformer     | [link](https://patrickswijgman.github.io/ridder/platformer/dist/index.html)     | [link](examples/platformer/index.ts)     | `collision` `gravity` `camera` `transforms`                        |
-| polygon        | [link](https://patrickswijgman.github.io/ridder/polygon/dist/index.html)        | [link](examples/polygon/index.ts)        | `hitbox` `mouse`                                                   |
-| render-texture | [link](https://patrickswijgman.github.io/ridder/render-texture/dist/index.html) | [link](examples/render-texture/index.ts) | `render-texture` `transforms`                                      |
-| sprite         | [link](https://patrickswijgman.github.io/ridder/sprite/dist/index.html)         | [link](examples/sprite/index.ts)         | `sprite` `animation` `transforms`                                  |
-| top-down       | [link](https://patrickswijgman.github.io/ridder/top-down/dist/index.html)       | [link](examples/top-down/index.ts)       | `top-down` `vectors` `depth-sorting` `render-texture` `transforms` |
-| tween          | [link](https://patrickswijgman.github.io/ridder/tween/dist/index.html)          | [link](examples/tween/index.ts)          | `animation`                                                        |
+|                | Play                                                                            | Code                                     | Keywords                                                |
+| -------------- | ------------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------- |
+| input          | [link](https://patrickswijgman.github.io/ridder/input/dist/index.html)          | [link](examples/input/index.ts)          | `keyboard` `mouse`                                      |
+| font           | [link](https://patrickswijgman.github.io/ridder/font/dist/index.html)           | [link](examples/font/index.ts)           | `ttf`                                                   |
+| platformer     | [link](https://patrickswijgman.github.io/ridder/platformer/dist/index.html)     | [link](examples/platformer/index.ts)     | `collision` `gravity` `camera` `transforms`             |
+| polygon        | [link](https://patrickswijgman.github.io/ridder/polygon/dist/index.html)        | [link](examples/polygon/index.ts)        | `hitbox` `mouse`                                        |
+| render-texture | [link](https://patrickswijgman.github.io/ridder/render-texture/dist/index.html) | [link](examples/render-texture/index.ts) | `render-texture` `transforms`                           |
+| sprite         | [link](https://patrickswijgman.github.io/ridder/sprite/dist/index.html)         | [link](examples/sprite/index.ts)         | `sprite` `animation` `transforms`                       |
+| top-down       | [link](https://patrickswijgman.github.io/ridder/top-down/dist/index.html)       | [link](examples/top-down/index.ts)       | `vectors` `depth-sorting` `render-texture` `transforms` |
+| tween          | [link](https://patrickswijgman.github.io/ridder/tween/dist/index.html)          | [link](examples/tween/index.ts)          | `animation`                                             |
 
 Or you can clone this project and run an example from the examples folder like so:
 

@@ -4,12 +4,27 @@ export type Sound = HTMLAudioElement;
 
 const sounds: Record<string, Sound> = {};
 
-export async function loadSound(id: string, src: string) {
+export async function loadSound(id: string, src: string, isStream = false) {
   return await new Promise<void>((resolve, reject) => {
     const sound = new Audio(src);
-    sound.addEventListener("canplaythrough", () => resolve(), { once: true });
-    sound.addEventListener("error", (e) => reject(e), { once: true });
-    sounds[id] = sound;
+    const event = isStream ? "canplay" : "canplaythrough";
+
+    sound.addEventListener(
+      event,
+      () => {
+        sounds[id] = sound;
+        resolve();
+      },
+      { once: true },
+    );
+
+    sound.addEventListener(
+      "error",
+      (e) => {
+        reject(e);
+      },
+      { once: true },
+    );
   });
 }
 

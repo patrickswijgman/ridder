@@ -1,9 +1,9 @@
 import {
+  createSprite,
   drawSprite,
   getSettings,
   InputCode,
   isInputPressed,
-  loadSprite,
   loadTexture,
   resetTimer,
   resetTransform,
@@ -51,7 +51,7 @@ run({
   setup: async () => {
     await loadTexture("tilemap", "textures/tilemap.png");
 
-    loadSprite("snowman", "tilemap", 95, 133, 18, 18);
+    createSprite("snowman", "tilemap", 95, 133, 18, 18);
 
     const settings = getSettings();
 

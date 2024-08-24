@@ -3,13 +3,13 @@ export * from "./circle.js";
 export * from "./consts.js";
 export * from "./fonts.js";
 export {
+  consumeInputDown,
+  consumeInputPressed,
+  consumeInputReleased,
   getMousePosition,
   isInputDown,
   isInputPressed,
   isInputReleased,
-  consumeInputDown,
-  consumeInputPressed,
-  consumeInputReleased,
   mostRecentInput,
 } from "./input.js";
 export * from "./line.js";

@@ -1,8 +1,8 @@
 import {
+  createSprite,
   delta,
   drawSprite,
   getSettings,
-  loadSprite,
   loadTexture,
   rotateTransform,
   run,
@@ -20,7 +20,7 @@ run({
   setup: async () => {
     await loadTexture("tilemap", "textures/tilemap.png");
 
-    loadSprite("player", "tilemap", 95, 133, 18, 18);
+    createSprite("player", "tilemap", 95, 133, 18, 18);
   },
 
   update: () => {
