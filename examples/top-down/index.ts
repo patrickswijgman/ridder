@@ -1,4 +1,4 @@
-import { addVectorScaled, createRenderTexture, delta, drawTexture, getTexture, InputCode, isInputDown, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, translateTransform, vec, Vector } from "ridder";
+import { addVectorScaled, delta, drawTexture, getTexture, InputCode, isInputDown, loadRenderTexture, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, translateTransform, vec, Vector } from "ridder";
 
 type Entity = {
   position: Vector;
@@ -47,7 +47,7 @@ run({
     await loadTexture("tree", "textures/tree.png");
     await loadTexture("grass_tile", "textures/grass_tile.png");
 
-    createRenderTexture("grass", 512, 512, (ctx, w, h) => {
+    loadRenderTexture("grass", 512, 512, (ctx, w, h) => {
       const texture = getTexture("grass_tile");
       for (let x = 0; x < w; x += 16) {
         for (let y = 0; y < h; y += 16) {

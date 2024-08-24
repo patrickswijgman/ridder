@@ -1,4 +1,4 @@
-import { createSprite, drawSprite, getSettings, InputCode, isInputPressed, loadTexture, resetTimer, resetTransform, rotateTransform, run, scaleTransform, tickTimer, timer, Timer, translateTransform, tween, vec, Vector } from "ridder";
+import { drawSprite, getSettings, InputCode, isInputPressed, loadSprite, loadTexture, resetTimer, resetTransform, rotateTransform, run, scaleTransform, tickTimer, timer, Timer, translateTransform, tween, vec, Vector } from "ridder";
 
 type Entity = {
   position: Vector;
@@ -32,7 +32,7 @@ run({
   setup: async () => {
     await loadTexture("tilemap", "textures/tilemap.png");
 
-    createSprite("snowman", "tilemap", 95, 133, 18, 18);
+    loadSprite("snowman", "tilemap", 95, 133, 18, 18);
 
     const settings = getSettings();
 

@@ -9,7 +9,7 @@ export async function loadTexture(id: string, src: string) {
   textures[id] = img;
 }
 
-export function createRenderTexture(id: string, width: number, height: number, draw: (ctx: CanvasRenderingContext2D, width: number, height: number) => void) {
+export function loadRenderTexture(id: string, width: number, height: number, draw: (ctx: CanvasRenderingContext2D, width: number, height: number) => void) {
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
@@ -20,10 +20,10 @@ export function createRenderTexture(id: string, width: number, height: number, d
   textures[id] = canvas;
 }
 
-export function createOutlineTextureFromTexture(id: string, textureId: string, mode: "circle" | "square", color: string) {
+export function loadOutlineTextureFromTexture(id: string, textureId: string, mode: "circle" | "square", color: string) {
   const texture = getTexture(textureId);
 
-  createRenderTexture(id, texture.width, texture.height, (ctx, w, h) => {
+  loadRenderTexture(id, texture.width, texture.height, (ctx, w, h) => {
     ctx.drawImage(texture, 0, -1);
     ctx.drawImage(texture, 1, 0);
     ctx.drawImage(texture, 0, 1);
@@ -45,10 +45,10 @@ export function createOutlineTextureFromTexture(id: string, textureId: string, m
   });
 }
 
-export function createFlashTextureFromTexture(id: string, textureId: string, color: string) {
+export function loadFlashTextureFromTexture(id: string, textureId: string, color: string) {
   const texture = getTexture(textureId);
 
-  createRenderTexture(id, texture.width, texture.height, (ctx, w, h) => {
+  loadRenderTexture(id, texture.width, texture.height, (ctx, w, h) => {
     ctx.drawImage(texture, 0, 0);
     ctx.globalCompositeOperation = "source-in";
     ctx.fillStyle = color;

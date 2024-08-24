@@ -1,4 +1,4 @@
-import { createSprite, delta, drawSprite, getSettings, loadTexture, rotateTransform, run, translateTransform } from "ridder";
+import { delta, drawSprite, getSettings, loadSprite, loadTexture, rotateTransform, run, translateTransform } from "ridder";
 
 let angle = 0;
 
@@ -11,7 +11,7 @@ run({
   setup: async () => {
     await loadTexture("tilemap", "textures/tilemap.png");
 
-    createSprite("player", "tilemap", 95, 133, 18, 18);
+    loadSprite("player", "tilemap", 95, 133, 18, 18);
   },
 
   update: () => {

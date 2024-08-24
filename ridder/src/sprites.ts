@@ -8,7 +8,7 @@ export type Sprite = {
 
 const sprites: Record<string, Sprite> = {};
 
-export function createSprite(id: string, textureId: string, x: number, y: number, w: number, h: number) {
+export function loadSprite(id: string, textureId: string, x: number, y: number, w: number, h: number) {
   sprites[id] = { textureId, x, y, w, h };
 }
 
