@@ -12,6 +12,7 @@ export * from "./settings.js";
 export * from "./sounds.js";
 export * from "./sprites.js";
 export { delta, fps, time } from "./state.js";
+export * from "./table.js";
 export * from "./textures.js";
 export * from "./timer.js";
 export * from "./tween.js";
