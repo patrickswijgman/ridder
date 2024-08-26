@@ -1,24 +1,27 @@
-import { getSettings } from "./settings.js";
+import { settings } from "./settings.js";
 
-export type Sound = HTMLAudioElement;
+export type Sound = {
+  audio: HTMLAudioElement;
+  volume: number;
+};
 
-const sounds: Record<string, Sound> = {};
+export const sounds: Record<string, Sound> = {};
 
-export async function loadSound(id: string, src: string, isStream = false) {
+export async function loadSound(id: string, src: string, volume = 1, stream = false) {
   return await new Promise<void>((resolve, reject) => {
-    const sound = new Audio(src);
-    const event = isStream ? "canplay" : "canplaythrough";
+    const audio = new Audio(src);
+    const event = stream ? "canplay" : "canplaythrough";
 
-    sound.addEventListener(
+    audio.addEventListener(
       event,
       () => {
-        sounds[id] = sound;
+        sounds[id] = { audio, volume };
         resolve();
       },
       { once: true },
     );
 
-    sound.addEventListener(
+    audio.addEventListener(
       "error",
       (e) => {
         reject(e);
@@ -29,19 +32,14 @@ export async function loadSound(id: string, src: string, isStream = false) {
 }
 
 export function playSound(id: string, volume = 1, loop = false) {
-  const settings = getSettings();
   const sound = sounds[id];
-  sound.loop = loop;
-  sound.volume = volume * settings.volume;
-  sound.play();
+  sound.audio.loop = loop;
+  sound.audio.volume = volume * sound.volume * settings.volume;
+  sound.audio.play();
 }
 
 export function stopSound(id: string) {
   const sound = sounds[id];
-  sound.pause();
-  sound.currentTime = 0;
-}
-
-export function getSound(id: string): Readonly<Sound> {
-  return sounds[id];
+  sound.audio.pause();
+  sound.audio.currentTime = 0;
 }

@@ -1,4 +1,4 @@
-import { InputCode, drawText, getSettings, isInputDown, isInputPressed, isInputReleased, mostRecentInput, run, scaleTransform, translateTransform } from "ridder";
+import { InputCode, drawText, isInputDown, isInputPressed, isInputReleased, mostRecentInput, run, scaleTransform, settings, translateTransform } from "ridder";
 
 run({
   settings: {
@@ -21,8 +21,6 @@ run({
     if (isInputReleased(InputCode.KEY_ENTER)) {
       console.log("You have released the enter key");
     }
-
-    const settings = getSettings();
 
     translateTransform(settings.width / 2, settings.height / 2);
     scaleTransform(0.25, 0.25);

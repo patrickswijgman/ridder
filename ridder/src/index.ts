@@ -2,7 +2,7 @@ export * from "./camera.js";
 export * from "./circle.js";
 export * from "./consts.js";
 export * from "./fonts.js";
-export { consumeInputDown, consumeInputPressed, consumeInputReleased, getMousePosition, isInputDown, isInputPressed, isInputReleased, mostRecentInput } from "./input.js";
+export * from "./input.js";
 export * from "./line.js";
 export * from "./main.js";
 export * from "./polygon.js";

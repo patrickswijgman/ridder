@@ -1,4 +1,4 @@
-import { delta, drawTexture, getSettings, getTexture, loadRenderTexture, loadTexture, resetTransform, rotateTransform, run, translateTransform } from "ridder";
+import { delta, drawTexture, loadRenderTexture, loadTexture, resetTransform, rotateTransform, run, settings, textures, translateTransform } from "ridder";
 
 let rotation = 0;
 
@@ -18,19 +18,16 @@ run({
     });
 
     loadRenderTexture("floor_tiles", 90, 90, (ctx, width, height) => {
-      const tile = getTexture("tile");
-
-      for (let x = 0; x < width; x += tile.width) {
-        for (let y = 0; y < height; y += tile.height) {
-          ctx.drawImage(tile, x, y);
+      const texture = textures["tile"];
+      for (let x = 0; x < width; x += texture.width) {
+        for (let y = 0; y < height; y += texture.height) {
+          ctx.drawImage(texture.src, x, y);
         }
       }
     });
   },
 
   update: () => {
-    const settings = getSettings();
-
     rotation += 1 * delta;
 
     translateTransform(35, settings.height / 2);

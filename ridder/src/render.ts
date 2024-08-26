@@ -1,12 +1,12 @@
-import { getCamera } from "./camera.js";
+import { camera } from "./camera.js";
 import { canvas, ctx, scale } from "./canvas.js";
 import { Circle } from "./circle.js";
-import { getFont } from "./fonts.js";
+import { fonts } from "./fonts.js";
 import { Polygon } from "./polygon.js";
 import { Rectangle } from "./rectangle.js";
-import { getSettings } from "./settings.js";
-import { getSprite } from "./sprites.js";
-import { getTexture } from "./textures.js";
+import { settings } from "./settings.js";
+import { sprites } from "./sprites.js";
+import { textures } from "./textures.js";
 import { toRadians } from "./utils.js";
 import { Vector } from "./vector.js";
 
@@ -14,7 +14,6 @@ export type TextAlign = "left" | "center" | "right";
 export type TextBaseline = "top" | "middle" | "bottom";
 
 export function clearBackground() {
-  const settings = getSettings();
   ctx.resetTransform();
   ctx.fillStyle = settings.background;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -37,23 +36,22 @@ export function rotateTransform(degrees: number) {
 }
 
 export function applyCameraTransform(scrollX = 1, scrollY = 1) {
-  const camera = getCamera();
-  ctx.translate(-camera.x * scrollX, -camera.y * scrollY);
+  ctx.translate(-camera.position.x * scrollX, -camera.position.y * scrollY);
 }
 
 export function drawTexture(id: string, x: number, y: number) {
-  ctx.drawImage(getTexture(id), x, y);
+  ctx.drawImage(textures[id].src, x, y);
 }
 
 export function drawSprite(id: string, x: number, y: number) {
-  const sprite = getSprite(id);
-  const texture = getTexture(sprite.textureId);
-  ctx.drawImage(texture, sprite.x, sprite.y, sprite.w, sprite.h, x, y, sprite.w, sprite.h);
+  const sprite = sprites[id];
+  const texture = textures[sprite.textureId];
+  ctx.drawImage(texture.src, sprite.x, sprite.y, sprite.w, sprite.h, x, y, sprite.w, sprite.h);
 }
 
 export function drawText(text: string, x: number, y: number, color = "white", align: TextAlign = "left", baseline: TextBaseline = "top", fontId = "default") {
-  const font = getFont(fontId);
-  ctx.font = font ? font : "16px sans-serif";
+  const font = fonts[fontId];
+  ctx.font = font ? `${font.size}px ${font.face.family}` : "16px sans-serif";
   ctx.textAlign = align;
   ctx.textBaseline = baseline;
   ctx.fillStyle = color;

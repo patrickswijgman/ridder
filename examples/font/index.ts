@@ -1,4 +1,4 @@
-import { drawText, getSettings, loadFont, run, scaleTransform, translateTransform } from "ridder";
+import { drawText, loadFont, run, scaleTransform, settings, translateTransform } from "ridder";
 
 run({
   settings: {
@@ -12,8 +12,6 @@ run({
   },
 
   update: () => {
-    const settings = getSettings();
-
     translateTransform(settings.width / 2, settings.height / 2);
     scaleTransform(0.5, 0.5);
     drawText("Some text in a custom font", 0, 0, "#ff00ff", "center", "middle");

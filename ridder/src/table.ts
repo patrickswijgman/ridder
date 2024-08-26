@@ -1,3 +1,3 @@
-export function table<T>(length: number, factory: (i: number) => T): ReadonlyArray<T> {
+export function table<T>(length: number, factory: (i: number) => T) {
   return Array.from({ length }, factory);
 }

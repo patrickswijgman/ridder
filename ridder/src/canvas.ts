@@ -1,4 +1,4 @@
-import { getSettings } from "./settings.js";
+import { settings } from "./settings.js";
 import { vec } from "./vector.js";
 
 export const canvas = document.createElement("canvas");
@@ -12,8 +12,6 @@ export function setupCanvas() {
 }
 
 function resize() {
-  const settings = getSettings();
-
   const r = settings.width / settings.height;
 
   let w = window.innerWidth;

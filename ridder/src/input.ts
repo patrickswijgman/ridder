@@ -1,4 +1,4 @@
-import { getCamera } from "./camera.js";
+import { camera } from "./camera.js";
 import { canvas, scale } from "./canvas.js";
 import { InputCode } from "./consts.js";
 import { Vector, vec } from "./vector.js";
@@ -78,9 +78,8 @@ function mouseButtonToCode(button: number): InputCode {
 }
 
 export function updateMousePosition() {
-  const camera = getCamera();
-  mouseWorldPosition.x = mousePosition.x + camera.x;
-  mouseWorldPosition.y = mousePosition.y + camera.y;
+  mouseWorldPosition.x = mousePosition.x + camera.position.x;
+  mouseWorldPosition.y = mousePosition.y + camera.position.y;
 }
 
 export function resetInputs() {

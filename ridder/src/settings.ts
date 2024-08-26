@@ -6,7 +6,7 @@ export type Settings = {
   cameraSmoothing: number;
 };
 
-const settings: Settings = {
+export const settings: Settings = {
   width: 800,
   height: 600,
   volume: 1,
@@ -16,8 +16,4 @@ const settings: Settings = {
 
 export function setSettings(overwrite: Partial<Settings>) {
   Object.assign(settings, overwrite);
-}
-
-export function getSettings(): Readonly<Settings> {
-  return settings;
 }
