@@ -20,21 +20,25 @@ export function getAngle(x1: number, y1: number, x2: number, y2: number) {
   return toDegrees(Math.atan2(y2 - y1, x2 - x1));
 }
 
-export function getRandomId() {
+export function uuid() {
   return crypto.randomUUID();
 }
 
-export function getRandomIntInRange(min: number, max: number) {
+export function random(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+export function roll(chance: number) {
+  return Math.random() < chance;
+}
+
 export function pick<T>(a: Array<T>) {
-  return a[getRandomIntInRange(0, a.length)];
+  return a[random(0, a.length)];
 }
 
 export function shuffle<T>(a: T[]) {
   for (let i = a.length - 1; i > 0; i--) {
-    const j = getRandomIntInRange(0, i + 1);
+    const j = random(0, i + 1);
     [a[i], a[j]] = [a[j], a[i]];
   }
 
@@ -43,11 +47,9 @@ export function shuffle<T>(a: T[]) {
 
 export function remove<T>(a: Array<T>, e: T) {
   const index = a.indexOf(e);
-
   if (index !== -1) {
     a.splice(index, 1);
   }
-
   return a;
 }
 
