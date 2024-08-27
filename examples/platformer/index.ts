@@ -1,4 +1,4 @@
-import { InputCode, Rectangle, Vector, addVectorScaled, applyCameraTransform, delta, drawRectInstance, drawText, fps, isInputDown, isInputPressed, rect, resetTransform, resetVector, run, scaleTransform, setCamera, updateCamera, vec, writeIntersectionBetweenRectangles } from "ridder";
+import { InputCode, Rectangle, Vector, addVectorScaled, applyCameraTransform, drawRectInstance, drawText, getEngineState, isInputDown, isInputPressed, rect, resetTransform, resetVector, run, scaleTransform, setCameraPosition, updateCamera, vec, writeIntersectionBetweenRectangles } from "ridder";
 
 const GRAVITY = vec(0, 0.01);
 
@@ -78,10 +78,12 @@ run({
 
     entities.push(player, floor, platform, wall);
 
-    setCamera(player.position.x, player.position.y);
+    setCameraPosition(player.position.x, player.position.y);
   },
 
   update: () => {
+    const { delta, fps } = getEngineState();
+
     for (const e of entities) {
       if (e.isPlayer) {
         e.velocity.x = 0;

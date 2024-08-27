@@ -1,4 +1,4 @@
-import { delta, drawSprite, loadSprite, loadTexture, rotateTransform, run, settings, translateTransform } from "ridder";
+import { drawSprite, getEngineState, getSettings, loadSprite, loadTexture, rotateTransform, run, translateTransform } from "ridder";
 
 let angle = 0;
 
@@ -15,6 +15,9 @@ run({
   },
 
   update: () => {
+    const settings = getSettings();
+    const { delta } = getEngineState();
+
     angle += 2 * delta;
 
     translateTransform(settings.width / 2, settings.height / 2);

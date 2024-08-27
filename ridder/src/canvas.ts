@@ -1,9 +1,8 @@
-import { settings } from "./settings.js";
-import { vec } from "./vector.js";
+import { getSettings } from "./settings.js";
+import { getEngineState } from "./state.js";
 
 export const canvas = document.createElement("canvas");
 export const ctx = canvas.getContext("2d")!;
-export const scale = vec(1, 1);
 
 export function setupCanvas() {
   resize();
@@ -12,6 +11,9 @@ export function setupCanvas() {
 }
 
 function resize() {
+  const settings = getSettings();
+  const state = getEngineState();
+
   const r = settings.width / settings.height;
 
   let w = window.innerWidth;
@@ -22,8 +24,8 @@ function resize() {
     w = h * r;
   }
 
-  scale.x = w / settings.width;
-  scale.y = h / settings.height;
+  state.scale.x = w / settings.width;
+  state.scale.y = h / settings.height;
 
   canvas.width = w;
   canvas.height = h;

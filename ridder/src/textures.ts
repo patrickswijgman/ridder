@@ -4,7 +4,7 @@ export type Texture = {
   height: number;
 };
 
-export const textures: Record<string, Texture> = {};
+const textures: Record<string, Texture> = {};
 
 export async function loadTexture(id: string, src: string) {
   const img = new Image();
@@ -51,4 +51,8 @@ export function loadFlashTexture(id: string, textureId: string, color: string) {
     ctx.fillStyle = color;
     ctx.fillRect(0, 0, w, h);
   });
+}
+
+export function getTexture(id: string) {
+  return textures[id];
 }

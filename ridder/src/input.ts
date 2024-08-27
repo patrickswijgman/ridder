@@ -1,7 +1,8 @@
-import { camera } from "./camera.js";
-import { canvas, scale } from "./canvas.js";
+import { getCamera } from "./camera.js";
+import { canvas } from "./canvas.js";
 import { InputCode } from "./consts.js";
-import { Vector, vec } from "./vector.js";
+import { getEngineState } from "./state.js";
+import { vec } from "./vector.js";
 
 const inputsDown: Record<string, boolean> = {};
 const inputsPressed: Record<string, boolean> = {};
@@ -10,11 +11,8 @@ const inputsReleased: Record<string, boolean> = {};
 const mousePosition = vec();
 const mouseWorldPosition = vec();
 
-export let mostRecentInput = "";
-
 export function setupInput() {
   window.addEventListener("keydown", ({ code, repeat }) => {
-    mostRecentInput = code;
     onDown(code, repeat);
   });
 
@@ -31,19 +29,17 @@ export function setupInput() {
   });
 
   canvas.addEventListener("mousedown", ({ button }) => {
-    const code = mouseButtonToCode(button);
-    mostRecentInput = code;
-    onDown(code, false);
+    onDown(mouseButtonToCode(button), false);
   });
 
   canvas.addEventListener("mouseup", ({ button }) => {
-    const code = mouseButtonToCode(button);
-    onUp(code);
+    onUp(mouseButtonToCode(button));
   });
 
   canvas.addEventListener("mousemove", ({ clientX, clientY }) => {
-    mousePosition.x = clientX / scale.x;
-    mousePosition.y = clientY / scale.y;
+    const state = getEngineState();
+    mousePosition.x = clientX / state.scale.x;
+    mousePosition.y = clientY / state.scale.y;
   });
 
   canvas.addEventListener("contextmenu", (e) => {
@@ -78,6 +74,7 @@ function mouseButtonToCode(button: number): InputCode {
 }
 
 export function updateMousePosition() {
+  const camera = getCamera();
   mouseWorldPosition.x = mousePosition.x + camera.position.x;
   mouseWorldPosition.y = mousePosition.y + camera.position.y;
 }
@@ -127,6 +124,6 @@ export function consumeInputReleased(code: InputCode) {
   inputsReleased[code] = false;
 }
 
-export function getMousePosition(inWorld: boolean): Readonly<Vector> {
+export function getMousePosition(inWorld: boolean) {
   return inWorld ? mouseWorldPosition : mousePosition;
 }

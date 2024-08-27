@@ -1,4 +1,4 @@
-import { time } from "./state.js";
+import { getEngineState } from "./state.js";
 
 export type Timer = {
   elapsed: number;
@@ -12,7 +12,8 @@ export function tickTimer(t: Timer, duration: number) {
   if (duration <= 0 || t.elapsed >= duration) {
     return false;
   }
-  t.elapsed = Math.min(t.elapsed + time, duration);
+  const state = getEngineState();
+  t.elapsed = Math.min(t.elapsed + state.time, duration);
   return t.elapsed === duration;
 }
 

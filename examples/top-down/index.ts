@@ -1,4 +1,4 @@
-import { addVectorScaled, delta, drawTexture, InputCode, isInputDown, loadRenderTexture, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, textures, translateTransform, vec, Vector } from "ridder";
+import { addVectorScaled, drawTexture, getEngineState, getTexture, InputCode, isInputDown, loadRenderTexture, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, translateTransform, vec, Vector } from "ridder";
 
 type Entity = {
   position: Vector;
@@ -48,7 +48,7 @@ run({
     await loadTexture("grass_tile", "textures/grass_tile.png");
 
     loadRenderTexture("grass", 512, 512, (ctx, w, h) => {
-      const texture = textures["grass_tile"];
+      const texture = getTexture("grass_tile");
       for (let x = 0; x < w; x += 16) {
         for (let y = 0; y < h; y += 16) {
           ctx.drawImage(texture.src, x, y);
@@ -75,6 +75,8 @@ run({
   },
 
   update: () => {
+    const { delta } = getEngineState();
+
     drawTexture("grass", 0, 0);
 
     world.entities.sort((a, b) => a.position.y - b.position.y);
