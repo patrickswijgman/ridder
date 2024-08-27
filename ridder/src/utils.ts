@@ -25,7 +25,7 @@ export function uuid() {
 }
 
 export function random(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 export function roll(chance: number) {
@@ -33,12 +33,12 @@ export function roll(chance: number) {
 }
 
 export function pick<T>(a: Array<T>) {
-  return a[random(0, a.length)];
+  return a[random(0, a.length - 1)];
 }
 
 export function shuffle<T>(a: T[]) {
   for (let i = a.length - 1; i > 0; i--) {
-    const j = random(0, i + 1);
+    const j = random(0, i);
     [a[i], a[j]] = [a[j], a[i]];
   }
 
