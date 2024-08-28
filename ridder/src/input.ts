@@ -28,15 +28,15 @@ export function setupInput() {
     resetAllInputs();
   });
 
-  canvas.addEventListener("pointerdown", ({ button }) => {
+  canvas.addEventListener("mousedown", ({ button }) => {
     onDown(mouseButtonToCode(button), false);
   });
 
-  canvas.addEventListener("pointerup", ({ button }) => {
+  canvas.addEventListener("mouseup", ({ button }) => {
     onUp(mouseButtonToCode(button));
   });
 
-  canvas.addEventListener("pointermove", ({ clientX, clientY }) => {
+  canvas.addEventListener("mousemove", ({ clientX, clientY }) => {
     const state = getEngineState();
     mousePosition.x = clientX / state.scale.x;
     mousePosition.y = clientY / state.scale.y;
