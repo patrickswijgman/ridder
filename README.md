@@ -29,7 +29,7 @@ See the table below for the code of each example or play it instantly (using Git
 | -------------- | ------------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------- |
 | input          | [link](https://patrickswijgman.github.io/ridder/input/dist/index.html)          | [link](examples/input/index.ts)          | `keyboard` `mouse`                                      |
 | font           | [link](https://patrickswijgman.github.io/ridder/font/dist/index.html)           | [link](examples/font/index.ts)           | `ttf`                                                   |
-| mobile         | [link](https://patrickswijgman.github.io/ridder/mobile/dist/index.html)         | [link](examples/mobile/index.ts)         | `mouse` `transforms`                                    |
+| mobile         | [link](https://patrickswijgman.github.io/ridder/mobile/dist/index.html)         | [link](examples/mobile/index.ts)         | `vectors` `mouse` `transforms`                          |
 | platformer     | [link](https://patrickswijgman.github.io/ridder/platformer/dist/index.html)     | [link](examples/platformer/index.ts)     | `collision` `gravity` `camera` `transforms`             |
 | polygon        | [link](https://patrickswijgman.github.io/ridder/polygon/dist/index.html)        | [link](examples/polygon/index.ts)        | `hitbox` `mouse`                                        |
 | render-texture | [link](https://patrickswijgman.github.io/ridder/render-texture/dist/index.html) | [link](examples/render-texture/index.ts) | `render-texture` `transforms`                           |
