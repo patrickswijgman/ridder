@@ -8,11 +8,13 @@ const r = rect(32, 112, 16, 24);
 type Player = {
   position: Vector;
   velocity: Vector;
+  isFlipped: boolean;
 };
 
 const player: Player = {
   position: vec(),
   velocity: vec(),
+  isFlipped: false,
 };
 
 run({
@@ -44,9 +46,11 @@ run({
       }
       if (doesRectangleContain(l, mouse.x, mouse.y)) {
         player.velocity.x -= 1;
+        player.isFlipped = true;
       }
       if (doesRectangleContain(r, mouse.x, mouse.y)) {
         player.velocity.x += 1;
+        player.isFlipped = false;
       }
     }
 
@@ -55,6 +59,9 @@ run({
 
     resetTransform();
     translateTransform(player.position.x, player.position.y);
+    if (player.isFlipped) {
+      scaleTransform(-1, 1);
+    }
     drawTexture("player", -8, -8);
 
     resetTransform();

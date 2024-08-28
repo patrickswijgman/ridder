@@ -28,22 +28,22 @@ export function setupInput() {
     resetAllInputs();
   });
 
-  canvas.addEventListener("mousedown", ({ button }) => {
-    onDown(mouseButtonToCode(button), false);
+  canvas.addEventListener("pointerdown", (event) => {
+    onPointerEvent(canvas, event);
+    onDown(getMouseButtonCode(event.button), false);
   });
 
-  canvas.addEventListener("mouseup", ({ button }) => {
-    onUp(mouseButtonToCode(button));
+  canvas.addEventListener("pointerup", (event) => {
+    onPointerEvent(canvas, event);
+    onUp(getMouseButtonCode(event.button));
   });
 
-  canvas.addEventListener("mousemove", ({ clientX, clientY }) => {
-    const state = getEngineState();
-    mousePosition.x = clientX / state.scale.x;
-    mousePosition.y = clientY / state.scale.y;
+  canvas.addEventListener("pointermove", (event) => {
+    onPointerEvent(canvas, event);
   });
 
-  canvas.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
+  canvas.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
   });
 }
 
@@ -60,7 +60,15 @@ function onUp(code: string) {
   inputsReleased[code] = true;
 }
 
-function mouseButtonToCode(button: number): InputCode {
+function onPointerEvent(target: HTMLElement, event: PointerEvent) {
+  event.preventDefault();
+  const state = getEngineState();
+  const offset = target.getBoundingClientRect();
+  mousePosition.x = event.clientX / state.scale.x - offset.x;
+  mousePosition.y = event.clientY / state.scale.y - offset.y;
+}
+
+function getMouseButtonCode(button: number): InputCode {
   switch (button) {
     case 0:
       return InputCode.MOUSE_LEFT;
