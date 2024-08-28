@@ -1,0 +1,16 @@
+{
+  "name": "mobile",
+  "private": true,
+  "version": "0.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "build": "tsc index.ts --noEmit --lib esnext,dom && vite build --base ./"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ridder": "*"
+  }
+}
