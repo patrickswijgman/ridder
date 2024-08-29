@@ -12,12 +12,14 @@ const mousePosition = vec();
 const mouseWorldPosition = vec();
 
 export function setupInput() {
-  window.addEventListener("keydown", ({ code, repeat }) => {
-    onDown(code, repeat);
+  window.addEventListener("keydown", (event) => {
+    event.preventDefault();
+    onDown(event.code, event.repeat);
   });
 
-  window.addEventListener("keyup", ({ code }) => {
-    onUp(code);
+  window.addEventListener("keyup", (event) => {
+    event.preventDefault();
+    onUp(event.code);
   });
 
   window.addEventListener("focus", () => {
@@ -29,16 +31,19 @@ export function setupInput() {
   });
 
   canvas.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
     onPointerEvent(canvas, event);
     onDown(getMouseButtonCode(event.button), false);
   });
 
   canvas.addEventListener("pointerup", (event) => {
+    event.preventDefault();
     onPointerEvent(canvas, event);
     onUp(getMouseButtonCode(event.button));
   });
 
   canvas.addEventListener("pointermove", (event) => {
+    event.preventDefault();
     onPointerEvent(canvas, event);
   });
 
@@ -61,7 +66,6 @@ function onUp(code: string) {
 }
 
 function onPointerEvent(target: HTMLElement, event: PointerEvent) {
-  event.preventDefault();
   const state = getEngineState();
   const offset = target.getBoundingClientRect();
   mousePosition.x = event.clientX / state.scale.x - offset.x;
