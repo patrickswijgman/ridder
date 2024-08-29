@@ -7,9 +7,9 @@ export type Sound = {
 
 const sounds: Record<string, Sound> = {};
 
-export async function loadSound(id: string, src: string, volume = 1, stream = false) {
+export async function loadSound(id: string, url: string, volume = 1, stream = false) {
   return await new Promise<void>((resolve, reject) => {
-    const audio = new Audio(src);
+    const audio = new Audio(url);
     const event = stream ? "canplay" : "canplaythrough";
 
     audio.addEventListener(

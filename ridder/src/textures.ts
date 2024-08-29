@@ -6,9 +6,9 @@ export type Texture = {
 
 const textures: Record<string, Texture> = {};
 
-export async function loadTexture(id: string, src: string) {
+export async function loadTexture(id: string, url: string) {
   const img = new Image();
-  img.src = src;
+  img.src = url;
   await img.decode();
   textures[id] = { src: img, width: img.width, height: img.height };
 }
