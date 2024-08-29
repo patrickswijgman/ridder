@@ -7,7 +7,6 @@ export type ResourceManifest = {
   textures: Record<
     string,
     {
-      id: string;
       url: string;
       sprites: Record<string, [x: number, y: number, w: number, h: number]>;
     }
@@ -35,10 +34,10 @@ export async function loadResources(manifest: ResourceManifest) {
 
   for (const id in manifest.textures) {
     const texture = manifest.textures[id];
-    const promise = loadTexture(texture.id, texture.url);
+    const promise = loadTexture(id, texture.url);
     for (const spriteId in texture.sprites) {
       const sprite = texture.sprites[spriteId];
-      loadSprite(spriteId, texture.id, ...sprite);
+      loadSprite(spriteId, id, ...sprite);
     }
     promises.push(promise);
   }
