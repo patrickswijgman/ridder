@@ -8,6 +8,7 @@ export * from "./main.js";
 export * from "./polygon.js";
 export * from "./rectangle.js";
 export * from "./render.js";
+export * from "./resources.js";
 export * from "./settings.js";
 export * from "./sounds.js";
 export * from "./sprites.js";
