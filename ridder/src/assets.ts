@@ -3,33 +3,13 @@ import { loadSound } from "./sounds.js";
 import { loadSprite } from "./sprites.js";
 import { loadTexture } from "./textures.js";
 
-export type ResourceManifest = {
-  textures: Record<
-    string,
-    {
-      url: string;
-      sprites: Record<string, [x: number, y: number, w: number, h: number]>;
-    }
-  >;
-  fonts: Record<
-    string,
-    {
-      family: string;
-      url: string;
-      size: number;
-    }
-  >;
-  sounds: Record<
-    string,
-    {
-      url: string;
-      volume?: number;
-      stream?: boolean;
-    }
-  >;
+export type AssetsManifest = {
+  textures: Record<string, { url: string; sprites?: Record<string, [x: number, y: number, w: number, h: number]> }>;
+  fonts: Record<string, { family: string; url: string; size: number }>;
+  sounds: Record<string, { url: string; volume?: number; stream?: boolean }>;
 };
 
-export async function loadResources(manifest: ResourceManifest) {
+export async function loadAssets(manifest: AssetsManifest) {
   const promises: Array<Promise<void>> = [];
 
   for (const id in manifest.textures) {
