@@ -1,3 +1,4 @@
+export * from "./assets.js";
 export * from "./camera.js";
 export * from "./circle.js";
 export * from "./consts.js";
@@ -8,7 +9,6 @@ export * from "./main.js";
 export * from "./polygon.js";
 export * from "./rectangle.js";
 export * from "./render.js";
-export * from "./resources.js";
 export * from "./settings.js";
 export * from "./sounds.js";
 export * from "./sprites.js";
