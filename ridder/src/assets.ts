@@ -3,47 +3,42 @@ import { loadSound } from "./sounds.js";
 import { loadSprite } from "./sprites.js";
 import { loadFlashTexture, loadOutlineTexture, loadTexture } from "./textures.js";
 
+type TextureAsset = {
+  url: string;
+  sprites?: Record<string, [x: number, y: number, w: number, h: number]>;
+};
+
+type OutlineTextureAsset = {
+  url: string;
+  mode: "circle" | "square";
+  color: string;
+  sprites?: Record<string, [x: number, y: number, w: number, h: number]>;
+};
+
+type FlashTextureAsset = {
+  url: string;
+  color: string;
+  sprites?: Record<string, [x: number, y: number, w: number, h: number]>;
+};
+
+type FontAsset = {
+  family: string;
+  url: string;
+  size: number;
+};
+
+type SoundAsset = {
+  url: string;
+  volume?: number;
+  stream?: boolean;
+};
+
 export type AssetsManifest = {
-  textures: Record<
-    string,
-    {
-      url: string;
-      sprites?: Record<string, [x: number, y: number, w: number, h: number]>;
-    }
-  >;
-  outlineTextures: Record<
-    string,
-    {
-      url: string;
-      mode: "circle" | "square";
-      color: string;
-      sprites?: Record<string, [x: number, y: number, w: number, h: number]>;
-    }
-  >;
-  flashTextures: Record<
-    string,
-    {
-      url: string;
-      color: string;
-      sprites?: Record<string, [x: number, y: number, w: number, h: number]>;
-    }
-  >;
-  fonts: Record<
-    string,
-    {
-      family: string;
-      url: string;
-      size: number;
-    }
-  >;
-  sounds: Record<
-    string,
-    {
-      url: string;
-      volume?: number;
-      stream?: boolean;
-    }
-  >;
+  textures: Record<string, TextureAsset>;
+  outlineTextures?: Record<string, OutlineTextureAsset>;
+  flashTextures?: Record<string, FlashTextureAsset>;
+  fonts: Record<string, FontAsset>;
+  sounds: Record<string, SoundAsset>;
 };
 
 export async function loadAssets(manifest: AssetsManifest) {
