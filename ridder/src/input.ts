@@ -13,17 +13,13 @@ const mouseWorldPosition = vec();
 
 export function setupInput() {
   window.addEventListener("keydown", (event) => {
-    if (event.code in InputCode) {
-      event.preventDefault();
-      onDown(event.code, event.repeat);
-    }
+    event.preventDefault();
+    onDown(event.code, event.repeat);
   });
 
   window.addEventListener("keyup", (event) => {
-    if (event.code in InputCode) {
-      event.preventDefault();
-      onUp(event.code);
-    }
+    event.preventDefault();
+    onUp(event.code);
   });
 
   window.addEventListener("focus", () => {
