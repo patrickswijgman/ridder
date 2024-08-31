@@ -51,13 +51,11 @@ export enum InputCode {
   KEY_F2 = "F2",
   KEY_F3 = "F3",
   KEY_F4 = "F4",
-  KEY_F5 = "F5",
   KEY_F6 = "F6",
   KEY_F7 = "F7",
   KEY_F8 = "F8",
   KEY_F9 = "F9",
   KEY_F10 = "F10",
-  KEY_F11 = "F11",
   KEY_F12 = "F12",
 
   KEY_TAB = "Tab",

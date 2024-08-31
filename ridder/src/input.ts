@@ -13,13 +13,17 @@ const mouseWorldPosition = vec();
 
 export function setupInput() {
   window.addEventListener("keydown", (event) => {
-    event.preventDefault();
-    onDown(event.code, event.repeat);
+    if (event.code in InputCode) {
+      event.preventDefault();
+      onDown(event.code, event.repeat);
+    }
   });
 
   window.addEventListener("keyup", (event) => {
-    event.preventDefault();
-    onUp(event.code);
+    if (event.code in InputCode) {
+      event.preventDefault();
+      onUp(event.code);
+    }
   });
 
   window.addEventListener("focus", () => {
@@ -33,13 +37,19 @@ export function setupInput() {
   canvas.addEventListener("pointerdown", (event) => {
     event.preventDefault();
     onPointerEvent(canvas, event);
-    onDown(getMouseButtonCode(event.button), false);
+    const code = getMouseButtonCode(event.button);
+    if (code) {
+      onDown(code, false);
+    }
   });
 
   canvas.addEventListener("pointerup", (event) => {
     event.preventDefault();
     onPointerEvent(canvas, event);
-    onUp(getMouseButtonCode(event.button));
+    const code = getMouseButtonCode(event.button);
+    if (code) {
+      onUp(code);
+    }
   });
 
   canvas.addEventListener("pointermove", (event) => {
@@ -72,7 +82,7 @@ function onPointerEvent(target: HTMLElement, event: PointerEvent) {
   mousePosition.y = event.clientY / state.scale.y - offset.y;
 }
 
-function getMouseButtonCode(button: number): InputCode {
+function getMouseButtonCode(button: number): InputCode | null {
   switch (button) {
     case 0:
       return InputCode.MOUSE_LEFT;
@@ -81,7 +91,7 @@ function getMouseButtonCode(button: number): InputCode {
     case 2:
       return InputCode.MOUSE_RIGHT;
     default:
-      return InputCode.NONE;
+      return null;
   }
 }
 
