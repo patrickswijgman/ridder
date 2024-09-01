@@ -14,7 +14,7 @@ const mouseWorldPosition = vec();
 export function setupInput() {
   window.addEventListener("keydown", (event) => {
     event.preventDefault();
-    onDown(event.code, event.repeat);
+    onDown(event.code);
   });
 
   window.addEventListener("keyup", (event) => {
@@ -35,7 +35,7 @@ export function setupInput() {
     onPointerEvent(canvas, event);
     const code = getMouseButtonCode(event.button);
     if (code) {
-      onDown(code, false);
+      onDown(code);
     }
   });
 
@@ -58,8 +58,8 @@ export function setupInput() {
   });
 }
 
-function onDown(code: string, repeat: boolean) {
-  if (repeat) return;
+function onDown(code: string) {
+  if (inputsDown[code]) return;
   inputsDown[code] = true;
   inputsPressed[code] = true;
   inputsReleased[code] = false;
