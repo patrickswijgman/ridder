@@ -29,7 +29,7 @@ export function random(min: number, max: number) {
 }
 
 export function roll(chance: number) {
-  return random(1, 100) <= chance * 100;
+  return Math.random() < chance;
 }
 
 export function pick<T>(a: Array<T>) {
