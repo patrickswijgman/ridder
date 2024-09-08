@@ -4,7 +4,6 @@ import { Circle } from "./circle.js";
 import { getFont } from "./fonts.js";
 import { Polygon } from "./polygon.js";
 import { Rectangle } from "./rectangle.js";
-import { getSettings } from "./settings.js";
 import { getSprite } from "./sprites.js";
 import { getEngineState } from "./state.js";
 import { getTexture } from "./textures.js";
@@ -15,9 +14,9 @@ export type TextAlign = "left" | "center" | "right";
 export type TextBaseline = "top" | "middle" | "bottom";
 
 export function clearBackground() {
-  const settings = getSettings();
+  const state = getEngineState();
   ctx.resetTransform();
-  ctx.fillStyle = settings.background;
+  ctx.fillStyle = state.background;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
@@ -43,18 +42,23 @@ export function applyCameraTransform(scrollX = 1, scrollY = 1) {
   ctx.translate(-camera.position.x * scrollX, -camera.position.y * scrollY);
 }
 
-export function setAlpha(alpha: number) {
-  ctx.globalAlpha = alpha;
-}
-
-export function setBlendMode(mode: GlobalCompositeOperation) {
-  ctx.globalCompositeOperation = mode;
+export function setBackgroundColor(color: string) {
+  const state = getEngineState();
+  state.background = color;
 }
 
 export function setFont(id: string) {
   const state = getEngineState();
   const font = getFont(id);
   state.font = `${font.size}px ${font.face.family}`;
+}
+
+export function setAlpha(alpha: number) {
+  ctx.globalAlpha = alpha;
+}
+
+export function setBlendMode(mode: GlobalCompositeOperation) {
+  ctx.globalCompositeOperation = mode;
 }
 
 export function drawTexture(id: string, x: number, y: number) {

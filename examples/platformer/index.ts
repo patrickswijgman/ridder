@@ -1,4 +1,25 @@
-import { InputCode, Rectangle, Vector, addVectorScaled, applyCameraTransform, drawRectInstance, drawText, getEngineState, isInputDown, isInputPressed, rect, resetTransform, resetVector, run, scaleTransform, setCameraPosition, updateCamera, vec, writeIntersectionBetweenRectangles } from "ridder";
+import {
+  InputCode,
+  Rectangle,
+  Vector,
+  addVectorScaled,
+  applyCameraTransform,
+  drawRectInstance,
+  drawText,
+  getEngineState,
+  isInputDown,
+  isInputPressed,
+  rect,
+  resetTransform,
+  resetVector,
+  run,
+  scaleTransform,
+  setBackgroundColor,
+  setCameraPosition,
+  updateCamera,
+  vec,
+  writeIntersectionBetweenRectangles,
+} from "ridder";
 
 const GRAVITY = vec(0, 0.01);
 
@@ -41,7 +62,6 @@ run({
   settings: {
     width: 160,
     height: 90,
-    background: "#1e1e1e",
     cameraSmoothing: 0.05,
   },
 
@@ -78,6 +98,7 @@ run({
 
     entities.push(player, floor, platform, wall);
 
+    setBackgroundColor("#1e1e1e");
     setCameraPosition(player.position.x, player.position.y);
   },
 

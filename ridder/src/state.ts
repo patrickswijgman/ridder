@@ -12,6 +12,7 @@ type State = {
   framesTimer: Timer;
   fps: number;
   scale: Vector;
+  background: string;
   font: string;
 };
 
@@ -24,6 +25,7 @@ const state: State = {
   framesTimer: timer(),
   fps: 0,
   scale: vec(),
+  background: "black",
   font: "16px sans-serif",
 };
 
