@@ -89,3 +89,11 @@ export function writeIntersectionBetweenRectangles(a: Rectangle, b: Rectangle, v
 
   return out;
 }
+
+export function copyRectangle(a: Rectangle, b: Rectangle) {
+  a.x = b.x;
+  a.y = b.y;
+  a.w = b.w;
+  a.h = b.h;
+  return a;
+}

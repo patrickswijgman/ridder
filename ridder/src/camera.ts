@@ -1,5 +1,5 @@
 import { getHeight, getWidth } from "./canvas.js";
-import { Rectangle, isRectangleValid, rect } from "./rectangle.js";
+import { Rectangle, copyRectangle, isRectangleValid, rect } from "./rectangle.js";
 import { getDelta } from "./state.js";
 import { clamp } from "./utils.js";
 import { addVector, copyVector, getVectorDistance, limitVector, normalizeVector, scaleVector, subtractVector, vec } from "./vector.js";
@@ -46,5 +46,5 @@ export function setCameraSmoothing(value: number) {
 }
 
 export function setCameraBounds(rect: Rectangle) {
-  bounds = rect;
+  copyRectangle(bounds, rect);
 }

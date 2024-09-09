@@ -103,3 +103,15 @@ export function doesPolygonContain(p: Polygon, x: number, y: number) {
 
   return crossings % 2 === 1;
 }
+
+export function copyPolygon(a: Polygon, b: Polygon) {
+  a.x = b.x;
+  a.y = b.y;
+  a.points.length = 0;
+
+  for (const point of b.points) {
+    a.points.push(vec(point.x, point.y));
+  }
+
+  return a;
+}
