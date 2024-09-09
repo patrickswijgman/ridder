@@ -1,12 +1,10 @@
-import { drawTexture, getEngineState, getSettings, getTexture, loadRenderTexture, loadTexture, resetTransform, rotateTransform, run, translateTransform } from "ridder";
+import { drawTexture, getDelta, getHeight, getTexture, getWidth, loadRenderTexture, loadTexture, resetTransform, rotateTransform, run, translateTransform } from "ridder";
 
 let rotation = 0;
 
 run({
-  settings: {
-    width: 160,
-    height: 90,
-  },
+  width: 160,
+  height: 90,
 
   setup: async () => {
     await loadTexture("tile", "textures/tile.png");
@@ -28,16 +26,15 @@ run({
   },
 
   update: () => {
-    const settings = getSettings();
-    const { delta } = getEngineState();
+    rotation += 1 * getDelta();
+  },
 
-    rotation += 1 * delta;
-
-    translateTransform(35, settings.height / 2);
+  render: () => {
+    translateTransform(35, getHeight() / 2);
     rotateTransform(rotation);
     drawTexture("red_block", -8, -8);
 
     resetTransform();
-    drawTexture("floor_tiles", settings.width - 90, 0);
+    drawTexture("floor_tiles", getWidth() - 90, 0);
   },
 });

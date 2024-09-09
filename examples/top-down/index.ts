@@ -1,4 +1,4 @@
-import { addVectorScaled, drawTexture, getEngineState, getTexture, InputCode, isInputDown, loadRenderTexture, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, translateTransform, vec, Vector } from "ridder";
+import { addVectorScaled, applyCameraTransform, drawTexture, getDelta, getTexture, InputCode, isInputDown, loadRenderTexture, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, translateTransform, updateCamera, vec, Vector } from "ridder";
 
 type Entity = {
   position: Vector;
@@ -37,10 +37,8 @@ function createScene(): Scene {
 const world = createScene();
 
 run({
-  settings: {
-    width: 320,
-    height: 180,
-  },
+  width: 320,
+  height: 180,
 
   setup: async () => {
     await loadTexture("player", "textures/player.png");
@@ -75,12 +73,6 @@ run({
   },
 
   update: () => {
-    const { delta } = getEngineState();
-
-    drawTexture("grass", 0, 0);
-
-    world.entities.sort((a, b) => a.position.y - b.position.y);
-
     for (const e of world.entities) {
       if (e.isPlayer) {
         resetVector(e.velocity);
@@ -99,19 +91,28 @@ run({
         if (isInputDown(InputCode.KEY_DOWN)) {
           e.velocity.y += 1;
         }
-      }
 
-      normalizeVector(e.velocity);
-      addVectorScaled(e.position, e.velocity, delta);
-
-      if (e.textureId) {
-        resetTransform();
-        translateTransform(e.position.x, e.position.y);
-        if (e.isFlipped) {
-          scaleTransform(-1, 1);
-        }
-        drawTexture(e.textureId, -e.pivot.x, -e.pivot.y);
+        normalizeVector(e.velocity);
+        addVectorScaled(e.position, e.velocity, getDelta());
+        updateCamera(e.position.x, e.position.y);
       }
+    }
+  },
+
+  render: () => {
+    applyCameraTransform();
+    drawTexture("grass", 0, 0);
+
+    world.entities.sort((a, b) => a.position.y - b.position.y);
+
+    for (const e of world.entities) {
+      resetTransform();
+      translateTransform(e.position.x, e.position.y);
+      applyCameraTransform();
+      if (e.isFlipped) {
+        scaleTransform(-1, 1);
+      }
+      drawTexture(e.textureId, -e.pivot.x, -e.pivot.y);
     }
   },
 });

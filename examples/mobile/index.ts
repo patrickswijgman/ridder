@@ -1,27 +1,25 @@
-import { addVectorScaled, doesRectangleContain, drawRectInstance, drawTexture, getEngineState, getMousePosition, InputCode, isInputDown, loadTexture, normalizeVector, rect, resetTransform, resetVector, run, scaleTransform, setAlpha, translateTransform, vec, Vector } from "ridder";
+import { addVectorScaled, doesRectangleContain, drawRectInstance, drawTexture, getDelta, getMousePosition, InputCode, isInputDown, loadTexture, normalizeVector, rect, resetTransform, resetVector, run, scaleTransform, setAlpha, translateTransform, vec, Vector } from "ridder";
 
 const u = rect(16, 104, 24, 16);
 const d = rect(16, 128, 24, 16);
 const l = rect(8, 112, 16, 24);
 const r = rect(32, 112, 16, 24);
 
-type Player = {
+type Entity = {
   position: Vector;
   velocity: Vector;
   isFlipped: boolean;
 };
 
-const player: Player = {
+const player: Entity = {
   position: vec(),
   velocity: vec(),
   isFlipped: false,
 };
 
 run({
-  settings: {
-    width: 90,
-    height: 160,
-  },
+  width: 90,
+  height: 160,
 
   setup: async () => {
     await loadTexture("player", "textures/player.png");
@@ -32,7 +30,6 @@ run({
   },
 
   update: () => {
-    const { delta } = getEngineState();
     const mouse = getMousePosition(false);
 
     resetVector(player.velocity);
@@ -55,9 +52,10 @@ run({
     }
 
     normalizeVector(player.velocity);
-    addVectorScaled(player.position, player.velocity, delta);
+    addVectorScaled(player.position, player.velocity, getDelta());
+  },
 
-    resetTransform();
+  render: () => {
     translateTransform(player.position.x, player.position.y);
     if (player.isFlipped) {
       scaleTransform(-1, 1);

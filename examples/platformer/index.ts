@@ -6,7 +6,8 @@ import {
   applyCameraTransform,
   drawRectInstance,
   drawText,
-  getEngineState,
+  getDelta,
+  getFramePerSecond,
   isInputDown,
   isInputPressed,
   rect,
@@ -15,7 +16,9 @@ import {
   run,
   scaleTransform,
   setBackgroundColor,
+  setCameraBounds,
   setCameraPosition,
+  setCameraSmoothing,
   updateCamera,
   vec,
   writeIntersectionBetweenRectangles,
@@ -59,11 +62,8 @@ const entities: Array<Entity> = [];
 const boundary = rect(0, 0, 200, 120);
 
 run({
-  settings: {
-    width: 160,
-    height: 90,
-    cameraSmoothing: 0.05,
-  },
+  width: 160,
+  height: 90,
 
   setup: async () => {
     const player = createEntity();
@@ -100,10 +100,12 @@ run({
 
     setBackgroundColor("#1e1e1e");
     setCameraPosition(player.position.x, player.position.y);
+    setCameraBounds(boundary);
+    setCameraSmoothing(0.05);
   },
 
   update: () => {
-    const { delta, fps } = getEngineState();
+    const delta = getDelta();
 
     for (const e of entities) {
       if (e.isPlayer) {
@@ -150,9 +152,13 @@ run({
       e.isOnGround = e.bodyIntersectionResult.y < 0;
 
       if (e.isPlayer) {
-        updateCamera(e.position.x, e.position.y, boundary);
+        updateCamera(e.position.x, e.position.y);
       }
+    }
+  },
 
+  render: () => {
+    for (const e of entities) {
       resetTransform();
       applyCameraTransform();
       drawRectInstance(e.body, e.color, true);
@@ -160,6 +166,6 @@ run({
 
     resetTransform();
     scaleTransform(0.125, 0.125);
-    drawText(`FPS: ${fps}`, 2, 2, "lime");
+    drawText(`FPS: ${getFramePerSecond()}`, 2, 2, "lime");
   },
 });

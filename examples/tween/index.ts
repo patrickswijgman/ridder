@@ -1,4 +1,4 @@
-import { drawSprite, getSettings, InputCode, isInputPressed, loadSprite, loadTexture, resetTimer, resetTransform, rotateTransform, run, scaleTransform, tickTimer, timer, Timer, translateTransform, tween, vec, Vector } from "ridder";
+import { drawSprite, getHeight, getWidth, InputCode, isInputPressed, loadSprite, loadTexture, resetTimer, resetTransform, rotateTransform, run, scaleTransform, tickTimer, timer, Timer, translateTransform, tween, vec, Vector } from "ridder";
 
 type Entity = {
   position: Vector;
@@ -24,19 +24,15 @@ const two = createEntity();
 const entities = [one, two];
 
 run({
-  settings: {
-    width: 160,
-    height: 90,
-  },
+  width: 160,
+  height: 90,
 
   setup: async () => {
     await loadTexture("tilemap", "textures/tilemap.png");
-
     loadSprite("snowman", "tilemap", 95, 133, 18, 18);
 
-    const settings = getSettings();
-    const x = settings.width / 3;
-    const y = settings.height / 2;
+    const x = getWidth() / 3;
+    const y = getHeight() / 2;
 
     one.position.x = x;
     one.position.y = y;
@@ -63,7 +59,9 @@ run({
         resetTimer(e.timer);
       }
     }
+  },
 
+  render: () => {
     for (const e of entities) {
       resetTransform();
       translateTransform(e.position.x, e.position.y);

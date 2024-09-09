@@ -1,4 +1,4 @@
-import { circle, doPolygonsIntersect, drawPolygonInstance, getEngineState, getMousePosition, getSettings, polygon, polygonFromCircle, rotatePolygon, run, vec } from "ridder";
+import { circle, doPolygonsIntersect, drawPolygonInstance, getDelta, getHeight, getMousePosition, getWidth, polygon, polygonFromCircle, rotatePolygon, run, vec } from "ridder";
 
 const one = polygonFromCircle(0, 0, circle(0, 0, 30), 8);
 const two = polygon(0, 0, [
@@ -8,26 +8,23 @@ const two = polygon(0, 0, [
 ]);
 
 run({
-  settings: {
-    width: 160,
-    height: 90,
-  },
+  width: 160,
+  height: 90,
 
   setup: async () => {
-    const settings = getSettings();
-    one.x = settings.width / 2;
-    one.y = settings.height / 2;
+    one.x = getWidth() / 2;
+    one.y = getHeight() / 2;
   },
 
   update: () => {
-    const { delta } = getEngineState();
-
-    rotatePolygon(one, 1 * delta);
+    rotatePolygon(one, 1 * getDelta());
 
     const mouse = getMousePosition(true);
     two.x = mouse.x;
     two.y = mouse.y;
+  },
 
+  render: () => {
     drawPolygonInstance(one, doPolygonsIntersect(one, two) ? "red" : "white", false);
     drawPolygonInstance(two, "white", true);
   },

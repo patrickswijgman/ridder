@@ -1,26 +1,24 @@
-import { drawSprite, getEngineState, getSettings, loadSprite, loadTexture, rotateTransform, run, translateTransform } from "ridder";
+import { drawSprite, getDelta, getHeight, getWidth, loadSprite, loadTexture, rotateTransform, run, translateTransform } from "ridder";
 
 let angle = 0;
 
 run({
-  settings: {
-    width: 160,
-    height: 90,
-  },
+  width: 160,
+  height: 90,
 
   setup: async () => {
     await loadTexture("tilemap", "textures/tilemap.png");
-
     loadSprite("player", "tilemap", 95, 133, 18, 18);
   },
 
   update: () => {
-    const settings = getSettings();
-    const { delta } = getEngineState();
+    angle += 2 * getDelta();
+  },
 
-    angle += 2 * delta;
-
-    translateTransform(settings.width / 2, settings.height / 2);
+  render: () => {
+    const w = getWidth();
+    const h = getHeight();
+    translateTransform(w / 2, h / 2);
     rotateTransform(angle);
     drawSprite("player", -9, -18);
   },
