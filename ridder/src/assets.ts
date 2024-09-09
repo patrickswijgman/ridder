@@ -3,22 +3,24 @@ import { loadSound } from "./sounds.js";
 import { loadSprite } from "./sprites.js";
 import { loadFlashTexture, loadOutlineTexture, loadTexture } from "./textures.js";
 
+type SpriteAsset = [x: number, y: number, w: number, h: number];
+
 type TextureAsset = {
   url: string;
-  sprites?: Record<string, [x: number, y: number, w: number, h: number]>;
+  sprites?: Record<string, SpriteAsset>;
 };
 
 type OutlineTextureAsset = {
   url: string;
   mode: "circle" | "square";
   color: string;
-  sprites?: Record<string, [x: number, y: number, w: number, h: number]>;
+  sprites?: Record<string, SpriteAsset>;
 };
 
 type FlashTextureAsset = {
   url: string;
   color: string;
-  sprites?: Record<string, [x: number, y: number, w: number, h: number]>;
+  sprites?: Record<string, SpriteAsset>;
 };
 
 type FontAsset = {
@@ -47,30 +49,21 @@ export async function loadAssets(manifest: AssetsManifest) {
   for (const id in manifest.textures) {
     const { url, sprites } = manifest.textures[id];
     const promise = loadTexture(id, url);
-    for (const spriteId in sprites) {
-      const sprite = sprites[spriteId];
-      loadSprite(spriteId, id, ...sprite);
-    }
+    loadSprites(id, sprites);
     promises.push(promise);
   }
 
   for (const id in manifest.outlineTextures) {
     const { url, sprites, mode, color } = manifest.outlineTextures[id];
     const promise = loadOutlineTexture(id, url, mode, color);
-    for (const spriteId in sprites) {
-      const sprite = sprites[spriteId];
-      loadSprite(spriteId, id, ...sprite);
-    }
+    loadSprites(id, sprites);
     promises.push(promise);
   }
 
   for (const id in manifest.flashTextures) {
     const { url, sprites, color } = manifest.flashTextures[id];
     const promise = loadFlashTexture(id, url, color);
-    for (const spriteId in sprites) {
-      const sprite = sprites[spriteId];
-      loadSprite(spriteId, id, ...sprite);
-    }
+    loadSprites(id, sprites);
     promises.push(promise);
   }
 
@@ -87,4 +80,11 @@ export async function loadAssets(manifest: AssetsManifest) {
   }
 
   await Promise.all(promises);
+}
+
+function loadSprites(id: string, sprites?: Record<string, SpriteAsset>) {
+  for (const spriteId in sprites) {
+    const sprite = sprites[spriteId];
+    loadSprite(spriteId, id, ...sprite);
+  }
 }

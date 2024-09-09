@@ -1,7 +1,6 @@
-import { getCamera } from "./camera.js";
-import { canvas } from "./canvas.js";
+import { getCameraPosition } from "./camera.js";
+import { canvas, scale } from "./canvas.js";
 import { InputCode } from "./consts.js";
-import { getEngineState } from "./state.js";
 import { vec } from "./vector.js";
 
 const inputsDown: Record<string, boolean> = {};
@@ -72,10 +71,9 @@ function onUp(code: string) {
 }
 
 function onPointerEvent(target: HTMLElement, event: PointerEvent) {
-  const state = getEngineState();
   const offset = target.getBoundingClientRect();
-  mousePosition.x = event.clientX / state.scale.x - offset.x;
-  mousePosition.y = event.clientY / state.scale.y - offset.y;
+  mousePosition.x = event.clientX / scale.x - offset.x;
+  mousePosition.y = event.clientY / scale.y - offset.y;
 }
 
 function getMouseButtonCode(button: number): InputCode | null {
@@ -92,9 +90,9 @@ function getMouseButtonCode(button: number): InputCode | null {
 }
 
 export function updateMousePosition() {
-  const camera = getCamera();
-  mouseWorldPosition.x = mousePosition.x + camera.position.x;
-  mouseWorldPosition.y = mousePosition.y + camera.position.y;
+  const camera = getCameraPosition();
+  mouseWorldPosition.x = mousePosition.x + camera.x;
+  mouseWorldPosition.y = mousePosition.y + camera.y;
 }
 
 export function resetInputs() {

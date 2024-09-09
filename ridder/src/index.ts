@@ -1,5 +1,6 @@
 export * from "./assets.js";
 export * from "./camera.js";
+export { getHeight, getWidth } from "./canvas.js";
 export * from "./circle.js";
 export * from "./consts.js";
 export * from "./fonts.js";
@@ -9,10 +10,9 @@ export * from "./main.js";
 export * from "./polygon.js";
 export * from "./rectangle.js";
 export * from "./render.js";
-export * from "./settings.js";
 export * from "./sounds.js";
 export * from "./sprites.js";
-export { getEngineState } from "./state.js";
+export { getDelta, getFramePerSecond, getTime } from "./state.js";
 export * from "./table.js";
 export * from "./textures.js";
 export * from "./timer.js";

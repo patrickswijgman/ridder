@@ -1,60 +1,50 @@
-import { resetTimer, tickTimer, Timer, timer } from "./timer.js";
-import { vec, Vector } from "./vector.js";
+import { resetTimer, tickTimer, timer } from "./timer.js";
 
 const TARGET_FRAME_TIME = 1000 / 60;
 
-type State = {
-  last: number;
-  now: number;
-  delta: number;
-  time: number;
-  frames: number;
-  framesTimer: Timer;
-  fps: number;
-  scale: Vector;
-  background: string;
-  font: string;
-};
+const framesTimer = timer();
 
-const state: State = {
-  last: 0,
-  now: 0,
-  delta: 0,
-  time: 0,
-  frames: 0,
-  framesTimer: timer(),
-  fps: 0,
-  scale: vec(),
-  background: "black",
-  font: "16px sans-serif",
-};
+let last = 0;
+let now = 0;
+let delta = 0;
+let time = 0;
+let frames = 0;
+let fps = 0;
 
 export function setupState() {
-  state.last = performance.now();
-  state.now = performance.now();
+  last = performance.now();
+  now = performance.now();
 }
 
 export function updateState() {
-  state.last = state.now;
-  state.now = performance.now();
-  state.time = state.now - state.last;
-  state.delta = state.time / TARGET_FRAME_TIME;
+  last = now;
+  now = performance.now();
+  time = now - last;
+  delta = time / TARGET_FRAME_TIME;
 
   // If the delta time is too high, ignore the frame.
-  if (state.time > 100) {
+  if (time > 100) {
     return false;
   }
 
-  state.frames++;
-  if (tickTimer(state.framesTimer, 1000)) {
-    state.fps = state.frames;
-    state.frames = 0;
-    resetTimer(state.framesTimer);
+  frames++;
+  if (tickTimer(framesTimer, 1000)) {
+    fps = frames;
+    frames = 0;
+    resetTimer(framesTimer);
   }
 
   return true;
 }
 
-export function getEngineState() {
-  return state;
+export function getDelta() {
+  return delta;
+}
+
+export function getTime() {
+  return time;
+}
+
+export function getFramePerSecond() {
+  return fps;
 }
