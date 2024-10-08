@@ -49,7 +49,7 @@ run({
       const texture = getTexture("grass_tile");
       for (let x = 0; x < w; x += 16) {
         for (let y = 0; y < h; y += 16) {
-          ctx.drawImage(texture.src, x, y);
+          ctx.drawImage(texture, x, y);
         }
       }
     });

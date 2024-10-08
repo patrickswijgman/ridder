@@ -19,7 +19,7 @@ run({
       const texture = getTexture("tile");
       for (let x = 0; x < width; x += texture.width) {
         for (let y = 0; y < height; y += texture.height) {
-          ctx.drawImage(texture.src, x, y);
+          ctx.drawImage(texture, x, y);
         }
       }
     });
