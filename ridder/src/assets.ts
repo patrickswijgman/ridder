@@ -1,7 +1,7 @@
 import { loadFont } from "./fonts.js";
 import { loadSound } from "./sounds.js";
 import { loadSprite } from "./sprites.js";
-import { loadFlashTexture, loadOutlineTexture, loadTexture } from "./textures.js";
+import { loadFlashTexture, loadOutlineTexture, loadRenderTexture, loadTexture } from "./textures.js";
 
 type SpriteAsset = [x: number, y: number, w: number, h: number];
 
@@ -23,6 +23,13 @@ type FlashTextureAsset = {
   sprites?: Record<string, SpriteAsset>;
 };
 
+type RenderTextureAsset = {
+  width: number;
+  height: number;
+  draw: (ctx: CanvasRenderingContext2D, width: number, height: number) => void;
+  sprites?: Record<string, SpriteAsset>;
+};
+
 type FontAsset = {
   family: string;
   url: string;
@@ -31,7 +38,6 @@ type FontAsset = {
 
 type SoundAsset = {
   url: string;
-  volume?: number;
   stream?: boolean;
 };
 
@@ -39,6 +45,7 @@ export type AssetsManifest = {
   textures: Record<string, TextureAsset>;
   outlineTextures?: Record<string, OutlineTextureAsset>;
   flashTextures?: Record<string, FlashTextureAsset>;
+  renderTextures?: Record<string, RenderTextureAsset>;
   fonts: Record<string, FontAsset>;
   sounds: Record<string, SoundAsset>;
 };
@@ -67,6 +74,14 @@ export async function loadAssets(manifest: AssetsManifest) {
     promises.push(promise);
   }
 
+  await Promise.all(promises);
+
+  for (const id in manifest.renderTextures) {
+    const { width, height, draw, sprites } = manifest.renderTextures[id];
+    loadRenderTexture(id, width, height, draw);
+    loadSprites(id, sprites);
+  }
+
   for (const id in manifest.fonts) {
     const font = manifest.fonts[id];
     const promise = loadFont(id, font.url, font.family, font.size);
@@ -75,7 +90,7 @@ export async function loadAssets(manifest: AssetsManifest) {
 
   for (const id in manifest.sounds) {
     const sound = manifest.sounds[id];
-    const promise = loadSound(id, sound.url, sound.volume, sound.stream);
+    const promise = loadSound(id, sound.url, sound.stream);
     promises.push(promise);
   }
 

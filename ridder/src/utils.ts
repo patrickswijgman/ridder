@@ -58,3 +58,11 @@ export function repeat(x: number, callback: (x: number) => void) {
     callback(i);
   }
 }
+
+export function createCanvas(width: number, height: number) {
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d")!;
+  return [canvas, ctx] as const;
+}

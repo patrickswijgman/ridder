@@ -1,15 +1,10 @@
-export type Font = {
-  face: FontFace;
-  size: number;
-};
-
-const fonts: Record<string, Font> = {};
+const fonts: Record<string, string> = {};
 
 export async function loadFont(id: string, url: string, family: string, size: number) {
-  const face = new FontFace(family, `url(${url})`);
-  await face.load();
-  document.fonts.add(face);
-  fonts[id] = { face, size };
+  const font = new FontFace(family, `url(${url})`);
+  await font.load();
+  document.fonts.add(font);
+  fonts[id] = `${size}px ${font.family}`;
 }
 
 export function getFont(id: string) {

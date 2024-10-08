@@ -1,13 +1,8 @@
-export type Sound = {
-  audio: HTMLAudioElement;
-  volume: number;
-};
-
-const sounds: Record<string, Sound> = {};
+const sounds: Record<string, HTMLAudioElement> = {};
 
 let volume = 1;
 
-export async function loadSound(id: string, url: string, volume = 1, stream = false) {
+export async function loadSound(id: string, url: string, stream = false) {
   return await new Promise<void>((resolve, reject) => {
     const audio = new Audio(url);
     const event = stream ? "canplay" : "canplaythrough";
@@ -15,7 +10,7 @@ export async function loadSound(id: string, url: string, volume = 1, stream = fa
     audio.addEventListener(
       event,
       () => {
-        sounds[id] = { audio, volume };
+        sounds[id] = audio;
         resolve();
       },
       { once: true },
@@ -31,17 +26,17 @@ export async function loadSound(id: string, url: string, volume = 1, stream = fa
   });
 }
 
-export function playSound(id: string, volume = 1, loop = false) {
+export function playSound(id: string, loop = false) {
   const sound = sounds[id];
-  sound.audio.loop = loop;
-  sound.audio.volume = volume * sound.volume;
-  sound.audio.play();
+  sound.loop = loop;
+  sound.volume = volume;
+  sound.play();
 }
 
 export function stopSound(id: string) {
   const sound = sounds[id];
-  sound.audio.pause();
-  sound.audio.currentTime = 0;
+  sound.pause();
+  sound.currentTime = 0;
 }
 
 export function getSound(id: string) {
@@ -53,7 +48,7 @@ export function setVolume(value: number) {
 
   for (const id in sounds) {
     const sound = sounds[id];
-    sound.audio.volume = volume * sound.volume;
+    sound.volume = volume;
   }
 }
 

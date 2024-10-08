@@ -1,11 +1,11 @@
+import { createCanvas } from "./utils.js";
 import { vec } from "./vector.js";
-
-export const canvas = document.createElement("canvas");
-export const ctx = canvas.getContext("2d")!;
-export const scale = vec(1, 1);
 
 let width = 800;
 let height = 600;
+
+export const [canvas, ctx] = createCanvas(width, height);
+export const scale = vec(1, 1);
 
 export function setupCanvas(w: number, h: number) {
   width = w;

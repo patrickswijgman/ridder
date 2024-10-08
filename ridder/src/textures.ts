@@ -1,10 +1,6 @@
-export type Texture = {
-  src: CanvasImageSource;
-  width: number;
-  height: number;
-};
+import { createCanvas } from "./utils.js";
 
-const textures: Record<string, Texture> = {};
+const textures: Record<string, HTMLCanvasElement> = {};
 
 async function loadImage(url: string) {
   const img = new Image();
@@ -15,16 +11,15 @@ async function loadImage(url: string) {
 
 export async function loadTexture(id: string, url: string) {
   const img = await loadImage(url);
-  textures[id] = { src: img, width: img.width, height: img.height };
+  const [canvas, ctx] = createCanvas(img.width, img.height);
+  ctx.drawImage(img, 0, 0);
+  textures[id] = canvas;
 }
 
 export function loadRenderTexture(id: string, width: number, height: number, draw: (ctx: CanvasRenderingContext2D, width: number, height: number) => void) {
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d")!;
+  const [canvas, ctx] = createCanvas(width, height);
   draw(ctx, width, height);
-  textures[id] = { src: canvas, width, height };
+  textures[id] = canvas;
 }
 
 export async function loadOutlineTexture(id: string, url: string, mode: "circle" | "square", color: string) {

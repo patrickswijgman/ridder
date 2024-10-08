@@ -43,13 +43,13 @@ export function applyCameraTransform(scrollX = 1, scrollY = 1) {
 }
 
 export function drawTexture(id: string, x: number, y: number) {
-  ctx.drawImage(getTexture(id).src, x, y);
+  ctx.drawImage(getTexture(id), x, y);
 }
 
 export function drawSprite(id: string, x: number, y: number) {
   const sprite = getSprite(id);
   const texture = getTexture(sprite.textureId);
-  ctx.drawImage(texture.src, sprite.x, sprite.y, sprite.w, sprite.h, x, y, sprite.w, sprite.h);
+  ctx.drawImage(texture, sprite.x, sprite.y, sprite.w, sprite.h, x, y, sprite.w, sprite.h);
 }
 
 export function drawText(text: string, x: number, y: number, color = "white", align: TextAlign = "left", baseline: TextBaseline = "top") {
@@ -120,8 +120,7 @@ export function setBackgroundColor(color: string) {
 }
 
 export function setFont(id: string) {
-  const { face, size } = getFont(id);
-  font = `${size}px ${face.family}`;
+  font = getFont(id);
 }
 
 export function setAlpha(alpha: number) {
