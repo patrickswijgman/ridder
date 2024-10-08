@@ -1,4 +1,4 @@
-import { addVectorScaled, applyCameraTransform, drawTexture, getDelta, getTexture, InputCode, isInputDown, loadRenderTexture, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, translateTransform, updateCamera, vec, Vector } from "ridder";
+import { addVectorScaled, applyCameraTransform, drawTexture, getDelta, getPixel, getTexture, InputCode, isInputDown, loadRenderTexture, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, translateTransform, updateCamera, vec, Vector } from "ridder";
 
 type Entity = {
   position: Vector;
@@ -53,6 +53,8 @@ run({
         }
       }
     });
+
+    console.log(getPixel(getTexture("grass"), 1, 1));
 
     const player = createEntity();
     player.position.x = 160;

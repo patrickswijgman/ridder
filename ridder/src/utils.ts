@@ -1,3 +1,11 @@
+type Pixel = {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+  hex: string;
+};
+
 export function toRadians(degrees: number) {
   return (degrees * Math.PI) / 180;
 }
@@ -65,4 +73,25 @@ export function createCanvas(width: number, height: number) {
   canvas.height = height;
   const ctx = canvas.getContext("2d")!;
   return [canvas, ctx] as const;
+}
+
+export function toHex(value: number) {
+  var hex = value.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+export function getPixel(canvas: HTMLCanvasElement, x: number, y: number): Pixel {
+  const ctx = canvas.getContext("2d")!;
+  const { data } = ctx.getImageData(x, y, 1, 1);
+  const r = data[0];
+  const g = data[1];
+  const b = data[2];
+  const a = data[3] / 255;
+  return {
+    r,
+    g,
+    b,
+    a,
+    hex: `#${toHex(r)}${toHex(g)}${toHex(b)}`,
+  };
 }
