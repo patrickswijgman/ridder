@@ -7,9 +7,9 @@ import { addVector, copyVector, getVectorDistance, limitVector, normalizeVector,
 const position = vec();
 const velocity = vec();
 const target = vec();
+const bounds = rect();
 
 let smoothing = 1;
-let bounds = rect();
 
 export function updateCamera(x: number, y: number) {
   const width = getWidth();

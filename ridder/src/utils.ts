@@ -75,11 +75,6 @@ export function createCanvas(width: number, height: number) {
   return [canvas, ctx] as const;
 }
 
-export function toHex(value: number) {
-  var hex = value.toString(16);
-  return hex.length == 1 ? "0" + hex : hex;
-}
-
 export function getPixel(canvas: HTMLCanvasElement, x: number, y: number): Pixel {
   const ctx = canvas.getContext("2d")!;
   const { data } = ctx.getImageData(x, y, 1, 1);
@@ -94,4 +89,9 @@ export function getPixel(canvas: HTMLCanvasElement, x: number, y: number): Pixel
     a,
     hex: `#${toHex(r)}${toHex(g)}${toHex(b)}`,
   };
+}
+
+export function toHex(value: number) {
+  const hex = value.toString(16);
+  return hex.length == 1 ? `0${hex}` : hex;
 }
