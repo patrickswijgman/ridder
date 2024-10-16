@@ -1,4 +1,4 @@
-import { getDistance } from "./utils.js";
+import { getDistance, lerp, toRadians } from "./utils.js";
 
 export type Vector = {
   x: number;
@@ -49,6 +49,19 @@ export function copyVector(a: Vector, b: Vector) {
   a.x = b.x;
   a.y = b.y;
   return a;
+}
+
+export function angleVector(v: Vector, degrees: number) {
+  const angle = toRadians(degrees);
+  v.x = Math.cos(angle);
+  v.y = Math.sin(angle);
+  return v;
+}
+
+export function lerpVector(v: Vector, to: number, t: number) {
+  v.x = lerp(v.x, to, t);
+  v.y = lerp(v.y, to, t);
+  return v;
 }
 
 export function normalizeVector(v: Vector) {

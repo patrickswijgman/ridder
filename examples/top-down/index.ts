@@ -1,11 +1,13 @@
 import {
   addVectorScaled,
   applyCameraTransform,
+  drawText,
   drawTexture,
   getDelta,
   getTexture,
   InputCode,
   isInputDown,
+  isInputPressed,
   loadRenderTexture,
   loadTexture,
   normalizeVector,
@@ -14,6 +16,8 @@ import {
   run,
   scaleTransform,
   setCameraPosition,
+  setCameraShakeIntensity,
+  setCameraShakeReduction,
   setCameraSmoothing,
   translateTransform,
   updateCamera,
@@ -115,6 +119,10 @@ run({
         if (isInputDown(InputCode.KEY_DOWN)) {
           e.velocity.y += 1;
         }
+        if (isInputPressed(InputCode.KEY_SPACE)) {
+          setCameraShakeIntensity(10);
+          setCameraShakeReduction(0.2);
+        }
 
         normalizeVector(e.velocity);
         addVectorScaled(e.position, e.velocity, getDelta());
@@ -138,5 +146,10 @@ run({
       }
       drawTexture(e.textureId, -e.pivot.x, -e.pivot.y);
     }
+
+    resetTransform();
+    translateTransform(2, 2);
+    scaleTransform(0.5, 0.5);
+    drawText("Press space to shake the camera", 0, 0, "red");
   },
 });

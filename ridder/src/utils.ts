@@ -18,6 +18,10 @@ export function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
+export function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
+
 export function getDistance(x1: number, y1: number, x2: number, y2: number) {
   const x = x1 - x2;
   const y = y1 - y2;
@@ -82,13 +86,7 @@ export function getPixel(canvas: HTMLCanvasElement, x: number, y: number): Pixel
   const g = data[1];
   const b = data[2];
   const a = data[3] / 255;
-  return {
-    r,
-    g,
-    b,
-    a,
-    hex: `#${toHex(r)}${toHex(g)}${toHex(b)}`,
-  };
+  return { r, g, b, a, hex: `#${toHex(r)}${toHex(g)}${toHex(b)}` };
 }
 
 export function toHex(value: number) {
