@@ -32,16 +32,16 @@ export function updateCamera(x: number, y: number) {
   limitVector(velocity, distance);
   addVector(position, velocity);
 
+  if (isRectangleValid(bounds)) {
+    position.x = clamp(position.x, bounds.x, bounds.x + bounds.w - width);
+    position.y = clamp(position.y, bounds.y, bounds.y + bounds.h - height);
+  }
+
   if (shakeIntensity) {
     angleVector(shake, random(0, 359));
     scaleVector(shake, shakeIntensity * delta);
     addVector(position, shake);
     shakeIntensity = Math.max(0, shakeIntensity - shakeReduction * delta);
-  }
-
-  if (isRectangleValid(bounds)) {
-    position.x = clamp(position.x, bounds.x, bounds.x + bounds.w - width);
-    position.y = clamp(position.y, bounds.y, bounds.y + bounds.h - height);
   }
 }
 
