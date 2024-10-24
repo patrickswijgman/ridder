@@ -7,14 +7,13 @@ import { addVector, angleVector, copyVector, getVectorDistance, limitVector, nor
 const position = vec();
 const velocity = vec();
 const target = vec();
+const shake = vec();
 const bounds = rect();
 
 let smoothing = 1;
-
-const shake = vec();
-
 let shakeIntensity = 0;
 let shakeReduction = 0.1;
+let shakeEnabled = true;
 
 export function updateCamera(x: number, y: number) {
   const delta = getDelta();
@@ -37,11 +36,10 @@ export function updateCamera(x: number, y: number) {
     position.y = clamp(position.y, bounds.y, bounds.y + bounds.h - height);
   }
 
-  if (shakeIntensity) {
+  if (shakeEnabled && shakeIntensity) {
+    shakeIntensity = Math.max(0, shakeIntensity - shakeReduction * delta);
     angleVector(shake, random(0, 359));
     scaleVector(shake, shakeIntensity * delta);
-    addVector(position, shake);
-    shakeIntensity = Math.max(0, shakeIntensity - shakeReduction * delta);
   }
 }
 
@@ -54,8 +52,16 @@ export function getCameraPosition() {
   return position;
 }
 
+export function getCameraShake() {
+  return shake;
+}
+
 export function setCameraSmoothing(value: number) {
   smoothing = value;
+}
+
+export function setCameraShakeEnabled(enabled: boolean) {
+  shakeEnabled = enabled;
 }
 
 export function setCameraShakeIntensity(value: number) {

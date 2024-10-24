@@ -1,4 +1,4 @@
-import { getCameraPosition } from "./camera.js";
+import { getCameraPosition, getCameraShake } from "./camera.js";
 import { canvas, ctx, scale } from "./canvas.js";
 import { Circle } from "./circle.js";
 import { getFont } from "./fonts.js";
@@ -39,7 +39,10 @@ export function rotateTransform(degrees: number) {
 
 export function applyCameraTransform(scrollX = 1, scrollY = 1) {
   const camera = getCameraPosition();
-  ctx.translate(-camera.x * scrollX, -camera.y * scrollY);
+  const shake = getCameraShake();
+  const x = camera.x + shake.x;
+  const y = camera.y + shake.y;
+  ctx.translate(-x * scrollX, -y * scrollY);
 }
 
 export function drawTexture(id: string, x: number, y: number) {
