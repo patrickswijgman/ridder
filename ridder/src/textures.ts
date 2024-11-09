@@ -1,11 +1,19 @@
 import { createCanvas } from "./utils.js";
 
+const images: Record<string, HTMLImageElement> = {};
 const textures: Record<string, HTMLCanvasElement> = {};
 
 async function loadImage(url: string) {
+  if (url in images) {
+    return images[url];
+  }
+
   const img = new Image();
   img.src = url;
   await img.decode();
+
+  images[url] = img;
+
   return img;
 }
 
@@ -39,6 +47,27 @@ export async function loadOutlineTexture(id: string, url: string, mode: "circle"
     ctx.fillStyle = color;
     ctx.fillRect(0, 0, w, h);
     ctx.globalCompositeOperation = "destination-out";
+    ctx.drawImage(img, 0, 0);
+  });
+}
+
+export async function loadOutlinedTexture(id: string, url: string, mode: "circle" | "square", color: string) {
+  const img = await loadImage(url);
+  loadRenderTexture(id, img.width, img.height, (ctx, w, h) => {
+    ctx.drawImage(img, 0, -1);
+    ctx.drawImage(img, 1, 0);
+    ctx.drawImage(img, 0, 1);
+    ctx.drawImage(img, -1, 0);
+    if (mode === "square") {
+      ctx.drawImage(img, 1, -1);
+      ctx.drawImage(img, 1, 1);
+      ctx.drawImage(img, -1, 1);
+      ctx.drawImage(img, -1, -1);
+    }
+    ctx.globalCompositeOperation = "source-in";
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, w, h);
+    ctx.globalCompositeOperation = "source-over";
     ctx.drawImage(img, 0, 0);
   });
 }

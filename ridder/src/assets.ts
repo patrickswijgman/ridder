@@ -1,7 +1,7 @@
 import { loadFont } from "./fonts.js";
 import { loadSound } from "./sounds.js";
 import { loadSprite } from "./sprites.js";
-import { loadFlashTexture, loadOutlineTexture, loadRenderTexture, loadTexture } from "./textures.js";
+import { loadFlashTexture, loadOutlineTexture, loadOutlinedTexture, loadRenderTexture, loadTexture } from "./textures.js";
 
 type SpriteAsset = [x: number, y: number, w: number, h: number];
 
@@ -11,6 +11,13 @@ type TextureAsset = {
 };
 
 type OutlineTextureAsset = {
+  url: string;
+  mode: "circle" | "square";
+  color: string;
+  sprites?: Record<string, SpriteAsset>;
+};
+
+type OutlinedTextureAsset = {
   url: string;
   mode: "circle" | "square";
   color: string;
@@ -31,8 +38,8 @@ type RenderTextureAsset = {
 };
 
 type FontAsset = {
-  family: string;
   url: string;
+  family: string;
   size: number;
 };
 
@@ -43,14 +50,15 @@ type SoundAsset = {
 
 export type AssetsManifest = {
   textures: Record<string, TextureAsset>;
-  outlineTextures?: Record<string, OutlineTextureAsset>;
-  flashTextures?: Record<string, FlashTextureAsset>;
-  renderTextures?: Record<string, RenderTextureAsset>;
+  outlineTextures: Record<string, OutlineTextureAsset>;
+  outlinedTextures: Record<string, OutlinedTextureAsset>;
+  flashTextures: Record<string, FlashTextureAsset>;
+  renderTextures: Record<string, RenderTextureAsset>;
   fonts: Record<string, FontAsset>;
   sounds: Record<string, SoundAsset>;
 };
 
-export async function loadAssets(manifest: AssetsManifest) {
+export async function loadAssets(manifest: Partial<AssetsManifest>) {
   const promises: Array<Promise<unknown>> = [];
 
   for (const id in manifest.textures) {
@@ -63,6 +71,13 @@ export async function loadAssets(manifest: AssetsManifest) {
   for (const id in manifest.outlineTextures) {
     const { url, sprites, mode, color } = manifest.outlineTextures[id];
     const promise = loadOutlineTexture(id, url, mode, color);
+    loadSprites(id, sprites);
+    promises.push(promise);
+  }
+
+  for (const id in manifest.outlinedTextures) {
+    const { url, sprites, mode, color } = manifest.outlinedTextures[id];
+    const promise = loadOutlinedTexture(id, url, mode, color);
     loadSprites(id, sprites);
     promises.push(promise);
   }
@@ -83,14 +98,14 @@ export async function loadAssets(manifest: AssetsManifest) {
   }
 
   for (const id in manifest.fonts) {
-    const font = manifest.fonts[id];
-    const promise = loadFont(id, font.url, font.family, font.size);
+    const { url, family, size } = manifest.fonts[id];
+    const promise = loadFont(id, url, family, size);
     promises.push(promise);
   }
 
   for (const id in manifest.sounds) {
-    const sound = manifest.sounds[id];
-    const promise = loadSound(id, sound.url, sound.stream);
+    const { url, stream } = manifest.sounds[id];
+    const promise = loadSound(id, url, stream);
     promises.push(promise);
   }
 
