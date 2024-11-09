@@ -8,6 +8,7 @@ let last = 0;
 let now = 0;
 let delta = 0;
 let time = 0;
+let elapsed = 0;
 let frames = 0;
 let fps = 0;
 
@@ -34,6 +35,8 @@ export function updateState() {
     resetTimer(framesTimer);
   }
 
+  elapsed += time;
+
   return true;
 }
 
@@ -41,10 +44,14 @@ export function getDelta() {
   return delta;
 }
 
-export function getTime() {
+export function getDeltaTime() {
   return time;
 }
 
 export function getFramePerSecond() {
   return fps;
+}
+
+export function getElapsedTime() {
+  return elapsed;
 }

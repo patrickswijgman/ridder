@@ -12,7 +12,7 @@ export * from "./rectangle.js";
 export * from "./render.js";
 export * from "./sounds.js";
 export * from "./sprites.js";
-export { getDelta, getFramePerSecond, getTime } from "./state.js";
+export { getDelta, getDeltaTime, getElapsedTime, getFramePerSecond } from "./state.js";
 export * from "./table.js";
 export * from "./textures.js";
 export * from "./timer.js";

@@ -1,4 +1,4 @@
-import { getTime } from "./state.js";
+import { getDeltaTime } from "./state.js";
 
 export type Timer = {
   elapsed: number;
@@ -12,7 +12,7 @@ export function tickTimer(t: Timer, duration: number) {
   if (duration <= 0 || t.elapsed >= duration) {
     return false;
   }
-  t.elapsed = Math.min(t.elapsed + getTime(), duration);
+  t.elapsed = Math.min(t.elapsed + getDeltaTime(), duration);
   return t.elapsed === duration;
 }
 
