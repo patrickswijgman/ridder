@@ -1,4 +1,4 @@
-import { drawSprite, getHeight, getWidth, InputCode, isInputPressed, loadSprite, loadTexture, resetTimer, resetTransform, rotateTransform, run, scaleTransform, tickTimer, timer, Timer, translateTransform, tween, vec, Vector } from "ridder";
+import { drawSprite, getElapsedTime, getHeight, getWidth, InputCode, isInputPressed, loadSprite, loadTexture, resetTimer, resetTransform, rotateTransform, run, scaleTransform, tickTimer, timer, Timer, translateTransform, tween, vec, Vector } from "ridder";
 
 type Entity = {
   position: Vector;
@@ -47,10 +47,9 @@ run({
 
   update: () => {
     tickTimer(one.timer, 5000);
-    one.angle = tween(0, 360, 5000, "easeOutElastic", one.timer);
+    one.angle = tween(0, 360, 5000, "easeOutElastic", one.timer.elapsed);
 
-    tickTimer(two.timer, Infinity);
-    two.scale = tween(1, 2, 2000, "easeInOutSine", two.timer);
+    two.scale = tween(1, 2, 2000, "easeInOutSine", getElapsedTime());
 
     if (isInputPressed(InputCode.KEY_ENTER)) {
       for (const e of entities) {
