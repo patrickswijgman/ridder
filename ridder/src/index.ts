@@ -1,5 +1,4 @@
-export * from "./assets.js";
-export * from "./camera.js";
+export { getCameraPosition, setCameraBounds, setCameraPosition, setCameraShakeEnabled, setCameraShakeIntensity, setCameraShakeReduction, setCameraSmoothing, updateCamera } from "./camera.js";
 export { getHeight, getWidth } from "./canvas.js";
 export * from "./circle.js";
 export * from "./consts.js";
@@ -13,7 +12,6 @@ export * from "./render.js";
 export * from "./sounds.js";
 export * from "./sprites.js";
 export { getDelta, getDeltaTime, getElapsedTime, getFramePerSecond } from "./state.js";
-export * from "./table.js";
 export * from "./textures.js";
 export * from "./timer.js";
 export * from "./tween.js";
