@@ -2,6 +2,12 @@ const sounds: Record<string, HTMLAudioElement> = {};
 
 let volume = 1;
 
+/**
+ * Load a sound into the cache.
+ * @param id - The name of the sound in the cache.
+ * @param url - The url to the `.mp3`, `.wav`, or `.ogg` file.
+ * @param stream - Whether or not the sound should be streamed, e.g. for large files such as music.
+ */
 export async function loadSound(id: string, url: string, stream = false) {
   return await new Promise<void>((resolve, reject) => {
     const audio = new Audio(url);
@@ -26,6 +32,9 @@ export async function loadSound(id: string, url: string, stream = false) {
   });
 }
 
+/**
+ * Play a sound from the cache.
+ */
 export function playSound(id: string, loop = false) {
   const sound = sounds[id];
   sound.loop = loop;
@@ -33,16 +42,25 @@ export function playSound(id: string, loop = false) {
   sound.play();
 }
 
+/**
+ * Stop a currently playing sound.
+ */
 export function stopSound(id: string) {
   const sound = sounds[id];
   sound.pause();
   sound.currentTime = 0;
 }
 
+/**
+ * Get a sound from the cache.
+ */
 export function getSound(id: string) {
   return sounds[id];
 }
 
+/**
+ * Set the global audio volume.
+ */
 export function setVolume(value: number) {
   volume = value;
 
@@ -52,6 +70,9 @@ export function setVolume(value: number) {
   }
 }
 
+/**
+ * Get the global audio volume.
+ */
 export function getVolume() {
   return volume;
 }

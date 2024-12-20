@@ -7,14 +7,27 @@ export type Rectangle = {
   h: number;
 };
 
+/**
+ * Create a new rectangle data structure.
+ * @param x - The x-coordinate.
+ * @param y - The y-coordinate.
+ * @param w - The width.
+ * @param h - The height.
+ */
 export function rect(x = 0, y = 0, w = 0, h = 0): Rectangle {
   return { x, y, w, h };
 }
 
+/**
+ * Returns `true` if the rectangle has a width and height larger than 0.
+ */
 export function isRectangleValid(r: Rectangle) {
   return r.w > 0 && r.h > 0;
 }
 
+/**
+ * Returns `true` when the rectangles {@link a} and {@link b} intersect (overlap).
+ */
 export function doRectanglesIntersect(a: Rectangle, b: Rectangle) {
   if (a === b || !isRectangleValid(a) || !isRectangleValid(b)) {
     return false;
@@ -23,10 +36,22 @@ export function doRectanglesIntersect(a: Rectangle, b: Rectangle) {
   return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
 
+/**
+ * Returns `true` when {@link x} and {@link y} are inside the rectangle {@link r}.
+ */
 export function doesRectangleContain(r: Rectangle, x: number, y: number) {
   return x > r.x && x < r.x + r.w && y > r.y && y < r.y + r.h;
 }
 
+/**
+ * Write the intersection (overlap) result between the rectangles {@link a} and {@link b} into the vector {@link out}.
+ *
+ * NOTE - This does not reset the vector {@link out} so this function can be used to accumulate the intersection result.
+ *
+ * @see {@link https://github.com/patrickswijgman/ridder/blob/main/examples/platformer/index.ts#L136} for an example.
+ *
+ * @param velocity - The velocity of rectangle {@link a}
+ */
 export function writeIntersectionBetweenRectangles(a: Rectangle, b: Rectangle, velocity: Vector, out: Vector): Vector {
   if (!getVectorLength(velocity) || !doRectanglesIntersect(a, b)) {
     return out;
@@ -90,6 +115,9 @@ export function writeIntersectionBetweenRectangles(a: Rectangle, b: Rectangle, v
   return out;
 }
 
+/**
+ * Copy the data components of rectangle {@link b} into rectangle {@link a} and returns rectangle {@link a}.
+ */
 export function copyRectangle(a: Rectangle, b: Rectangle) {
   a.x = b.x;
   a.y = b.y;

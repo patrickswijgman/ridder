@@ -10,14 +10,27 @@ export type Polygon = {
   points: Array<Vector>;
 };
 
+/**
+ * Create a new polygon data structure.
+ * @param x - The x-coordinate.
+ * @param y - The y-coordinate.
+ * @param points - An array of {@link Vector} points to create the convex polygon.
+ */
 export function polygon(x = 0, y = 0, points: Array<Vector> = []): Polygon {
   return { x, y, points };
 }
 
+/**
+ * Create a new polygon from a rectangle.
+ */
 export function polygonFromRect(x: number, y: number, r: Rectangle) {
   return polygon(x, y, [vec(r.x, r.y), vec(r.x + r.w, r.y), vec(r.x + r.w, r.y + r.h), vec(r.x, r.y + r.h)]);
 }
 
+/**
+ * Create a new polygon from a circle.
+ * @param segments - The number of segments to create the polygon, e.g. 3 creates a triangle.
+ */
 export function polygonFromCircle(x: number, y: number, c: Circle, segments: number) {
   const points: Array<Vector> = [];
   const step = 360 / segments;
@@ -32,10 +45,16 @@ export function polygonFromCircle(x: number, y: number, c: Circle, segments: num
   return polygon(x, y, points);
 }
 
+/**
+ * Returns `true` when the polygon has 3 or more points.
+ */
 export function isPolygonValid(p: Polygon) {
   return p.points.length >= 3;
 }
 
+/**
+ * Rotate the polygon by the given degrees.
+ */
 export function rotatePolygon(p: Polygon, degrees: number) {
   if (degrees === 0) return;
 
@@ -51,6 +70,9 @@ export function rotatePolygon(p: Polygon, degrees: number) {
   }
 }
 
+/**
+ * Returns `true` when the polygons {@link a} and {@link b} intersect (overlap).
+ */
 export function doPolygonsIntersect(a: Polygon, b: Polygon) {
   if (a === b || !isPolygonValid(a) || !isPolygonValid(b)) {
     return false;
@@ -85,6 +107,9 @@ export function doPolygonsIntersect(a: Polygon, b: Polygon) {
   return false;
 }
 
+/**
+ * Returns `true` when {@link x} and {@link y} are inside the polygon {@link p}.
+ */
 export function doesPolygonContain(p: Polygon, x: number, y: number) {
   let crossings = 0;
 
@@ -104,6 +129,9 @@ export function doesPolygonContain(p: Polygon, x: number, y: number) {
   return crossings % 2 === 1;
 }
 
+/**
+ * Copy the data components of polygon {@link b} into polygon {@link a} and returns polygon {@link a}.
+ */
 export function copyPolygon(a: Polygon, b: Polygon) {
   a.x = b.x;
   a.y = b.y;

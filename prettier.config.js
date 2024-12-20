@@ -1,4 +1,4 @@
 export default {
   plugins: ["prettier-plugin-organize-imports"],
-  printWidth: 300,
+  printWidth: 999,
 };

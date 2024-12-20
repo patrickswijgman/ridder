@@ -3,6 +3,9 @@ import { createCanvas } from "./utils.js";
 const images: Record<string, HTMLImageElement> = {};
 const textures: Record<string, HTMLCanvasElement> = {};
 
+/**
+ * Load an image into the cache.
+ */
 async function loadImage(url: string) {
   if (url in images) {
     return images[url];
@@ -17,6 +20,11 @@ async function loadImage(url: string) {
   return img;
 }
 
+/**
+ * Load a texture into the cache.
+ * @param id - The name of the texture in the cache.
+ * @param url - The url to the `.png`, `.jpg`, or `.gif` file.
+ */
 export async function loadTexture(id: string, url: string) {
   const img = await loadImage(url);
   const [canvas, ctx] = createCanvas(img.width, img.height);
@@ -24,12 +32,35 @@ export async function loadTexture(id: string, url: string) {
   textures[id] = canvas;
 }
 
+/**
+ * Load a custom (render) texture into the cache that you can draw on with code.
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D} MDN page for the drawing API.
+ *
+ * @see {@link https://github.com/patrickswijgman/ridder/blob/main/examples/render-texture/index.ts} for an example.
+ *
+ * @param id - The name of the texture in the cache.
+ * @param width - The width of the texture. Preferably a power of 2, e.g. 16, 32, 64, 128, etc.
+ * @param height - The height of the texture. Preferably a power of 2, e.g. 16, 32, 64, 128, etc.
+ * @param draw - The drawing function that takes a `CanvasRenderingContext2D` and the width and height of the texture.
+ */
 export function loadRenderTexture(id: string, width: number, height: number, draw: (ctx: CanvasRenderingContext2D, width: number, height: number) => void) {
   const [canvas, ctx] = createCanvas(width, height);
   draw(ctx, width, height);
   textures[id] = canvas;
 }
 
+/**
+ * Load an outline version of a texture into the cache.
+ * This removes the original texture, leaving only the outline.
+ *
+ * @see {@link loadOutlinedTexture} for a version that draws the outline on top of the texture.
+ *
+ * @param id - The name of the texture in the cache.
+ * @param url - The url to the `.png`, `.jpg`, or `.gif` file.
+ * @param mode - The mode of the outline. Either "circle" or "square".
+ * @param color - The color of the outline.
+ */
 export async function loadOutlineTexture(id: string, url: string, mode: "circle" | "square", color: string) {
   const img = await loadImage(url);
   loadRenderTexture(id, img.width, img.height, (ctx, w, h) => {
@@ -51,6 +82,17 @@ export async function loadOutlineTexture(id: string, url: string, mode: "circle"
   });
 }
 
+/**
+ * Load an outlined version of a texture into the cache.
+ * This keeps the original texture.
+ *
+ * @see {@link loadOutlineTexture} for a version that draws the outline and removes the original texture.
+ *
+ * @param id - The name of the texture in the cache.
+ * @param url - The url to the `.png`, `.jpg`, or `.gif` file.
+ * @param mode - The mode of the outline. Either "circle" or "square".
+ * @param color - The color of the outline.
+ */
 export async function loadOutlinedTexture(id: string, url: string, mode: "circle" | "square", color: string) {
   const img = await loadImage(url);
   loadRenderTexture(id, img.width, img.height, (ctx, w, h) => {
@@ -72,6 +114,13 @@ export async function loadOutlinedTexture(id: string, url: string, mode: "circle
   });
 }
 
+/**
+ * Load a 'flashed' texture into the cache.
+ * This is a texture with a color overlay.
+ * @param id - The name of the texture in the cache.
+ * @param url - The url to the `.png`, `.jpg`, or `.gif` file.
+ * @param color - The color of the overlay.
+ */
 export async function loadFlashTexture(id: string, url: string, color: string) {
   const img = await loadImage(url);
   loadRenderTexture(id, img.width, img.height, (ctx, w, h) => {
@@ -82,6 +131,9 @@ export async function loadFlashTexture(id: string, url: string, color: string) {
   });
 }
 
+/**
+ * Get a texture from the cache.
+ */
 export function getTexture(id: string) {
   return textures[id];
 }

@@ -15,28 +15,50 @@ export type TextBaseline = "top" | "middle" | "bottom";
 let background = "black";
 let font = "16px sans-serif";
 
+/**
+ * Clear the background using the set `background` color.
+ *
+ * @see {@link setBackgroundColor}
+ */
 export function clearBackground() {
   ctx.resetTransform();
   ctx.fillStyle = background;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+/**
+ * Reset the transformation matrix, also known as the identity matrix.
+ */
 export function resetTransform() {
   ctx.setTransform(scale.x, 0, 0, scale.y, 0, 0);
 }
 
+/**
+ * Move the origin of the transformation matrix by the given x and y values.
+ */
 export function translateTransform(x: number, y: number) {
   ctx.translate(x, y);
 }
 
+/**
+ * Additionally scale the transformation matrix by the given x and y values.
+ */
 export function scaleTransform(x: number, y: number) {
   ctx.scale(x, y);
 }
 
+/**
+ * Rotate the transformation matrix by the given degrees.
+ */
 export function rotateTransform(degrees: number) {
   ctx.rotate(toRadians(degrees));
 }
 
+/**
+ * Add the camera transform (position, shake) to the current transformation matrix.
+ * @param scrollX - The scrolling factor for the x-axis, you can add a parallax effect by setting this to a value between 0 and 1.
+ * @param scrollY - The scrolling factor for the y-axis, you can add a parallax effect by setting this to a value between 0 and 1.
+ */
 export function applyCameraTransform(scrollX = 1, scrollY = 1) {
   const camera = getCameraPosition();
   const shake = getCameraShake();
@@ -45,16 +67,28 @@ export function applyCameraTransform(scrollX = 1, scrollY = 1) {
   ctx.translate(-x * scrollX, -y * scrollY);
 }
 
+/**
+ * Draw a texture from the cache onto the canvas.
+ */
 export function drawTexture(id: string, x: number, y: number) {
   ctx.drawImage(getTexture(id), x, y);
 }
 
+/**
+ * Draw a sprite (a region within a texture) from the cache onto the canvas.
+ */
 export function drawSprite(id: string, x: number, y: number) {
   const sprite = getSprite(id);
   const texture = getTexture(sprite.textureId);
   ctx.drawImage(texture, sprite.x, sprite.y, sprite.w, sprite.h, x, y, sprite.w, sprite.h);
 }
 
+/**
+ * Draw text onto the canvas.
+ * @param color - A color value, e.g. `white` or `#ffffff`
+ * @param align - The horizontal alignment of the text
+ * @param baseline - The vertical alignment of the text
+ */
 export function drawText(text: string, x: number, y: number, color = "white", align: TextAlign = "left", baseline: TextBaseline = "top") {
   ctx.font = font;
   ctx.textAlign = align;
@@ -63,6 +97,9 @@ export function drawText(text: string, x: number, y: number, color = "white", al
   ctx.fillText(text, x, y);
 }
 
+/**
+ * Draw a rectangle onto the canvas.
+ */
 export function drawRect(x: number, y: number, w: number, h: number, color = "white", fill = false) {
   if (fill) {
     ctx.fillStyle = color;
@@ -73,10 +110,16 @@ export function drawRect(x: number, y: number, w: number, h: number, color = "wh
   }
 }
 
+/**
+ * Draw a rectangle onto the canvas.
+ */
 export function drawRectInstance(r: Rectangle, color = "white", fill = false) {
   drawRect(r.x, r.y, r.w, r.h, color, fill);
 }
 
+/**
+ * Draw a circle onto the canvas.
+ */
 export function drawCircle(x: number, y: number, r: number, color = "white", fill = false) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, 2 * Math.PI);
@@ -91,10 +134,16 @@ export function drawCircle(x: number, y: number, r: number, color = "white", fil
   }
 }
 
+/**
+ * Draw a circle onto the canvas.
+ */
 export function drawCircleInstance(c: Circle, color = "white", fill = false) {
   drawCircle(c.x, c.y, c.r, color, fill);
 }
 
+/**
+ * Draw a polygon onto the canvas.
+ */
 export function drawPolygon(x: number, y: number, points: Array<Vector>, color = "white", fill = false) {
   if (points.length < 3) return;
 
@@ -114,22 +163,38 @@ export function drawPolygon(x: number, y: number, points: Array<Vector>, color =
   }
 }
 
+/**
+ * Draw a polygon onto the canvas.
+ */
 export function drawPolygonInstance(p: Polygon, color = "white", fill = false) {
   drawPolygon(p.x, p.y, p.points, color, fill);
 }
 
+/**
+ * Set the background color of the canvas.
+ */
 export function setBackgroundColor(color: string) {
   background = color;
 }
 
+/**
+ * Use a font from the cache for the upcoming text rendering.
+ */
 export function setFont(id: string) {
   font = getFont(id);
 }
 
+/**
+ * Set the alpha for the upcoming drawings.
+ */
 export function setAlpha(alpha: number) {
   ctx.globalAlpha = alpha;
 }
 
+/**
+ * Set the blendmode for the upcoming drawings.
+ * For an overview of blend modes, see the bottom of [this](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation) MDN page.
+ */
 export function setBlendMode(mode: GlobalCompositeOperation) {
   ctx.globalCompositeOperation = mode;
 }

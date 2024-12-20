@@ -2,7 +2,7 @@
 
 A zero-dependency and simple data-oriented game engine for JavaScript that has everything you need to get started and to get things done.
 
-There won't be extensive documentation as the game engine is intended to be simple, the [examples](#examples) should get you in the right direction.
+There won't be extensive documentation as the game engine is intended to be simple, the documentation in the code and the [examples](#examples) below should get you in the right direction.
 
 ## Getting started
 
@@ -15,7 +15,7 @@ npm ci
 npm start
 ```
 
-or install manually with the following command.
+Or install manually in your own project with the following command.
 
 ```shell
 npm install ridder
@@ -37,7 +37,7 @@ See the table below for the code of each example or play it instantly (using Git
 | top-down       | [link](https://patrickswijgman.github.io/ridder/top-down/dist/index.html)       | [link](examples/top-down/index.ts)       | `vectors` `depth-sorting` `render-texture` `camera` `camera-shake` `transforms` |
 | tween          | [link](https://patrickswijgman.github.io/ridder/tween/dist/index.html)          | [link](examples/tween/index.ts)          | `animation`                                                                     |
 
-Or you can clone this project and run an example from the examples folder like so:
+Or you can clone this project and run an example from the [examples folder](/examples) like so:
 
 ```shell
 # make sure to install the dependencies first, you only need to do this once:

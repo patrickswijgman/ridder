@@ -1,5 +1,14 @@
 /**
- * Source: https://paulbourke.net/geometry/pointlineplane/javascript.txt
+ * Returns `true` when the two lines intersect.
+ * [Source by Paul Bourke](https://paulbourke.net/geometry/pointlineplane/javascript.txt)
+ * @param x1 - The x-coordinate of the first point of the first line.
+ * @param y1 - The y-coordinate of the first point of the first line.
+ * @param x2 - The x-coordinate of the second point of the first line.
+ * @param y2 - The y-coordinate of the second point of the first line.
+ * @param x3 - The x-coordinate of the first point of the second line.
+ * @param y3 - The y-coordinate of the first point of the second line.
+ * @param x4 - The x-coordinate of the second point of the second line.
+ * @param y4 - The y-coordinate of the second point of the second line.
  */
 export function doLinesIntersect(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number) {
   if ((x1 === x2 && y1 === y2) || (x3 === x4 && y3 === y4)) {

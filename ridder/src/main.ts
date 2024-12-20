@@ -1,3 +1,4 @@
+import { updateCameraShake } from "./camera.js";
 import { setupCanvas } from "./canvas.js";
 import { resetInputs, setupInput, updateMousePosition } from "./input.js";
 import { clearBackground, resetTransform } from "./render.js";
@@ -11,6 +12,9 @@ type Config = {
   render: () => void;
 };
 
+/**
+ * Run the game with your logic updates and rendering.
+ */
 export async function run(c: Config) {
   setupCanvas(c.width, c.height);
   setupInput();
@@ -21,6 +25,7 @@ export async function run(c: Config) {
     if (updateState()) {
       updateMousePosition();
       c.update();
+      updateCameraShake();
       resetInputs();
     }
 
