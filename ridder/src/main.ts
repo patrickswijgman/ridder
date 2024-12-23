@@ -27,11 +27,10 @@ export async function run(c: Config) {
       c.update();
       updateCameraShake();
       resetInputs();
+      clearBackground();
+      resetTransform();
+      c.render();
     }
-
-    clearBackground();
-    resetTransform();
-    c.render();
 
     requestAnimationFrame(tick);
   };
