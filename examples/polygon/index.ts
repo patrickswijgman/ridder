@@ -1,4 +1,4 @@
-import { circle, doPolygonsIntersect, drawPolygonInstance, getDelta, getHeight, getMousePosition, getWidth, polygon, polygonFromCircle, rotatePolygon, run, vec } from "ridder";
+import { circle, doPolygonsIntersect, drawPolygonInstance, getDelta, getHeight, getMousePosition, getWidth, polygon, polygonFromCircle, run, setPolygonAngle, vec } from "ridder";
 
 const one = polygonFromCircle(0, 0, circle(0, 0, 30), 8);
 const two = polygon(0, 0, [
@@ -6,6 +6,8 @@ const two = polygon(0, 0, [
   vec(0, -5), // top
   vec(5, 5), //  bottom right
 ]);
+
+let angle = 0;
 
 run({
   width: 160,
@@ -17,7 +19,8 @@ run({
   },
 
   update: () => {
-    rotatePolygon(one, 1 * getDelta());
+    angle += 1 * getDelta();
+    setPolygonAngle(one, angle);
 
     const mouse = getMousePosition(true);
     two.x = mouse.x;

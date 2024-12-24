@@ -8,6 +8,7 @@ export type Polygon = {
   x: number;
   y: number;
   points: Array<Vector>;
+  angle: number;
 };
 
 /**
@@ -17,7 +18,7 @@ export type Polygon = {
  * @param points - An array of {@link Vector} points to create the convex polygon.
  */
 export function polygon(x = 0, y = 0, points: Array<Vector> = []): Polygon {
-  return { x, y, points };
+  return { x, y, points, angle: 0 };
 }
 
 /**
@@ -53,12 +54,16 @@ export function isPolygonValid(p: Polygon) {
 }
 
 /**
- * Rotate the polygon by the given degrees.
+ * Rotate the polygon to the given angle in degrees.
  */
-export function rotatePolygon(p: Polygon, degrees: number) {
-  if (degrees === 0) return;
+export function setPolygonAngle(p: Polygon, angle: number) {
+  const diff = angle - p.angle;
 
-  const radians = toRadians(degrees);
+  if (diff === 0) return;
+
+  p.angle += diff;
+
+  const radians = toRadians(diff);
 
   for (const point of p.points) {
     const x = point.x;

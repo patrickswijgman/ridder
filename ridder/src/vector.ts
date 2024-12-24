@@ -14,6 +14,15 @@ export function vec(x = 0, y = 0): Vector {
 }
 
 /**
+ * Set the components of the vector and returns the vector.
+ */
+export function setVector(v: Vector, x: number, y: number) {
+  v.x = x;
+  v.y = y;
+  return v;
+}
+
+/**
  * Add vector {@link b} to vector {@link a} and returns vector {@link a}.
  */
 export function addVector(a: Vector, b: Vector) {
