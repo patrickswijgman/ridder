@@ -129,44 +129,47 @@ export function resetAllInputs() {
 
 /**
  * Returns `true` if the input is currently pressed.
+ *
+ * Optionally consumes the input so that sequential calls in the current frame return `false`.
  */
-export function isInputPressed(code: InputCode) {
-  return !!inputsPressed[code];
+export function isInputPressed(code: InputCode, consume = false) {
+  const isPressed = !!inputsPressed[code];
+
+  if (isPressed && consume) {
+    inputsPressed[code] = false;
+    inputsDown[code] = false;
+  }
+
+  return isPressed;
 }
 
 /**
  * Returns `true` if the input is currently down.
+ *
+ * Optionally consumes the input so that sequential calls in the current frame return `false`.
  */
-export function isInputDown(code: InputCode) {
-  return !!inputsDown[code];
+export function isInputDown(code: InputCode, consume = false) {
+  const isDown = !!inputsDown[code];
+
+  if (isDown && consume) {
+    inputsDown[code] = false;
+    inputsPressed[code] = false;
+  }
+
+  return isDown;
 }
 
 /**
  * Returns `true` if the input is currently released.
  */
-export function isInputReleased(code: InputCode) {
-  return !!inputsReleased[code];
-}
+export function isInputReleased(code: InputCode, consume = false) {
+  const isReleased = !!inputsReleased[code];
 
-/**
- * Reset the pressed input back to `false`.
- */
-export function consumeInputPressed(code: InputCode) {
-  inputsPressed[code] = false;
-}
+  if (isReleased && consume) {
+    inputsReleased[code] = false;
+  }
 
-/**
- * Reset the down input back to `false`.
- */
-export function consumeInputDown(code: InputCode) {
-  inputsDown[code] = false;
-}
-
-/**
- * Reset the released input back to `false`.
- */
-export function consumeInputReleased(code: InputCode) {
-  inputsReleased[code] = false;
+  return isReleased;
 }
 
 /**
