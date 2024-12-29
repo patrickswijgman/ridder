@@ -22,6 +22,15 @@ export function polygon(x = 0, y = 0, points: Array<Vector> = []): Polygon {
 }
 
 /**
+ * Set the components of the polygon and returns the polygon.
+ */
+export function setPolygon(p: Polygon, x: number, y: number, points: Array<Vector>) {
+  p.x = x;
+  p.y = y;
+  p.points = points;
+}
+
+/**
  * Create a new polygon from a rectangle.
  */
 export function polygonFromRect(x: number, y: number, r: Rectangle) {

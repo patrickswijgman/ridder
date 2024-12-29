@@ -1,29 +1,4 @@
-import {
-  addVectorScaled,
-  applyCameraTransform,
-  drawText,
-  drawTexture,
-  getDelta,
-  getTexture,
-  InputCode,
-  isInputDown,
-  isInputPressed,
-  loadRenderTexture,
-  loadTexture,
-  normalizeVector,
-  resetTransform,
-  resetVector,
-  run,
-  scaleTransform,
-  setCameraPosition,
-  setCameraShakeIntensity,
-  setCameraShakeReduction,
-  setCameraSmoothing,
-  translateTransform,
-  updateCamera,
-  vec,
-  Vector,
-} from "ridder";
+import { addVectorScaled, applyCameraTransform, camera, drawText, drawTexture, getDelta, getTexture, InputCode, isInputDown, isInputPressed, loadRenderTexture, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, setCameraPosition, translateTransform, updateCamera, vec, Vector } from "ridder";
 
 type Entity = {
   position: Vector;
@@ -61,6 +36,9 @@ function createScene(): Scene {
 
 const world = createScene();
 
+const cam = camera();
+cam.smoothing = 0.1;
+
 run({
   width: 320,
   height: 180,
@@ -96,8 +74,7 @@ run({
 
     world.entities.push(player, tree);
 
-    setCameraPosition(player.position.x, player.position.y);
-    setCameraSmoothing(0.1);
+    setCameraPosition(cam, player.position.x, player.position.y);
   },
 
   update: () => {
@@ -120,19 +97,19 @@ run({
           e.velocity.y += 1;
         }
         if (isInputPressed(InputCode.KEY_SPACE)) {
-          setCameraShakeIntensity(10);
-          setCameraShakeReduction(0.2);
+          cam.shakeIntensity = 10;
+          cam.shakeReduction = 0.2;
         }
 
         normalizeVector(e.velocity);
         addVectorScaled(e.position, e.velocity, getDelta());
-        updateCamera(e.position.x, e.position.y);
+        updateCamera(cam, e.position.x, e.position.y);
       }
     }
   },
 
   render: () => {
-    applyCameraTransform();
+    applyCameraTransform(cam);
     drawTexture("grass", 0, 0);
 
     world.entities.sort((a, b) => a.position.y - b.position.y);
@@ -140,7 +117,7 @@ run({
     for (const e of world.entities) {
       resetTransform();
       translateTransform(e.position.x, e.position.y);
-      applyCameraTransform();
+      applyCameraTransform(cam);
       if (e.isFlipped) {
         scaleTransform(-1, 1);
       }

@@ -22,7 +22,7 @@ run({
     angle += 1 * getDelta();
     setPolygonAngle(one, angle);
 
-    const mouse = getMousePosition(true);
+    const mouse = getMousePosition();
     two.x = mouse.x;
     two.y = mouse.y;
   },

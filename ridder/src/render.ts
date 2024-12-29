@@ -1,4 +1,4 @@
-import { getCameraPosition, getCameraShake } from "./camera.js";
+import { Camera } from "./camera.js";
 import { canvas, ctx, scale } from "./canvas.js";
 import { Circle } from "./circle.js";
 import { getFont } from "./fonts.js";
@@ -59,11 +59,9 @@ export function rotateTransform(degrees: number) {
  * @param scrollX - The scrolling factor for the x-axis, you can add a parallax effect by setting this to a value between 0 and 1.
  * @param scrollY - The scrolling factor for the y-axis, you can add a parallax effect by setting this to a value between 0 and 1.
  */
-export function applyCameraTransform(scrollX = 1, scrollY = 1) {
-  const camera = getCameraPosition();
-  const shake = getCameraShake();
-  const x = camera.x + shake.x;
-  const y = camera.y + shake.y;
+export function applyCameraTransform(c: Camera, scrollX = 1, scrollY = 1) {
+  const x = c.position.x + c.shake.x;
+  const y = c.position.y + c.shake.y;
   ctx.translate(-x * scrollX, -y * scrollY);
 }
 

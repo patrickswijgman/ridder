@@ -17,6 +17,16 @@ export function circle(x = 0, y = 0, r = 0): Circle {
 }
 
 /**
+ * Set the components of the circle and returns the circle.
+ */
+export function setCircle(c: Circle, x: number, y: number, r: number) {
+  c.x = x;
+  c.y = y;
+  c.r = r;
+  return c;
+}
+
+/**
  * Returns `true` if the circle has a radius larger than 0.
  */
 export function isCircleValid(c: Circle) {

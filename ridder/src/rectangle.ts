@@ -19,6 +19,17 @@ export function rect(x = 0, y = 0, w = 0, h = 0): Rectangle {
 }
 
 /**
+ * Set the components of the rectangle and returns the rectangle.
+ */
+export function setRectangle(r: Rectangle, x: number, y: number, w: number, h: number) {
+  r.x = x;
+  r.y = y;
+  r.w = w;
+  r.h = h;
+  return r;
+}
+
+/**
  * Returns `true` if the rectangle has a width and height larger than 0.
  */
 export function isRectangleValid(r: Rectangle) {

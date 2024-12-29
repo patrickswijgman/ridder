@@ -30,7 +30,7 @@ run({
   },
 
   update: () => {
-    const mouse = getMousePosition(false);
+    const mouse = getMousePosition();
 
     resetVector(player.velocity);
 

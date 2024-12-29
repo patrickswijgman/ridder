@@ -1,134 +1,99 @@
 import { getHeight, getWidth } from "./canvas.js";
-import { Rectangle, copyRectangle, isRectangleValid, rect } from "./rectangle.js";
+import { getMousePosition } from "./input.js";
+import { Rectangle, isRectangleValid, rect, setRectangle } from "./rectangle.js";
 import { getDelta } from "./state.js";
 import { clamp, random } from "./utils.js";
-import { addVector, angleVector, copyVector, getVectorDistance, limitVector, normalizeVector, scaleVector, subtractVector, vec } from "./vector.js";
+import { Vector, addVector, angleVector, copyVector, getVectorDistance, limitVector, normalizeVector, scaleVector, subtractVector, vec } from "./vector.js";
 
-const position = vec();
-const velocity = vec();
-const target = vec();
-const shake = vec();
-const bounds = rect();
+export type Camera = {
+  position: Vector;
+  velocity: Vector;
+  target: Vector;
+  shake: Vector;
+  bounds: Rectangle;
+  viewport: Rectangle;
+  smoothing: number;
+  shakeIntensity: number;
+  shakeReduction: number;
+  shakeEnabled: boolean;
+  mousePosition: Vector;
+};
 
-let smoothing = 1;
-let shakeIntensity = 0;
-let shakeReduction = 0.1;
-let shakeEnabled = true;
+export function camera(): Camera {
+  return {
+    position: vec(),
+    velocity: vec(),
+    target: vec(),
+    shake: vec(),
+    bounds: rect(),
+    viewport: rect(),
+    smoothing: 1,
+    shakeIntensity: 0,
+    shakeReduction: 0.1,
+    shakeEnabled: true,
+    mousePosition: vec(),
+  };
+}
 
 /**
- * Move the camera to the given position. This needs to be called every frame.
+ * Updates the camera's `position` to the given target position ({@link x}, {@link y}). Does so smoothly if `smoothing` is smaller than 1.
  *
- * @see {@link setCameraSmoothing} to make the camera move smoothly if smoothing is below 1.
+ * Updates the camera's `shake` vector, reducing the shaking `shakeIntensity` gradually with `shakeReduction`.
  *
- * @see {@link setCameraBounds} to keep the camera within the bounds if set.
+ * Updates the camera's `mousePosition` relative to the camera.
  */
-export function updateCamera(x: number, y: number) {
+export function updateCamera(c: Camera, x: number, y: number) {
   const delta = getDelta();
   const width = getWidth();
   const height = getHeight();
 
-  target.x = x - width / 2;
-  target.y = y - height / 2;
+  c.target.x = x - width / 2;
+  c.target.y = y - height / 2;
 
-  if (smoothing < 1) {
-    const distance = getVectorDistance(position, target);
-    copyVector(velocity, target);
-    subtractVector(velocity, position);
-    normalizeVector(velocity);
-    scaleVector(velocity, distance * smoothing * delta);
-    limitVector(velocity, distance);
-    addVector(position, velocity);
+  if (c.smoothing < 1) {
+    const distance = getVectorDistance(c.position, c.target);
+    copyVector(c.velocity, c.target);
+    subtractVector(c.velocity, c.position);
+    normalizeVector(c.velocity);
+    scaleVector(c.velocity, distance * c.smoothing * delta);
+    limitVector(c.velocity, distance);
+    addVector(c.position, c.velocity);
   } else {
-    copyVector(position, target);
+    copyVector(c.position, c.target);
   }
 
-  clampCameraToBounds();
-}
+  clampCameraToBounds(c);
 
-/**
- * Update the camera shaking mechanism, reducing the shaking `shakeIntensity` gradually with `shakeReduction`.
- */
-export function updateCameraShake() {
-  if (shakeEnabled && shakeIntensity) {
-    const delta = getDelta();
-    shakeIntensity = Math.max(0, shakeIntensity - shakeReduction * delta);
-    angleVector(shake, random(0, 359));
-    scaleVector(shake, shakeIntensity * delta);
-  }
-}
+  const mouse = getMousePosition();
+  copyVector(c.mousePosition, mouse);
+  addVector(c.mousePosition, c.position);
 
-/**
- * Keep the camera within the bounds if it is set.
- */
-function clampCameraToBounds() {
-  if (isRectangleValid(bounds)) {
-    position.x = clamp(position.x, bounds.x, bounds.x + bounds.w - getWidth());
-    position.y = clamp(position.y, bounds.y, bounds.y + bounds.h - getHeight());
+  setRectangle(c.viewport, c.position.x, c.position.y, width, height);
+
+  if (c.shakeEnabled && c.shakeIntensity) {
+    c.shakeIntensity = Math.max(0, c.shakeIntensity - c.shakeReduction * delta);
+    angleVector(c.shake, random(0, 359));
+    scaleVector(c.shake, c.shakeIntensity * delta);
   }
 }
 
 /**
  * Snap the camera to the given position.
- */
-export function setCameraPosition(x: number, y: number) {
-  position.x = x - getWidth() / 2;
-  position.y = y - getHeight() / 2;
-  clampCameraToBounds();
-}
-
-/**
- * Get the current camera position.
  *
- * NOTE - This position is the top-left of the camera view.
+ * NOTE - Use this instead of setting the position manually to set the proper position and keep it within the bounds.
  */
-export function getCameraPosition() {
-  return position;
+export function setCameraPosition(c: Camera, x: number, y: number) {
+  c.position.x = x - getWidth() / 2;
+  c.position.y = y - getHeight() / 2;
+  clampCameraToBounds(c);
 }
 
 /**
- * Get the current camera shake vector.
+ * Keep the camera within its bounds.
  */
-export function getCameraShake() {
-  return shake;
-}
-
-/**
- * Set the camera smoothing value.
- * Set a value below 1 to make the camera move smoothly to the target position.
- */
-export function setCameraSmoothing(value: number) {
-  smoothing = value;
-}
-
-/**
- * Whether or not to enable camera shaking.
- * Can be disabled to prevent things like motion sickness.
- */
-export function setCameraShakeEnabled(enabled: boolean) {
-  shakeEnabled = enabled;
-}
-
-/**
- * Set the camera shake intensity that gets reduced by `shakeReduction` every frame.
- *
- * @see {@link setCameraShakeReduction}
- */
-export function setCameraShakeIntensity(value: number) {
-  shakeIntensity = value;
-}
-
-/**
- * Set the camera shake reduction that reduces the shake intensity every frame
- *
- * @see {@link setCameraShakeIntensity}
- */
-export function setCameraShakeReduction(value: number) {
-  shakeReduction = value;
-}
-
-/**
- * Set the camera bounds, the camera is constraint within this rectangle.
- */
-export function setCameraBounds(rect: Rectangle) {
-  copyRectangle(bounds, rect);
+function clampCameraToBounds(c: Camera) {
+  if (isRectangleValid(c.bounds)) {
+    c.position.x = clamp(c.position.x, c.bounds.x, c.bounds.x + c.bounds.w - getWidth());
+    c.position.y = clamp(c.position.y, c.bounds.y, c.bounds.y + c.bounds.h - getHeight());
+  }
 }

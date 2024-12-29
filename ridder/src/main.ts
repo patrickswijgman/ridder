@@ -1,6 +1,5 @@
-import { updateCameraShake } from "./camera.js";
 import { setupCanvas } from "./canvas.js";
-import { resetInputs, setupInput, updateMousePosition } from "./input.js";
+import { resetInputs, setupInput } from "./input.js";
 import { clearBackground, resetTransform } from "./render.js";
 import { setupState, updateState } from "./state.js";
 
@@ -23,9 +22,7 @@ export async function run(c: Config) {
 
   const tick = () => {
     if (updateState()) {
-      updateMousePosition();
       c.update();
-      updateCameraShake();
       resetInputs();
       clearBackground();
       resetTransform();

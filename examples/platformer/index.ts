@@ -1,28 +1,4 @@
-import {
-  InputCode,
-  Rectangle,
-  Vector,
-  addVectorScaled,
-  applyCameraTransform,
-  drawRectInstance,
-  drawText,
-  getDelta,
-  getFramePerSecond,
-  isInputDown,
-  isInputPressed,
-  rect,
-  resetTransform,
-  resetVector,
-  run,
-  scaleTransform,
-  setBackgroundColor,
-  setCameraBounds,
-  setCameraPosition,
-  setCameraSmoothing,
-  updateCamera,
-  vec,
-  writeIntersectionBetweenRectangles,
-} from "ridder";
+import { InputCode, Rectangle, Vector, addVectorScaled, applyCameraTransform, camera, drawRectInstance, drawText, getDelta, getFramePerSecond, isInputDown, isInputPressed, rect, resetTransform, resetVector, run, scaleTransform, setBackgroundColor, setCameraPosition, updateCamera, vec, writeIntersectionBetweenRectangles } from "ridder";
 
 const GRAVITY = vec(0, 0.01);
 
@@ -60,6 +36,10 @@ function createEntity(): Entity {
 
 const entities: Array<Entity> = [];
 const boundary = rect(0, 0, 200, 120);
+
+const cam = camera();
+cam.bounds = boundary;
+cam.smoothing = 0.05;
 
 run({
   width: 160,
@@ -99,9 +79,7 @@ run({
     entities.push(player, floor, platform, wall);
 
     setBackgroundColor("#1e1e1e");
-    setCameraPosition(player.position.x, player.position.y);
-    setCameraBounds(boundary);
-    setCameraSmoothing(0.05);
+    setCameraPosition(cam, player.position.x, player.position.y);
   },
 
   update: () => {
@@ -152,7 +130,7 @@ run({
       e.isOnGround = e.bodyIntersectionResult.y < 0;
 
       if (e.isPlayer) {
-        updateCamera(e.position.x, e.position.y);
+        updateCamera(cam, e.position.x, e.position.y);
       }
     }
   },
@@ -160,7 +138,7 @@ run({
   render: () => {
     for (const e of entities) {
       resetTransform();
-      applyCameraTransform();
+      applyCameraTransform(cam);
       drawRectInstance(e.body, e.color, true);
     }
 
