@@ -169,6 +169,17 @@ export function drawPolygonInstance(p: Polygon, color = "white", fill = false) {
 }
 
 /**
+ * Draw a line onto the canvas.
+ */
+export function drawLine(x1: number, y1: number, x2: number, y2: number, color = "white") {
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.strokeStyle = color;
+  ctx.stroke();
+}
+
+/**
  * Set the background color of the canvas.
  */
 export function setBackgroundColor(color: string) {

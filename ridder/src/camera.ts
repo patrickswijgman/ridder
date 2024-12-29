@@ -38,9 +38,11 @@ export function camera(): Camera {
 /**
  * Updates the camera's `position` to the given target position ({@link x}, {@link y}). Does so smoothly if `smoothing` is smaller than 1.
  *
- * Updates the camera's `shake` vector, reducing the shaking `shakeIntensity` gradually with `shakeReduction`.
+ * Updates the camera's `mousePosition` relative to the camera's `position`.
  *
- * Updates the camera's `mousePosition` relative to the camera.
+ * Updates the camera's `viewport` rectangle to the camera's `position`.
+ *
+ * Updates the camera's `shake` vector, reducing the shaking `shakeIntensity` gradually with `shakeReduction`.
  */
 export function updateCamera(c: Camera, x: number, y: number) {
   const delta = getDelta();
