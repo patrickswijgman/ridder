@@ -3,6 +3,7 @@ export { getHeight, getWidth } from "./canvas.js";
 export * from "./circle.js";
 export * from "./consts.js";
 export * from "./fonts.js";
+export * from "./grid.js";
 export * from "./input.js";
 export * from "./line.js";
 export * from "./main.js";
