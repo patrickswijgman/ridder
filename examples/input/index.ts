@@ -1,4 +1,4 @@
-import { InputCode, drawText, getHeight, getWidth, isInputDown, isInputPressed, isInputReleased, run, scaleTransform, translateTransform } from "ridder";
+import { InputCode, drawText, getHeight, getMousePosition, getWidth, isInputDown, isInputPressed, isInputReleased, run, scaleTransform, translateTransform } from "ridder";
 
 run({
   width: 160,
@@ -23,8 +23,13 @@ run({
   render: () => {
     const w = getWidth();
     const h = getHeight();
+    const mouse = getMousePosition();
+
     translateTransform(w / 2, h / 2);
     scaleTransform(0.25, 0.25);
     drawText("See the console for input information", 0, 0, "#ff00ff", "center", "middle");
+
+    translateTransform(0, 20);
+    drawText(`Mouse position on canvas: ${mouse.x.toFixed()}, ${mouse.y.toFixed()}`, 0, 0, "#ff00ff", "center", "middle");
   },
 });

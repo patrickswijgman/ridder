@@ -24,7 +24,7 @@ export function setupInput() {
 
   canvas.addEventListener("pointerdown", (event) => {
     event.preventDefault();
-    onPointerEvent(canvas, event);
+    onPointerEvent(event);
     const code = getMouseButtonCode(event.button);
     if (code) {
       onDown(code);
@@ -33,7 +33,7 @@ export function setupInput() {
 
   canvas.addEventListener("pointerup", (event) => {
     event.preventDefault();
-    onPointerEvent(canvas, event);
+    onPointerEvent(event);
     const code = getMouseButtonCode(event.button);
     if (code) {
       onUp(code);
@@ -42,7 +42,7 @@ export function setupInput() {
 
   canvas.addEventListener("pointermove", (event) => {
     event.preventDefault();
-    onPointerEvent(canvas, event);
+    onPointerEvent(event);
   });
 
   // Disable context menu to enable right mouse button as input.
@@ -78,10 +78,9 @@ function onUp(code: string) {
 /**
  * Handle generic pointer event.
  */
-function onPointerEvent(target: HTMLElement, event: PointerEvent) {
-  const offset = target.getBoundingClientRect();
-  mousePosition.x = event.clientX / scale.x - offset.x;
-  mousePosition.y = event.clientY / scale.y - offset.y;
+function onPointerEvent(event: PointerEvent) {
+  mousePosition.x = event.clientX / scale.x;
+  mousePosition.y = event.clientY / scale.y;
 }
 
 /**
