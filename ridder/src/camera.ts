@@ -1,4 +1,5 @@
 import { getHeight, getWidth } from "./canvas.js";
+import { VECTOR_UP } from "./consts.js";
 import { getMousePosition } from "./input.js";
 import { Rectangle, isRectangleValid, rect, setRectangle } from "./rectangle.js";
 import { getDelta } from "./state.js";
@@ -74,6 +75,7 @@ export function updateCamera(c: Camera, x: number, y: number) {
 
   if (c.shakeEnabled && c.shakeIntensity) {
     c.shakeIntensity = Math.max(0, c.shakeIntensity - c.shakeReduction * delta);
+    copyVector(c.shake, VECTOR_UP);
     angleVector(c.shake, random(0, 359));
     scaleVector(c.shake, c.shakeIntensity * delta);
   }

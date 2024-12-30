@@ -94,7 +94,7 @@ export function copyVector(a: Vector, b: Vector) {
 }
 
 /**
- * Point the vector in the direction of the given angle in degrees and returns the vector.
+ * Point the vector in the direction of the given angle in degrees, while maintaining its length and returns the vector.
  */
 export function angleVector(v: Vector, degrees: number) {
   const angle = toRadians(degrees);
