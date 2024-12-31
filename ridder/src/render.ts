@@ -9,6 +9,8 @@ import { getTexture } from "./textures.js";
 import { toRadians } from "./utils.js";
 import { Vector } from "./vector.js";
 
+const DEFAULT_LINE_SEGMENTS: Array<number> = [];
+
 export type TextAlign = "left" | "center" | "right";
 export type TextBaseline = "top" | "middle" | "bottom";
 
@@ -171,8 +173,9 @@ export function drawPolygonInstance(p: Polygon, color = "white", fill = false) {
 /**
  * Draw a line onto the canvas.
  */
-export function drawLine(x1: number, y1: number, x2: number, y2: number, color = "white") {
+export function drawLine(x1: number, y1: number, x2: number, y2: number, color = "white", segments = DEFAULT_LINE_SEGMENTS) {
   ctx.beginPath();
+  ctx.setLineDash(segments);
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
   ctx.strokeStyle = color;
