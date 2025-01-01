@@ -2,13 +2,13 @@ import { Circle } from "./circle.js";
 import { doLinesIntersect } from "./line.js";
 import { Rectangle } from "./rectangle.js";
 import { toRadians } from "./utils.js";
-import { vec, Vector } from "./vector.js";
+import { cloneVector, vec, Vector } from "./vector.js";
 
 export type Polygon = {
   x: number;
   y: number;
-  points: Array<Vector>;
-  angle: number;
+  basePoints: Array<Vector>;
+  calcPoints: Array<Vector>;
 };
 
 /**
@@ -18,7 +18,12 @@ export type Polygon = {
  * @param points - An array of {@link Vector} points to create the convex polygon.
  */
 export function polygon(x = 0, y = 0, points: Array<Vector> = []): Polygon {
-  return { x, y, points, angle: 0 };
+  return {
+    x,
+    y,
+    basePoints: points,
+    calcPoints: points.map((p) => cloneVector(p)),
+  };
 }
 
 /**
@@ -27,7 +32,9 @@ export function polygon(x = 0, y = 0, points: Array<Vector> = []): Polygon {
 export function setPolygon(p: Polygon, x: number, y: number, points: Array<Vector>) {
   p.x = x;
   p.y = y;
-  p.points = points;
+  p.basePoints = points.map((p) => cloneVector(p));
+  p.calcPoints = points.map((p) => cloneVector(p));
+  return p;
 }
 
 /**
@@ -59,28 +66,22 @@ export function polygonFromCircle(x: number, y: number, c: Circle, segments: num
  * Returns `true` when the polygon has 3 or more points.
  */
 export function isPolygonValid(p: Polygon) {
-  return p.points.length >= 3;
+  return p.basePoints.length >= 3;
 }
 
 /**
  * Rotate the polygon to the given angle in degrees.
  */
 export function setPolygonAngle(p: Polygon, angle: number) {
-  const diff = angle - p.angle;
+  const radians = toRadians(angle);
 
-  if (diff === 0) return;
-
-  p.angle += diff;
-
-  const radians = toRadians(diff);
-
-  for (const point of p.points) {
-    const x = point.x;
-    const y = point.y;
-    const rotatedX = x * Math.cos(radians) - y * Math.sin(radians);
-    const rotatedY = x * Math.sin(radians) + y * Math.cos(radians);
-    point.x = rotatedX;
-    point.y = rotatedY;
+  for (let i = 0; i < p.basePoints.length; i++) {
+    const base = p.basePoints[i];
+    const calc = p.calcPoints[i];
+    const rotatedX = base.x * Math.cos(radians) - base.y * Math.sin(radians);
+    const rotatedY = base.x * Math.sin(radians) + base.y * Math.cos(radians);
+    calc.x = rotatedX;
+    calc.y = rotatedY;
   }
 }
 
@@ -96,17 +97,17 @@ export function doPolygonsIntersect(a: Polygon, b: Polygon) {
     return true;
   }
 
-  for (let i = 0; i < a.points.length; i++) {
-    const p1 = a.points[i];
-    const p2 = a.points[(i + 1) % a.points.length];
+  for (let i = 0; i < a.calcPoints.length; i++) {
+    const p1 = a.calcPoints[i];
+    const p2 = a.calcPoints[(i + 1) % a.calcPoints.length];
     const x1 = p1.x + a.x;
     const y1 = p1.y + a.y;
     const x2 = p2.x + a.x;
     const y2 = p2.y + a.y;
 
-    for (let j = 0; j < b.points.length; j++) {
-      const p3 = b.points[j];
-      const p4 = b.points[(j + 1) % b.points.length];
+    for (let j = 0; j < b.calcPoints.length; j++) {
+      const p3 = b.calcPoints[j];
+      const p4 = b.calcPoints[(j + 1) % b.calcPoints.length];
       const x3 = p3.x + b.x;
       const y3 = p3.y + b.y;
       const x4 = p4.x + b.x;
@@ -127,9 +128,9 @@ export function doPolygonsIntersect(a: Polygon, b: Polygon) {
 export function doesPolygonContain(p: Polygon, x: number, y: number) {
   let crossings = 0;
 
-  for (let i = 0; i < p.points.length; i++) {
-    const a = p.points[i];
-    const b = p.points[(i + 1) % p.points.length];
+  for (let i = 0; i < p.calcPoints.length; i++) {
+    const a = p.calcPoints[i];
+    const b = p.calcPoints[(i + 1) % p.calcPoints.length];
     const x1 = a.x + p.x;
     const y1 = a.y + p.y;
     const x2 = b.x + p.x;
@@ -149,11 +150,7 @@ export function doesPolygonContain(p: Polygon, x: number, y: number) {
 export function copyPolygon(a: Polygon, b: Polygon) {
   a.x = b.x;
   a.y = b.y;
-  a.points.length = 0;
-
-  for (const point of b.points) {
-    a.points.push(vec(point.x, point.y));
-  }
-
+  a.basePoints = b.basePoints.map((p) => cloneVector(p));
+  a.calcPoints = b.calcPoints.map((p) => cloneVector(p));
   return a;
 }

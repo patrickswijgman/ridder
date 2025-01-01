@@ -167,7 +167,7 @@ export function drawPolygon(x: number, y: number, points: Array<Vector>, color =
  * Draw a polygon onto the canvas.
  */
 export function drawPolygonInstance(p: Polygon, color = "white", fill = false) {
-  drawPolygon(p.x, p.y, p.points, color, fill);
+  drawPolygon(p.x, p.y, p.calcPoints, color, fill);
 }
 
 /**
