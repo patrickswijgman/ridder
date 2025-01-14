@@ -2,17 +2,18 @@
   "name": "ridder",
   "version": "3.7.1",
   "description": "A straightforward game engine for simple data-driven games in JavaScript",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "files": [
-    "lib/**/*"
+    "dist/**/*"
   ],
   "type": "module",
   "engines": {
     "node": ">=18"
   },
   "scripts": {
-    "start": "rimraf lib && tsc --watch --preserveWatchOutput",
-    "build": "rimraf lib && tsc"
+    "start": "rimraf dist && tsc --watch --preserveWatchOutput",
+    "build": "rimraf dist && tsc",
+    "compile": "tsc --noEmit"
   },
   "repository": {
     "type": "git",

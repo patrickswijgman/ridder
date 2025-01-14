@@ -1,0 +1,5 @@
+echo "Checking TypeScript types..."
+npm run compile --workspaces --if-present
+
+echo "Running tests..."
+npm run test
