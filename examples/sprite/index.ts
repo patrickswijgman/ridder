@@ -1,5 +1,13 @@
 import { drawSprite, getDelta, getHeight, getWidth, loadSprite, loadTexture, rotateTransform, run, translateTransform } from "ridder";
 
+const enum TextureId {
+  TILEMAP,
+}
+
+const enum SpriteId {
+  PLAYER,
+}
+
 let angle = 0;
 
 run({
@@ -7,8 +15,8 @@ run({
   height: 90,
 
   setup: async () => {
-    await loadTexture("tilemap", "textures/tilemap.png");
-    loadSprite("player", "tilemap", 95, 133, 18, 18);
+    await loadTexture(TextureId.TILEMAP, "textures/tilemap.png");
+    loadSprite(SpriteId.PLAYER, TextureId.TILEMAP, 95, 133, 18, 18);
   },
 
   update: () => {
@@ -20,6 +28,6 @@ run({
     const h = getHeight();
     translateTransform(w / 2, h / 2);
     rotateTransform(angle);
-    drawSprite("player", -9, -18);
+    drawSprite(SpriteId.PLAYER, -9, -18);
   },
 });

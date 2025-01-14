@@ -1,10 +1,17 @@
 import { addVectorScaled, applyCameraTransform, camera, drawText, drawTexture, getDelta, getTexture, InputCode, isInputDown, isInputPressed, loadRenderTexture, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, setCameraPosition, translateTransform, updateCamera, vec, Vector } from "ridder";
 
+const enum TextureId {
+  PLAYER,
+  TREE,
+  GRASS_TILE,
+  GRASS_FLOOR,
+}
+
 type Entity = {
   position: Vector;
   velocity: Vector;
 
-  textureId: string;
+  textureId: number;
   pivot: Vector;
 
   isPlayer: boolean;
@@ -16,7 +23,7 @@ function createEntity(): Entity {
     position: vec(),
     velocity: vec(),
 
-    textureId: "",
+    textureId: 0,
     pivot: vec(),
 
     isPlayer: false,
@@ -44,12 +51,12 @@ run({
   height: 180,
 
   setup: async () => {
-    await loadTexture("player", "textures/player.png");
-    await loadTexture("tree", "textures/tree.png");
-    await loadTexture("grass_tile", "textures/grass_tile.png");
+    await loadTexture(TextureId.PLAYER, "textures/player.png");
+    await loadTexture(TextureId.TREE, "textures/tree.png");
+    await loadTexture(TextureId.GRASS_TILE, "textures/grass_tile.png");
 
-    loadRenderTexture("grass", 512, 512, (ctx, w, h) => {
-      const texture = getTexture("grass_tile");
+    loadRenderTexture(TextureId.GRASS_FLOOR, 512, 512, (ctx, w, h) => {
+      const texture = getTexture(TextureId.GRASS_TILE);
       for (let x = 0; x < w; x += 16) {
         for (let y = 0; y < h; y += 16) {
           ctx.drawImage(texture, x, y);
@@ -60,7 +67,7 @@ run({
     const player = createEntity();
     player.position.x = 160;
     player.position.y = 90;
-    player.textureId = "player";
+    player.textureId = TextureId.PLAYER;
     player.pivot.x = 8;
     player.pivot.y = 16;
     player.isPlayer = true;
@@ -68,7 +75,7 @@ run({
     const tree = createEntity();
     tree.position.x = 200;
     tree.position.y = 100;
-    tree.textureId = "tree";
+    tree.textureId = TextureId.TREE;
     tree.pivot.x = 8;
     tree.pivot.y = 16;
 
@@ -110,7 +117,7 @@ run({
 
   render: () => {
     applyCameraTransform(cam);
-    drawTexture("grass", 0, 0);
+    drawTexture(TextureId.GRASS_FLOOR, 0, 0);
 
     world.entities.sort((a, b) => a.position.y - b.position.y);
 

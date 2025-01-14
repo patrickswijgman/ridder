@@ -8,7 +8,7 @@
   ],
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "scripts": {
     "start": "rimraf dist && tsc --watch --preserveWatchOutput",

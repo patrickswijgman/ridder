@@ -1,14 +1,14 @@
-const sounds: Record<string, HTMLAudioElement> = {};
+const sounds: Array<HTMLAudioElement> = [];
 
 let volume = 1;
 
 /**
  * Load a sound into the cache.
- * @param id - The name of the sound in the cache.
+ * @param id - The ID for the sound in the cache.
  * @param url - The url to the `.mp3`, `.wav`, or `.ogg` file.
  * @param stream - Whether or not the sound should be streamed, e.g. for large files such as music.
  */
-export async function loadSound(id: string, url: string, stream = false) {
+export async function loadSound(id: number, url: string, stream = false) {
   return await new Promise<void>((resolve, reject) => {
     const audio = new Audio(url);
     const event = stream ? "canplay" : "canplaythrough";
@@ -35,7 +35,7 @@ export async function loadSound(id: string, url: string, stream = false) {
 /**
  * Play a sound from the cache.
  */
-export function playSound(id: string, loop = false) {
+export function playSound(id: number, loop = false) {
   const sound = sounds[id];
   sound.loop = loop;
   sound.volume = volume;
@@ -45,7 +45,7 @@ export function playSound(id: string, loop = false) {
 /**
  * Stop a currently playing sound.
  */
-export function stopSound(id: string) {
+export function stopSound(id: number) {
   const sound = sounds[id];
   sound.pause();
   sound.currentTime = 0;
@@ -54,7 +54,7 @@ export function stopSound(id: string) {
 /**
  * Get a sound from the cache.
  */
-export function getSound(id: string) {
+export function getSound(id: number) {
   return sounds[id];
 }
 

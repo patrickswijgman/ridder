@@ -70,14 +70,14 @@ export function applyCameraTransform(c: Camera, scrollX = 1, scrollY = 1) {
 /**
  * Draw a texture from the cache onto the canvas.
  */
-export function drawTexture(id: string, x: number, y: number) {
+export function drawTexture(id: number, x: number, y: number) {
   ctx.drawImage(getTexture(id), x, y);
 }
 
 /**
  * Draw a sprite (a region within a texture) from the cache onto the canvas.
  */
-export function drawSprite(id: string, x: number, y: number) {
+export function drawSprite(id: number, x: number, y: number) {
   const sprite = getSprite(id);
   const texture = getTexture(sprite.textureId);
   ctx.drawImage(texture, sprite.x, sprite.y, sprite.w, sprite.h, x, y, sprite.w, sprite.h);
@@ -192,7 +192,7 @@ export function setBackgroundColor(color: string) {
 /**
  * Use a font from the cache for the upcoming text rendering.
  */
-export function setFont(id: string) {
+export function setFont(id: number) {
   font = getFont(id);
 }
 

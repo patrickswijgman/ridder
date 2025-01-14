@@ -1,5 +1,13 @@
 import { drawSprite, getElapsedTime, getHeight, getWidth, InputCode, isInputPressed, loadSprite, loadTexture, resetTimer, resetTransform, rotateTransform, run, scaleTransform, tickTimer, timer, Timer, translateTransform, tween, vec, Vector } from "ridder";
 
+const enum TextureId {
+  TILEMAP,
+}
+
+const enum SpriteId {
+  SNOWMAN,
+}
+
 type Entity = {
   position: Vector;
   angle: number;
@@ -28,8 +36,8 @@ run({
   height: 90,
 
   setup: async () => {
-    await loadTexture("tilemap", "textures/tilemap.png");
-    loadSprite("snowman", "tilemap", 95, 133, 18, 18);
+    await loadTexture(TextureId.TILEMAP, "textures/tilemap.png");
+    loadSprite(SpriteId.SNOWMAN, TextureId.TILEMAP, 95, 133, 18, 18);
 
     const x = getWidth() / 3;
     const y = getHeight() / 2;
@@ -66,7 +74,7 @@ run({
       translateTransform(e.position.x, e.position.y);
       rotateTransform(e.angle);
       scaleTransform(e.scale, e.scale);
-      drawSprite("snowman", -e.pivot.x, -e.pivot.y);
+      drawSprite(SpriteId.SNOWMAN, -e.pivot.x, -e.pivot.y);
     }
   },
 });
