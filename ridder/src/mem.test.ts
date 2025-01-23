@@ -6,8 +6,8 @@ test("zeroes an object recursively", () => {
     a: 123,
     b: "test",
     c: true,
-    d: { e: 456, f: "testtest", g: false },
-    h: [{ i: 789 }, { j: "testtesttest" }, { k: false }],
+    d: { e: 123, f: "test", g: true },
+    h: [{ i: 123 }, { j: "test" }, { k: false }, 123, "test", true],
   };
 
   const expected = {
@@ -15,7 +15,7 @@ test("zeroes an object recursively", () => {
     b: "",
     c: false,
     d: { e: 0, f: "", g: false },
-    h: [{ i: 0 }, { j: "" }, { k: false }],
+    h: [{ i: 0 }, { j: "" }, { k: false }, 0, "", false],
   };
 
   zero(input);

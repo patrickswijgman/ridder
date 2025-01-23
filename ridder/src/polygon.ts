@@ -1,6 +1,4 @@
-import { Circle } from "./circle.js";
 import { doLinesIntersect } from "./line.js";
-import { Rectangle } from "./rectangle.js";
 import { toRadians } from "./utils.js";
 import { cloneVector, vec, Vector } from "./vector.js";
 
@@ -22,8 +20,30 @@ export function polygon(x = 0, y = 0, points: Array<Vector> = []): Polygon {
     x,
     y,
     basePoints: points,
-    calcPoints: points.map((p) => cloneVector(p)),
+    calcPoints: points.map(cloneVector),
   };
+}
+
+/**
+ * Create a new polygon from a rectangle.
+ * @param rx - The x-coordinate of the rectangle.
+ * @param ry - The y-coordinate of the rectangle.
+ * @param rw - The width of the rectangle.
+ * @param rh - The height of the rectangle
+ */
+export function polygonFromRect(x: number, y: number, rx: number, ry: number, rw: number, rh: number) {
+  return polygon(x, y, getPointsFromRect(rx, ry, rw, rh));
+}
+
+/**
+ * Create a new polygon from a circle.
+ * @param cx - The x-coordinate of the circle.
+ * @param cy - The y-coordinate of the circle.
+ * @param cr - The radius of the circle.
+ * @param segments - The number of segments to create the polygon, e.g. 3 creates a triangle.
+ */
+export function polygonFromCircle(x: number, y: number, cx: number, cy: number, cr: number, segments: number) {
+  return polygon(x, y, getPointsFromCircle(cx, cy, cr, segments));
 }
 
 /**
@@ -32,34 +52,71 @@ export function polygon(x = 0, y = 0, points: Array<Vector> = []): Polygon {
 export function setPolygon(p: Polygon, x: number, y: number, points: Array<Vector>) {
   p.x = x;
   p.y = y;
-  p.basePoints = points.map((p) => cloneVector(p));
-  p.calcPoints = points.map((p) => cloneVector(p));
+  p.basePoints = points.map(cloneVector);
+  p.calcPoints = points.map(cloneVector);
   return p;
 }
 
 /**
- * Create a new polygon from a rectangle.
+ * Set the components of the polygon from a rectangle and returns the polygon.
+ * @param rx - The x-coordinate of the rectangle.
+ * @param ry - The y-coordinate of the rectangle.
+ * @param rw - The width of the rectangle.
+ * @param rh - The height of the rectangle
  */
-export function polygonFromRect(x: number, y: number, r: Rectangle) {
-  return polygon(x, y, [vec(r.x, r.y), vec(r.x + r.w, r.y), vec(r.x + r.w, r.y + r.h), vec(r.x, r.y + r.h)]);
+export function setPolygonFromRect(p: Polygon, x: number, y: number, rx: number, ry: number, rw: number, rh: number) {
+  const points = getPointsFromRect(rx, ry, rw, rh);
+  p.x = x;
+  p.y = y;
+  p.basePoints = points;
+  p.calcPoints = points.map(cloneVector);
 }
 
 /**
- * Create a new polygon from a circle.
+ * Set the components of the polygon from a circle and returns the polygon.
+ * @param cx - The x-coordinate of the circle.
+ * @param cy - The y-coordinate of the circle.
+ * @param cr - The radius of the circle.
  * @param segments - The number of segments to create the polygon, e.g. 3 creates a triangle.
  */
-export function polygonFromCircle(x: number, y: number, c: Circle, segments: number) {
+export function setPolygonFromCircle(p: Polygon, x: number, y: number, cx: number, cy: number, cr: number, segments: number) {
+  const points = getPointsFromCircle(cx, cy, cr, segments);
+  p.x = x;
+  p.y = y;
+  p.basePoints = points;
+  p.calcPoints = points.map(cloneVector);
+}
+
+/**
+ * Returns an array of points to create a polygon from a rectangle.
+ * @param x - The x-coordinate of the rectangle.
+ * @param y - The y-coordinate of the rectangle.
+ * @param w - The width of the rectangle.
+ * @param h - The height of the rectangle.
+ */
+function getPointsFromRect(x: number, y: number, w: number, h: number) {
+  return [vec(x, y), vec(x + w, y), vec(x + w, y + h), vec(x, y + h)];
+}
+
+/**
+ * Returns an array of points to create a polygon from a circle.
+ * @param x - The x-coordinate of the circle.
+ * @param y - The y-coordinate of the circle.
+ * @param r - The radius of the circle.
+ * @param segments - The number of segments to create the polygon, e.g. 3 creates a triangle.
+ */
+function getPointsFromCircle(x: number, y: number, r: number, segments: number) {
   const points: Array<Vector> = [];
   const step = 360 / segments;
 
   for (let degrees = 0; degrees < 360; degrees += step) {
     const radians = toRadians(degrees);
-    const x = c.x + Math.cos(radians) * c.r;
-    const y = c.y + Math.sin(radians) * c.r;
-    points.push(vec(x, y));
+    const pointX = x + Math.cos(radians) * r;
+    const pointY = y + Math.sin(radians) * r;
+    points.push(vec(pointX, pointY));
   }
 
-  return polygon(x, y, points);
+  return points;
 }
 
 /**
@@ -150,7 +207,7 @@ export function doesPolygonContain(p: Polygon, x: number, y: number) {
 export function copyPolygon(a: Polygon, b: Polygon) {
   a.x = b.x;
   a.y = b.y;
-  a.basePoints = b.basePoints.map((p) => cloneVector(p));
-  a.calcPoints = b.calcPoints.map((p) => cloneVector(p));
+  a.basePoints = b.basePoints.map(cloneVector);
+  a.calcPoints = b.calcPoints.map(cloneVector);
   return a;
 }
