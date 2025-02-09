@@ -1,5 +1,15 @@
-import { createCanvas } from "./utils.js";
+import { createCanvas, toHex } from "./utils.js";
 import { vec } from "./vector.js";
+
+type Pixel = {
+  x: number;
+  y: number;
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+  hex: string;
+};
 
 let width = 800;
 let height = 600;
@@ -59,4 +69,26 @@ export function getWidth() {
  */
 export function getHeight() {
   return height;
+}
+
+/**
+ * Read the image data of a canvas and returns a list of {@link Pixel} data.
+ */
+export function getPixels(canvas: HTMLCanvasElement) {
+  const pixels: Array<Pixel> = [];
+  const ctx = canvas.getContext("2d")!;
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    const x = (i / 4) % canvas.width;
+    const y = Math.floor(i / 4 / canvas.height);
+    const r = imageData.data[i];
+    const g = imageData.data[i + 1];
+    const b = imageData.data[i + 2];
+    const a = imageData.data[i + 3] / 255;
+    const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    pixels.push({ x, y, r, g, b, a, hex });
+  }
+
+  return pixels;
 }

@@ -14,6 +14,7 @@ export type Camera = {
   bounds: Rectangle;
   viewport: Rectangle;
   smoothing: number;
+  zoom: number;
   shakeIntensity: number;
   shakeReduction: number;
   shakeEnabled: boolean;
@@ -29,6 +30,7 @@ export function camera(): Camera {
     bounds: rect(),
     viewport: rect(),
     smoothing: 1,
+    zoom: 1,
     shakeIntensity: 0,
     shakeReduction: 0.1,
     shakeEnabled: true,
@@ -44,11 +46,14 @@ export function camera(): Camera {
  * Updates the camera's `viewport` rectangle to the camera's `position`.
  *
  * Updates the camera's `shake` vector, reducing the shaking `shakeIntensity` gradually with `shakeReduction`.
+ *
+ * All while taking into the camera's `zoom` factor into account.
  */
 export function updateCamera(c: Camera, x: number, y: number) {
   const delta = getDelta();
-  const width = getWidth();
-  const height = getHeight();
+  const scale = 1 / c.zoom;
+  const width = getWidth() * scale;
+  const height = getHeight() * scale;
 
   c.target.x = x - width / 2;
   c.target.y = y - height / 2;
@@ -65,13 +70,13 @@ export function updateCamera(c: Camera, x: number, y: number) {
     copyVector(c.position, c.target);
   }
 
-  clampCameraToBounds(c);
+  clampCameraToBounds(c, width, height);
+
+  setRectangle(c.viewport, c.position.x, c.position.y, width, height);
 
   const mouse = getMousePosition();
   copyVector(c.mousePosition, mouse);
   addVector(c.mousePosition, c.position);
-
-  setRectangle(c.viewport, c.position.x, c.position.y, width, height);
 
   if (c.shakeEnabled && c.shakeIntensity) {
     c.shakeIntensity = Math.max(0, c.shakeIntensity - c.shakeReduction * delta);
@@ -87,17 +92,22 @@ export function updateCamera(c: Camera, x: number, y: number) {
  * NOTE - Use this instead of setting the position manually to set the proper position and keep it within the bounds.
  */
 export function setCameraPosition(c: Camera, x: number, y: number) {
-  c.position.x = x - getWidth() / 2;
-  c.position.y = y - getHeight() / 2;
-  clampCameraToBounds(c);
+  const scale = 1 / c.zoom;
+  const width = getWidth() * scale;
+  const height = getHeight() * scale;
+
+  c.position.x = x - width / 2;
+  c.position.y = y - height / 2;
+
+  clampCameraToBounds(c, width, height);
 }
 
 /**
  * Keep the camera within its bounds.
  */
-function clampCameraToBounds(c: Camera) {
+function clampCameraToBounds(c: Camera, width: number, height: number) {
   if (isRectangleValid(c.bounds)) {
-    c.position.x = clamp(c.position.x, c.bounds.x, c.bounds.x + c.bounds.w - getWidth());
-    c.position.y = clamp(c.position.y, c.bounds.y, c.bounds.y + c.bounds.h - getHeight());
+    c.position.x = clamp(c.position.x, c.bounds.x, c.bounds.x + c.bounds.w - width);
+    c.position.y = clamp(c.position.y, c.bounds.y, c.bounds.y + c.bounds.h - height);
   }
 }

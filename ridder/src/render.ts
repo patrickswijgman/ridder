@@ -62,8 +62,9 @@ export function rotateTransform(degrees: number) {
  * @param scrollY - The scrolling factor for the y-axis, you can add a parallax effect by setting this to a value between 0 and 1.
  */
 export function applyCameraTransform(c: Camera, scrollX = 1, scrollY = 1) {
-  const x = c.position.x + c.shake.x;
-  const y = c.position.y + c.shake.y;
+  const x = c.position.x + c.shake.x / c.zoom;
+  const y = c.position.y + c.shake.y / c.zoom;
+  ctx.scale(c.zoom, c.zoom);
   ctx.translate(-x * scrollX, -y * scrollY);
 }
 

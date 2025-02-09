@@ -40,6 +40,7 @@ const boundary = rect(0, 0, 200, 120);
 const cam = camera();
 cam.bounds = boundary;
 cam.smoothing = 0.05;
+cam.zoom = 1;
 
 run({
   width: 160,
