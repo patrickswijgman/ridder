@@ -1,12 +1,14 @@
+import { getCameraPosition } from "./camera.js";
 import { canvas, scale } from "./canvas.js";
 import { InputCode } from "./consts.js";
-import { vec } from "./vector.js";
+import { vec, Vector } from "./vector.js";
 
 const inputsDown: Record<string, boolean> = {};
 const inputsPressed: Record<string, boolean> = {};
 const inputsReleased: Record<string, boolean> = {};
 
 const mousePosition = vec();
+const mousePositionInWorld = vec();
 
 /**
  * Add the event listeners to listen to key and mouse events.
@@ -81,6 +83,10 @@ function onUp(code: string) {
 function onPointerEvent(event: PointerEvent) {
   mousePosition.x = event.clientX / scale.x;
   mousePosition.y = event.clientY / scale.y;
+
+  const camera = getCameraPosition();
+  mousePositionInWorld.x = mousePosition.x + camera.x;
+  mousePositionInWorld.y = mousePosition.y + camera.y;
 }
 
 /**
@@ -173,7 +179,8 @@ export function isInputReleased(code: InputCode, consume = false) {
 
 /**
  * Get the current mouse position on the canvas.
+ * @param inWorld Whether or not to get the mouse position affected by the camera.
  */
-export function getMousePosition() {
-  return mousePosition;
+export function getMousePosition(inWorld: boolean): Readonly<Vector> {
+  return inWorld ? mousePositionInWorld : mousePosition;
 }

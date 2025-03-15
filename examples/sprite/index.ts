@@ -20,12 +20,11 @@ run({
   },
 
   update: () => {
-    angle += 2 * getDelta();
-  },
-
-  render: () => {
     const w = getWidth();
     const h = getHeight();
+
+    angle += 2 * getDelta();
+
     translateTransform(w / 2, h / 2);
     rotateTransform(angle);
     drawSprite(SpriteId.PLAYER, -9, -18);

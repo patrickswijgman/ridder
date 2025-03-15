@@ -35,7 +35,7 @@ run({
   },
 
   update: () => {
-    const mouse = getMousePosition();
+    const mouse = getMousePosition(false);
 
     resetVector(player.velocity);
 
@@ -58,9 +58,7 @@ run({
 
     normalizeVector(player.velocity);
     addVectorScaled(player.position, player.velocity, getDelta());
-  },
 
-  render: () => {
     translateTransform(player.position.x, player.position.y);
     if (player.isFlipped) {
       scaleTransform(-1, 1);

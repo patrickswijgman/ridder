@@ -1,11 +1,3 @@
-type Pixel = {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-  hex: string;
-};
-
 /**
  * Convert the given degrees to radians.
  */
@@ -103,7 +95,7 @@ export function shuffle<T>(a: T[]) {
 }
 
 /**
- * Remove an element from the array in-place.
+ * Removes the first-found element from the array in-place.
  */
 export function remove<T>(a: Array<T>, e: T) {
   const index = a.indexOf(e);
@@ -131,25 +123,4 @@ export function createCanvas(width: number, height: number) {
   canvas.height = height;
   const ctx = canvas.getContext("2d")!;
   return [canvas, ctx] as const;
-}
-
-/**
- * Get the data of a single pixel on the canvas.
- */
-export function getPixel(canvas: HTMLCanvasElement, x: number, y: number): Pixel {
-  const ctx = canvas.getContext("2d")!;
-  const { data } = ctx.getImageData(x, y, 1, 1);
-  const r = data[0];
-  const g = data[1];
-  const b = data[2];
-  const a = data[3] / 255;
-  return { r, g, b, a, hex: `#${toHex(r)}${toHex(g)}${toHex(b)}` };
-}
-
-/**
- * Convert a number to a hexadecimal string.
- */
-export function toHex(value: number) {
-  const hex = value.toString(16);
-  return hex.length == 1 ? `0${hex}` : hex;
 }

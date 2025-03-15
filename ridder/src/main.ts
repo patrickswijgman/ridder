@@ -8,7 +8,6 @@ type Config = {
   height: number;
   setup: () => Promise<void>;
   update: () => void;
-  render: () => void;
 };
 
 /**
@@ -22,11 +21,10 @@ export async function run(c: Config) {
 
   const tick = () => {
     if (updateState()) {
-      c.update();
-      resetInputs();
       clearBackground();
       resetTransform();
-      c.render();
+      c.update();
+      resetInputs();
     }
 
     requestAnimationFrame(tick);

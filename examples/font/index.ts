@@ -13,9 +13,7 @@ run({
     setFont(FontId.DEFAULT);
   },
 
-  update: () => {},
-
-  render: () => {
+  update: () => {
     const w = getWidth();
     const h = getHeight();
     translateTransform(w / 2, h / 2);

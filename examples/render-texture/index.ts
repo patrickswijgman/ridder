@@ -33,9 +33,7 @@ run({
 
   update: () => {
     rotation += 1 * getDelta();
-  },
 
-  render: () => {
     translateTransform(35, getHeight() / 2);
     rotateTransform(rotation);
     drawTexture(TextureId.RED_BLOCK, -8, -8);

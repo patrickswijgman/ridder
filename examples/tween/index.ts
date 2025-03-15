@@ -66,9 +66,7 @@ run({
         resetTimer(e.timer);
       }
     }
-  },
 
-  render: () => {
     for (const e of entities) {
       resetTransform();
       translateTransform(e.position.x, e.position.y);

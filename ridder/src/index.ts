@@ -1,4 +1,4 @@
-export * from "./camera.js";
+export { getCameraBounds, getCameraPosition, getCameraZoom, setCameraBounds, setCameraPosition, setCameraShake, setCameraSmoothing, setCameraZoom, updateCamera } from "./camera.js";
 export { getHeight, getWidth } from "./canvas.js";
 export * from "./circle.js";
 export * from "./consts.js";

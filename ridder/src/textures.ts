@@ -3,7 +3,7 @@ import { createCanvas } from "./utils.js";
 const textures: Array<HTMLCanvasElement> = [];
 
 /**
- * Load an image into the cache.
+ * Load an image.
  */
 async function loadImage(url: string) {
   const img = new Image();
@@ -44,17 +44,16 @@ export function loadRenderTexture(id: number, width: number, height: number, dra
 
 /**
  * Load an outline version of a texture into the cache.
- * This removes the original texture, leaving only the outline.
  *
  * @see {@link loadOutlinedTexture} for a version that draws the outline on top of the texture.
  *
  * @param id - The ID for the texture in the cache.
- * @param url - The url to the `.png`, `.jpg`, or `.gif` file.
+ * @param textureId - The id of the original texture.
  * @param mode - The mode of the outline. Either "circle" or "square".
  * @param color - The color of the outline.
  */
-export async function loadOutlineTexture(id: number, url: string, mode: "circle" | "square", color: string) {
-  const img = await loadImage(url);
+export function loadOutlineTexture(id: number, textureId: number, mode: "circle" | "square", color: string) {
+  const img = getTexture(textureId);
   loadRenderTexture(id, img.width, img.height, (ctx, w, h) => {
     ctx.drawImage(img, 0, -1);
     ctx.drawImage(img, 1, 0);
@@ -76,17 +75,16 @@ export async function loadOutlineTexture(id: number, url: string, mode: "circle"
 
 /**
  * Load an outlined version of a texture into the cache.
- * This keeps the original texture.
  *
- * @see {@link loadOutlineTexture} for a version that draws the outline and removes the original texture.
+ * @see {@link loadOutlineTexture} for a version that only draws the outline.
  *
  * @param id - The ID for the texture in the cache.
- * @param url - The url to the `.png`, `.jpg`, or `.gif` file.
+ * @param textureId - The id of the original texture.
  * @param mode - The mode of the outline. Either "circle" or "square".
  * @param color - The color of the outline.
  */
-export async function loadOutlinedTexture(id: number, url: string, mode: "circle" | "square", color: string) {
-  const img = await loadImage(url);
+export function loadOutlinedTexture(id: number, textureId: number, mode: "circle" | "square", color: string) {
+  const img = getTexture(textureId);
   loadRenderTexture(id, img.width, img.height, (ctx, w, h) => {
     ctx.drawImage(img, 0, -1);
     ctx.drawImage(img, 1, 0);
@@ -110,11 +108,11 @@ export async function loadOutlinedTexture(id: number, url: string, mode: "circle
  * Load a 'flashed' texture into the cache.
  * This is a texture with a color overlay.
  * @param id - The ID for the texture in the cache.
- * @param url - The url to the `.png`, `.jpg`, or `.gif` file.
+ * @param textureId - The id of the original texture.
  * @param color - The color of the overlay.
  */
-export async function loadFlashTexture(id: number, url: string, color: string) {
-  const img = await loadImage(url);
+export function loadFlashTexture(id: number, textureId: number, color: string) {
+  const img = getTexture(textureId);
   loadRenderTexture(id, img.width, img.height, (ctx, w, h) => {
     ctx.drawImage(img, 0, 0);
     ctx.globalCompositeOperation = "source-in";

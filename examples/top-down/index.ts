@@ -1,4 +1,4 @@
-import { addVectorScaled, applyCameraTransform, camera, drawText, drawTexture, getDelta, getTexture, InputCode, isInputDown, isInputPressed, loadRenderTexture, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, setCameraPosition, translateTransform, updateCamera, vec, Vector } from "ridder";
+import { addVectorScaled, applyCameraTransform, drawTextOutlined, drawTexture, getDelta, getTexture, InputCode, isInputDown, isInputPressed, loadFont, loadRenderTexture, loadTexture, normalizeVector, resetTransform, resetVector, run, scaleTransform, setCameraPosition, setCameraShake, setCameraSmoothing, setFont, translateTransform, updateCamera, vec, Vector } from "ridder";
 
 const enum TextureId {
   PLAYER,
@@ -7,13 +7,15 @@ const enum TextureId {
   GRASS_FLOOR,
 }
 
+const enum FontId {
+  DEFAULT,
+}
+
 type Entity = {
   position: Vector;
   velocity: Vector;
-
   textureId: number;
   pivot: Vector;
-
   isPlayer: boolean;
   isFlipped: boolean;
 };
@@ -22,10 +24,8 @@ function createEntity(): Entity {
   return {
     position: vec(),
     velocity: vec(),
-
     textureId: 0,
     pivot: vec(),
-
     isPlayer: false,
     isFlipped: false,
   };
@@ -43,8 +43,7 @@ function createScene(): Scene {
 
 const world = createScene();
 
-const cam = camera();
-cam.smoothing = 0.1;
+setCameraSmoothing(0.1);
 
 run({
   width: 320,
@@ -55,6 +54,9 @@ run({
     await loadTexture(TextureId.TREE, "textures/tree.png");
     await loadTexture(TextureId.GRASS_TILE, "textures/grass_tile.png");
 
+    await loadFont(FontId.DEFAULT, "fonts/pixelmix.ttf", "pixelmix", 8);
+
+    // Create the floor by repeating the grass sprite to the background.
     loadRenderTexture(TextureId.GRASS_FLOOR, 512, 512, (ctx, w, h) => {
       const texture = getTexture(TextureId.GRASS_TILE);
       for (let x = 0; x < w; x += 16) {
@@ -63,6 +65,8 @@ run({
         }
       }
     });
+
+    setFont(FontId.DEFAULT);
 
     const player = createEntity();
     player.position.x = 160;
@@ -81,11 +85,20 @@ run({
 
     world.entities.push(player, tree);
 
-    setCameraPosition(cam, player.position.x, player.position.y);
+    setCameraPosition(player.position.x, player.position.y);
   },
 
   update: () => {
+    // Sort the entities on their 'depth' meaning entities below others are drawn on-top.
+    world.entities.sort((a, b) => a.position.y - b.position.y);
+
+    // Draw the floor.
+    applyCameraTransform();
+    drawTexture(TextureId.GRASS_FLOOR, 0, 0);
+
+    // Update and draw each entity.
     for (const e of world.entities) {
+      // Update entity (we only have a player for now).
       if (e.isPlayer) {
         resetVector(e.velocity);
 
@@ -104,36 +117,28 @@ run({
           e.velocity.y += 1;
         }
         if (isInputPressed(InputCode.KEY_SPACE)) {
-          cam.shakeIntensity = 10;
-          cam.shakeReduction = 0.2;
+          setCameraShake(10, 0.2);
         }
 
         normalizeVector(e.velocity);
         addVectorScaled(e.position, e.velocity, getDelta());
-        updateCamera(cam, e.position.x, e.position.y);
+        updateCamera(e.position.x, e.position.y);
       }
-    }
-  },
 
-  render: () => {
-    applyCameraTransform(cam);
-    drawTexture(TextureId.GRASS_FLOOR, 0, 0);
-
-    world.entities.sort((a, b) => a.position.y - b.position.y);
-
-    for (const e of world.entities) {
+      // Render entity
       resetTransform();
+      applyCameraTransform();
       translateTransform(e.position.x, e.position.y);
-      applyCameraTransform(cam);
       if (e.isFlipped) {
         scaleTransform(-1, 1);
       }
       drawTexture(e.textureId, -e.pivot.x, -e.pivot.y);
     }
 
+    // Draw the UI.
     resetTransform();
     translateTransform(2, 2);
-    scaleTransform(0.5, 0.5);
-    drawText("Press space to shake the camera", 0, 0, "red");
+    scaleTransform(0.75, 0.75);
+    drawTextOutlined("Press space to shake the camera", 0, 0, "white", "black", "square");
   },
 });

@@ -1,4 +1,4 @@
-import { Camera } from "./camera.js";
+import { getCameraPosition, getCameraShake, getCameraZoom } from "./camera.js";
 import { canvas, ctx, scale } from "./canvas.js";
 import { Circle } from "./circle.js";
 import { getFont } from "./fonts.js";
@@ -61,10 +61,13 @@ export function rotateTransform(degrees: number) {
  * @param scrollX - The scrolling factor for the x-axis, you can add a parallax effect by setting this to a value between 0 and 1.
  * @param scrollY - The scrolling factor for the y-axis, you can add a parallax effect by setting this to a value between 0 and 1.
  */
-export function applyCameraTransform(c: Camera, scrollX = 1, scrollY = 1) {
-  const x = c.position.x + c.shake.x / c.zoom;
-  const y = c.position.y + c.shake.y / c.zoom;
-  ctx.scale(c.zoom, c.zoom);
+export function applyCameraTransform(scrollX = 1, scrollY = 1) {
+  const camera = getCameraPosition();
+  const shake = getCameraShake();
+  const zoom = getCameraZoom();
+  const x = camera.x + shake.x / zoom;
+  const y = camera.y + shake.y / zoom;
+  ctx.scale(zoom, zoom);
   ctx.translate(-x * scrollX, -y * scrollY);
 }
 
@@ -98,6 +101,21 @@ export function drawText(text: string, x: number, y: number, color = "white", al
   ctx.fillText(text, x, y);
 }
 
+export function drawTextOutlined(text: string, x: number, y: number, color = "white", outlineColor = "black", outlineMode: "circle" | "square" = "circle", align: TextAlign = "left", baseline: TextBaseline = "top") {
+  drawText(text, x, y - 1, outlineColor, align, baseline);
+  drawText(text, x + 1, y, outlineColor, align, baseline);
+  drawText(text, x, y + 1, outlineColor, align, baseline);
+  drawText(text, x - 1, y, outlineColor, align, baseline);
+
+  if (outlineMode === "square") {
+    drawText(text, x - 1, y - 1, outlineColor, align, baseline);
+    drawText(text, x + 1, y - 1, outlineColor, align, baseline);
+    drawText(text, x + 1, y + 1, outlineColor, align, baseline);
+    drawText(text, x - 1, y + 1, outlineColor, align, baseline);
+  }
+
+  drawText(text, x, y, color, align, baseline);
+}
 /**
  * Draw a rectangle onto the canvas.
  */
@@ -205,7 +223,8 @@ export function setAlpha(alpha: number) {
 }
 
 /**
- * Set the blendmode for the upcoming drawings.
+ * Set the blend mode for the upcoming drawings.
+ *
  * For an overview of blend modes, see the bottom of [this](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation) MDN page.
  */
 export function setBlendMode(mode: GlobalCompositeOperation) {

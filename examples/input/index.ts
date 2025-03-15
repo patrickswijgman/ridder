@@ -18,12 +18,10 @@ run({
     if (isInputReleased(InputCode.KEY_ENTER)) {
       console.log("You have released the enter key");
     }
-  },
 
-  render: () => {
     const w = getWidth();
     const h = getHeight();
-    const mouse = getMousePosition();
+    const mouse = getMousePosition(false);
 
     translateTransform(w / 2, h / 2);
     scaleTransform(0.25, 0.25);

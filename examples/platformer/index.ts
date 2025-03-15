@@ -1,4 +1,4 @@
-import { InputCode, Rectangle, Vector, addVectorScaled, applyCameraTransform, camera, drawRectInstance, drawText, getDelta, getFramePerSecond, isInputDown, isInputPressed, rect, resetTransform, resetVector, run, scaleTransform, setBackgroundColor, setCameraPosition, updateCamera, vec, writeIntersectionBetweenRectangles } from "ridder";
+import { InputCode, Rectangle, Vector, addVectorScaled, applyCameraTransform, drawRectInstance, drawText, getCameraBounds, getDelta, getFramePerSecond, isInputDown, isInputPressed, rect, resetTransform, resetVector, run, scaleTransform, setBackgroundColor, setCameraBounds, setCameraPosition, setCameraSmoothing, setCameraZoom, updateCamera, vec, writeIntersectionBetweenRectangles } from "ridder";
 
 const GRAVITY = vec(0, 0.01);
 
@@ -6,12 +6,9 @@ type Entity = {
   position: Vector;
   velocity: Vector;
   gravity: Vector;
-
   body: Rectangle;
   bodyIntersectionResult: Vector;
-
   color: string;
-
   isPlayer: boolean;
   isAffectedByGravity: boolean;
   isOnGround: boolean;
@@ -22,12 +19,9 @@ function createEntity(): Entity {
     position: vec(),
     velocity: vec(),
     gravity: vec(),
-
     body: rect(),
     bodyIntersectionResult: vec(),
-
     color: "white",
-
     isPlayer: false,
     isAffectedByGravity: false,
     isOnGround: false,
@@ -35,18 +29,20 @@ function createEntity(): Entity {
 }
 
 const entities: Array<Entity> = [];
-const boundary = rect(0, 0, 200, 120);
-
-const cam = camera();
-cam.bounds = boundary;
-cam.smoothing = 0.05;
-cam.zoom = 1;
 
 run({
   width: 160,
   height: 90,
 
   setup: async () => {
+    setCameraBounds(0, 0, 200, 120);
+    setCameraSmoothing(0.05);
+    setCameraZoom(1);
+
+    // Using the camera's bounds as the level boundary as well.
+    const boundary = getCameraBounds();
+
+    // Create the entities such as the player and obstacles.
     const player = createEntity();
     player.position.x = 20;
     player.position.y = boundary.h - 20 - 8;
@@ -80,13 +76,14 @@ run({
     entities.push(player, floor, platform, wall);
 
     setBackgroundColor("#1e1e1e");
-    setCameraPosition(cam, player.position.x, player.position.y);
+    setCameraPosition(player.position.x, player.position.y);
   },
 
   update: () => {
     const delta = getDelta();
 
     for (const e of entities) {
+      // Update the entity.
       if (e.isPlayer) {
         e.velocity.x = 0;
 
@@ -101,12 +98,14 @@ run({
         }
       }
 
+      // Gravity.
       if (e.isAffectedByGravity) {
         addVectorScaled(e.gravity, GRAVITY, delta);
         addVectorScaled(e.velocity, e.gravity, delta);
       }
       addVectorScaled(e.position, e.velocity, delta);
 
+      // Collision calculation.
       e.body.x = e.position.x;
       e.body.y = e.position.y;
       resetVector(e.bodyIntersectionResult);
@@ -130,19 +129,18 @@ run({
 
       e.isOnGround = e.bodyIntersectionResult.y < 0;
 
+      // Follow the player.
       if (e.isPlayer) {
-        updateCamera(cam, e.position.x, e.position.y);
+        updateCamera(e.position.x, e.position.y);
       }
-    }
-  },
 
-  render: () => {
-    for (const e of entities) {
+      // Draw the entity
       resetTransform();
-      applyCameraTransform(cam);
+      applyCameraTransform();
       drawRectInstance(e.body, e.color, true);
     }
 
+    // Draw the UI.
     resetTransform();
     scaleTransform(0.125, 0.125);
     drawText(`FPS: ${getFramePerSecond()}`, 2, 2, "lime");
