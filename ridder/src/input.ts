@@ -106,6 +106,15 @@ function getMouseButtonCode(button: number): InputCode | null {
 }
 
 /**
+ * Reset a single input's state back to `false`.
+ */
+export function resetInput(code: InputCode) {
+  inputsDown[code] = false;
+  inputsPressed[code] = false;
+  inputsReleased[code] = false;
+}
+
+/**
  * Reset the pressed and released inputs back to `false`.
  */
 export function resetInputs() {
@@ -141,8 +150,8 @@ export function isInputPressed(code: InputCode, consume = false) {
   const isPressed = !!inputsPressed[code];
 
   if (isPressed && consume) {
-    inputsPressed[code] = false;
     inputsDown[code] = false;
+    inputsPressed[code] = false;
   }
 
   return isPressed;
