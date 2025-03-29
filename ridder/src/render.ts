@@ -101,6 +101,14 @@ export function drawText(text: string, x: number, y: number, color = "white", al
   ctx.fillText(text, x, y);
 }
 
+/**
+ * Draw outlined text onto the canvas.
+ * @param color - A color value, e.g. `white` or `#ffffff`
+ * @param outlineColor - A color value, e.g. `white` or `#ffffff`
+ * @param outlineMode - The mode of the outline. Either "circle" or "square".
+ * @param align - The horizontal alignment of the text
+ * @param baseline - The vertical alignment of the text
+ */
 export function drawTextOutlined(text: string, x: number, y: number, color = "white", outlineColor = "black", outlineMode: "circle" | "square" = "circle", align: TextAlign = "left", baseline: TextBaseline = "top") {
   drawText(text, x, y - 1, outlineColor, align, baseline);
   drawText(text, x + 1, y, outlineColor, align, baseline);
@@ -116,6 +124,7 @@ export function drawTextOutlined(text: string, x: number, y: number, color = "wh
 
   drawText(text, x, y, color, align, baseline);
 }
+
 /**
  * Draw a rectangle onto the canvas.
  */
